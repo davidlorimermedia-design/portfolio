@@ -88,7 +88,7 @@
 
   <style>
     /* =====================================================================
-       1. SEMANTIC DESIGN TOKENS (WCAG 2.2 AAA CONTRAST VERIFIED)
+1. SEMANTIC DESIGN TOKENS (WCAG 2.2 AAA CONTRAST VERIFIED)
        ===================================================================== */
     :root {
       --bg-canvas: #F5F8F6;
@@ -156,7 +156,7 @@
     }
 
     /* =====================================================================
-       2. GLOBAL WCAG 2.2 FOCUS INDICATORS (SC 2.4.7 & 2.4.11)
+2. GLOBAL WCAG 2.2 FOCUS INDICATORS (SC 2.4.7 & 2.4.11)
        ===================================================================== */
     :focus-visible {
       outline: 3px solid var(--focus-ring) !important;
@@ -182,7 +182,7 @@
     }
 
     /* =====================================================================
-       3. SEMANTIC COMPONENT SURFACES & CONSISTENT DROP SHADOWS
+3. SEMANTIC COMPONENT SURFACES & CONSISTENT DROP SHADOWS
        ===================================================================== */
     .surface-card {
       background-color: var(--bg-surface);
@@ -283,7 +283,7 @@
     }
 
     /* =====================================================================
-       4. ANIMATIONS & TRANSITIONS
+4. ANIMATIONS & TRANSITIONS
        ===================================================================== */
     @keyframes marquee {
       0% { transform: translateX(0%); }
@@ -423,7 +423,7 @@
     }
 
     /* =====================================================================
-       5. REDUCED MOTION SUPPORT (WCAG 2.2 SC 2.3.3 & 2.2.2)
+5. REDUCED MOTION SUPPORT (WCAG 2.2 SC 2.3.3 & 2.2.2)
        ===================================================================== */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
@@ -1714,8 +1714,8 @@
             </div>
 
             <div id="showcase-drag-zone" class="relative z-20 w-full max-w-[580px] h-[320px] sm:h-[420px] md:h-[460px] flex items-center justify-center cursor-grab active:cursor-grabbing select-none px-2 sm:px-4">
-              <div id="showcase-rotating-disc" class="showcase-stage-card surface-card w-full h-full relative rounded-3xl overflow-hidden border-2 border-mint-500/30 flex items-center justify-center p-2 sm:p-3">
-                <img id="showcase-image" src="" alt="Deliverable visual" class="w-full h-full object-contain rounded-2xl hidden transition-all duration-300 pointer-events-none drop-shadow-lg">
+              <div id="showcase-rotating-disc" class="showcase-stage-card surface-card w-full h-full relative rounded-3xl overflow-hidden border-2 border-mint-500/30 flex items-center justify-center p-0">
+                <img id="showcase-image" src="" alt="Deliverable visual" class="w-full h-full object-cover object-center hidden transition-all duration-300 pointer-events-none">
                 
                 <div id="showcase-fallback-card" class="w-full h-full flex flex-col justify-between p-4 sm:p-6 font-mono text-xs surface-card text-semantic-primary">
                   <div class="flex items-center justify-between pb-3 border-b border-emerald-950/10 dark:border-white/10 text-semantic-secondary">
@@ -1999,7 +1999,7 @@
             num: "01",
             title: "Customer Asset Intelligence Native App",
             image: "CAIP tablet.png",
-            imageFit: "contain",
+            imageFit: "cover",
             desc: "Designed end-to-end as a native mobile/tablet in-field inspection tool for ESCO mining buckets and G.E.T. parts—built for PPE usage, snow/cold, and zero-connectivity mine sites, and currently live with global internal technician test groups.",
             accordion: {
               objectives: "Enable Weir's ESCO division to become more data-driven and empower field technicians with actionable insights by digitizing mining bucket and G.E.T. part inspections for the first time.",
@@ -2023,7 +2023,7 @@
             accordion: {
               objectives: "Map global Daily Layered Accountability (DLA) rituals across LATAM, APAC, EMEA, and NAM, align executive sponsorship with the COO, and digitize cross-tier issue tracking without disrupting 5–10 minute shift handovers.",
               research: "Conducted cross-regional interviews, collected photos and videos of manual DLA boards, and observed live shift meetings—uncovering that Tier 1 and Tier 2 shop-floor teams only have 5–10 minutes at shift start and end to update physical boards and lack capacity for manual digital data entry.",
-              implementation: "Presented findings directly to the COO and recommended a targeted Kanban Microsoft Power App built specifically for Tier 3 users to capture, triage, and track Tier 1 and Tier 2 issues and actions directly during established DLA stand-up rituals.",
+              implementation: "Presented findings directly to the COO and recommended a targeted Kanban Microsoft Power App built specifically for Tier 3 users to capture, triage, and track Tier 1 and 2 issues and actions directly during established DLA stand-up rituals.",
               delivery: "Delivered a structured Tier-3 Kanban Microsoft Power App that preserves fast 5–10 minute Tier 1 & 2 manual board huddles while giving Tier 3 leaders real-time global visibility and accountability over escalated actions."
             },
             mockupBadge: "Microsoft Power App • Tier-3 DLA Kanban",
@@ -2057,7 +2057,7 @@
             num: "04",
             title: "Online Content & Training Library for Dealers",
             image: "Resource centre.png",
-            imageFit: "contain",
+            imageFit: "cover",
             desc: "Designed an online content and training library providing dealers with structured educational modules, product guides, and technical resources.",
             accordion: {
               objectives: "Provide global dealers with a centralized, accessible online training and content library to accelerate product knowledge and service efficiency.",
@@ -2114,6 +2114,7 @@
             num: "01",
             title: "Early Warning Notification System",
             image: "Gemini_Generated_Image_nxcgonxcgonxcgon.jpeg",
+            imageFit: "cover",
             desc: "Improved the live data reporting experience for offshore users, enabling specialists to comment, approve, or disapprove live equipment status reports across desktop and mobile.",
             accordion: {
               objectives: "Improve live offshore equipment data reporting and specialist approval workflows while demonstrating seamless translation to a mobile experience.",
@@ -2133,6 +2134,7 @@
             num: "02",
             title: "Smart Room Plant Heat Map",
             image: "Gemini_Generated_Image_9r280d9r280d9r28.jpeg",
+            imageFit: "cover",
             desc: "Designed a Connected Worker oversight tool for Operators in the 'Smart Room' to monitor location equipment efficiency, highlight threats and risks, and maximize screen real estate.",
             accordion: {
               objectives: "Enable Smart Room Operators to oversee location equipment efficiency and highlight risks while reducing data complexity and maximizing screen real estate.",
@@ -2171,7 +2173,7 @@
             num: "04",
             title: "Atomic MUI & Custom Design System",
             image: "Gemini_Generated_Image_dyj156dyj156dyj1.jpeg",
-            imageFit: "contain",
+            imageFit: "cover",
             useCustomInfographicFallback: true,
             desc: "Established an atomic-structured MUI & custom Figma design system with design tokens, audit workflows, and documentation—nominated for an Energy Sector Tech Award.",
             accordion: {
@@ -4318,6 +4320,7 @@
           imgEl.alt = d.title;
           imgEl.classList.remove('hidden');
           imgEl.style.objectFit = d.imageFit || 'cover';
+          imgEl.style.objectPosition = 'center';
         }
         if (fallbackCard) fallbackCard.classList.add('hidden');
       } else {
