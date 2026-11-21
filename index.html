@@ -88,7 +88,7 @@
 
   <style>
     /* =====================================================================
-1. SEMANTIC DESIGN TOKENS (WCAG 2.2 AAA CONTRAST VERIFIED)
+       1. SEMANTIC DESIGN TOKENS (WCAG 2.2 AAA CONTRAST VERIFIED)
        ===================================================================== */
     :root {
       --bg-canvas: #F5F8F6;
@@ -138,7 +138,9 @@
     }
 
     html.cs-scroll-locked,
-    html.cs-scroll-locked body {
+    html.cs-scroll-locked body,
+    html.gate-scroll-locked,
+    html.gate-scroll-locked body {
       overflow: hidden !important;
       height: 100% !important;
       overscroll-behavior: none;
@@ -156,11 +158,21 @@
     }
 
     /* =====================================================================
-2. GLOBAL WCAG 2.2 FOCUS INDICATORS (SC 2.4.7 & 2.4.11)
+       2. GLOBAL WCAG 2.2 FOCUS INDICATORS (SC 2.4.7 & 2.4.11)
        ===================================================================== */
     :focus-visible {
       outline: 3px solid var(--focus-ring) !important;
       outline-offset: 3px !important;
+    }
+
+    /* Prevent programmatic view/heading focus targets from drawing a focus ring around static text */
+    #view-homepage:focus,
+    #view-homepage:focus-visible,
+    #view-casestudy:focus,
+    #view-casestudy:focus-visible,
+    #cs-hero-title:focus,
+    #cs-hero-title:focus-visible {
+      outline: none !important;
     }
 
     .skip-link {
@@ -182,7 +194,7 @@
     }
 
     /* =====================================================================
-3. SEMANTIC COMPONENT SURFACES & CONSISTENT DROP SHADOWS
+       3. SEMANTIC COMPONENT SURFACES & CONSISTENT DROP SHADOWS
        ===================================================================== */
     .surface-card {
       background-color: var(--bg-surface);
@@ -283,7 +295,7 @@
     }
 
     /* =====================================================================
-4. ANIMATIONS & TRANSITIONS
+       4. ANIMATIONS & TRANSITIONS
        ===================================================================== */
     @keyframes marquee {
       0% { transform: translateX(0%); }
@@ -346,6 +358,23 @@
     .service-card-anim:nth-child(5) { animation-delay: 0.40s; }
     .service-card-anim:nth-child(6) { animation-delay: 0.48s; }
 
+    @keyframes gateModalPop {
+      0% { opacity: 0; transform: translateY(16px) scale(0.97); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .gate-modal-anim {
+      animation: gateModalPop 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    @keyframes gateShake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-6px); }
+      40%, 80% { transform: translateX(6px); }
+    }
+    .gate-shake {
+      animation: gateShake 0.35s ease-in-out;
+    }
+
     .view-container {
       transition: opacity 0.32s cubic-bezier(0.16, 1, 0.3, 1), transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
       will-change: opacity, transform;
@@ -396,8 +425,9 @@
       position: relative;
       width: 100%;
       height: 100%;
-      min-height: 390px;
+      min-height: 410px;
       transform-style: preserve-3d;
+      -webkit-transform-style: preserve-3d;
       transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
       will-change: transform;
     }
@@ -406,13 +436,23 @@
       inset: 0;
       backface-visibility: hidden;
       -webkit-backface-visibility: hidden;
-      transform-style: preserve-3d;
+      transform-style: flat;
+      -webkit-transform-style: flat;
+    }
+    .focus-card-front {
+      transform: rotateY(0deg) translateZ(1px);
+      z-index: 2;
     }
     .focus-card-back {
-      transform: rotateY(180deg);
+      transform: rotateY(180deg) translateZ(1px);
+      z-index: 1;
     }
-    .focus-parallax-layer-1 { transform: translateZ(18px); }
-    .focus-parallax-layer-2 { transform: translateZ(34px); }
+    .focus-card-scene[data-flipped="true"] .focus-card-front {
+      pointer-events: none;
+    }
+    .focus-card-scene[data-flipped="true"] .focus-card-back {
+      pointer-events: auto;
+    }
     .focus-card-glare {
       pointer-events: none;
       opacity: 0;
@@ -422,8 +462,32 @@
       opacity: 1;
     }
 
+    /* 3D Interactive Flip Cards for Basic Mode Homepage Project Summaries */
+    .project-flip-scene {
+      perspective: 1400px;
+    }
+    .project-flip-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      min-height: 520px;
+      transform-style: preserve-3d;
+      transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: transform;
+    }
+    .project-flip-face {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      transform-style: preserve-3d;
+    }
+    .project-flip-back {
+      transform: rotateY(180deg);
+    }
+
     /* =====================================================================
-5. REDUCED MOTION SUPPORT (WCAG 2.2 SC 2.3.3 & 2.2.2)
+       5. REDUCED MOTION SUPPORT (WCAG 2.2 SC 2.3.3 & 2.2.2)
        ===================================================================== */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
@@ -456,10 +520,165 @@
   <div id="a11y-announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
 
   <!-- ========================================================= -->
+  <!-- 0. PORTFOLIO ACCESS GATE MODAL (PASSWORD / BASIC CHOICE)  -->
+  <!-- ========================================================= -->
+  <div
+    id="access-gate-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="gate-title"
+    aria-describedby="gate-desc"
+    class="fixed inset-0 z-[90] flex items-center justify-center p-4 sm:p-6 overflow-y-auto bg-[#061310]/85 backdrop-blur-md"
+  >
+    <div
+      id="access-gate-dialog-card"
+      class="gate-modal-anim surface-card relative w-full max-w-lg rounded-4xl sm:rounded-5xl p-6 sm:p-9 border shadow-2xl my-auto overflow-hidden"
+    >
+      <!-- Ambient Decorative Glow -->
+      <div aria-hidden="true" class="absolute -top-24 -right-24 w-64 h-64 rounded-full bg-mint-500/15 blur-3xl pointer-events-none"></div>
+      <div aria-hidden="true" class="absolute -bottom-24 -left-24 w-64 h-64 rounded-full bg-emerald-500/10 blur-3xl pointer-events-none"></div>
+
+      <div class="relative z-10">
+        <!-- Top Brand Row & Theme Switcher -->
+        <div class="flex items-center justify-between gap-3 mb-6">
+          <div class="flex items-center gap-2.5">
+            <span aria-hidden="true" class="w-9 h-9 rounded-full bg-mint-400 text-spruce-950 flex items-center justify-center font-extrabold text-xs">DL</span>
+            <div>
+              <div class="font-bold text-xs sm:text-sm tracking-tight text-semantic-primary">David Lorimer</div>
+              <div class="text-[11px] font-semibold text-semantic-accent">Portfolio Access Control</div>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            onclick="toggleTheme()"
+            id="theme-toggle-gate"
+            aria-label="Switch to dark theme"
+            aria-pressed="false"
+            class="theme-nav-toggle w-9 h-9 rounded-full border flex items-center justify-center text-xs transition-all active:scale-95 cursor-pointer"
+            title="Toggle light/dark theme"
+          >
+            <i class="fa-solid fa-moon" aria-hidden="true"></i>
+          </button>
+        </div>
+
+        <!-- Dynamic Context Banner (shown when redirected from a locked case study) -->
+        <div id="gate-redirect-notice" class="hidden mb-4 px-3.5 py-2.5 rounded-2xl semantic-badge border text-xs font-bold flex items-center gap-2">
+          <i class="fa-solid fa-shield-halved text-semantic-accent shrink-0" aria-hidden="true"></i>
+          <span id="gate-redirect-text">Full case studies are protected under NDA. Sign in below to unlock.</span>
+        </div>
+
+        <!-- Modal Heading & Description -->
+        <h2 id="gate-title" class="text-2xl sm:text-3xl font-extrabold text-semantic-primary tracking-tight leading-tight">
+          Choose how you’d like to explore my portfolio
+        </h2>
+        <p id="gate-desc" class="mt-2.5 text-xs sm:text-sm text-semantic-secondary leading-relaxed">
+          To respect client confidentiality and NDA agreements, detailed case study retrospectives require a passcode. You may sign in for full access or browse the public overview with general project summaries.
+        </p>
+
+        <!-- OPTION 1: FULL ACCESS (PASSWORD PROTECTED) -->
+        <div class="mt-6 surface-inner rounded-3xl p-5 border">
+          <div class="flex items-center justify-between gap-2 mb-3">
+            <span class="text-xs font-extrabold uppercase tracking-wider text-semantic-accent flex items-center gap-1.5">
+              <i class="fa-solid fa-lock text-[11px]" aria-hidden="true"></i>
+              <span>Option 1 · Full Portfolio Access</span>
+            </span>
+            <span class="semantic-badge px-2.5 py-0.5 rounded-full border text-[10px] font-mono font-bold">
+              All Case Studies
+            </span>
+          </div>
+
+          <form id="gate-password-form" onsubmit="handleGateUnlock(event)" novalidate>
+            <label for="gate-password-input" class="block text-xs font-bold text-semantic-primary mb-1.5">
+              Portfolio Passcode
+            </label>
+            <div class="relative flex items-center">
+              <input
+                type="password"
+                id="gate-password-input"
+                name="passcode"
+                autocomplete="current-password"
+                placeholder="Enter passcode to unlock case studies..."
+                aria-describedby="gate-passcode-hint gate-error-msg"
+                class="contact-input w-full pl-4 pr-11 py-3 rounded-2xl text-xs sm:text-sm border transition-all"
+              />
+              <button
+                type="button"
+                id="gate-toggle-pw-btn"
+                onclick="toggleGatePasswordVisibility()"
+                aria-label="Show password"
+                aria-pressed="false"
+                class="absolute right-2.5 w-8 h-8 rounded-xl flex items-center justify-center text-semantic-secondary hover:text-semantic-accent transition-colors cursor-pointer"
+              >
+                <i class="fa-solid fa-eye text-xs" aria-hidden="true"></i>
+              </button>
+            </div>
+
+            <!-- Inline Error Alert -->
+            <div
+              id="gate-error-msg"
+              role="alert"
+              aria-live="assertive"
+              class="hidden mt-2.5 px-3 py-2 rounded-xl bg-red-600/10 border border-red-600/30 text-red-700 dark:text-red-300 text-xs font-bold flex items-center gap-2"
+            >
+              <i class="fa-solid fa-circle-exclamation shrink-0" aria-hidden="true"></i>
+              <span>Incorrect passcode. Please try again or continue with the basic version below.</span>
+            </div>
+
+            <div class="mt-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <p id="gate-passcode-hint" class="text-[11px] text-semantic-muted">
+                Need a passcode? <a href="mailto:davidlorimermedia@gmail.com?subject=Portfolio%20Passcode%20Request" class="text-semantic-accent font-bold underline hover:no-underline">Request access</a>
+              </p>
+
+              <button
+                type="submit"
+                class="btn-mint-pill px-5 py-2.5 rounded-full text-xs flex items-center justify-center gap-2 cursor-pointer whitespace-nowrap active:scale-95"
+              >
+                <i class="fa-solid fa-unlock-keyhole text-[11px]" aria-hidden="true"></i>
+                <span>Sign In &amp; View All</span>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Divider -->
+        <div class="relative my-5 flex items-center justify-center">
+          <div class="border-t border-emerald-950/15 dark:border-mint-400/20 w-full"></div>
+          <span class="px-3 text-[11px] font-mono font-bold uppercase tracking-wider text-semantic-muted bg-[var(--bg-surface)]">
+            OR
+          </span>
+          <div class="border-t border-emerald-950/15 dark:border-mint-400/20 w-full"></div>
+        </div>
+
+        <!-- OPTION 2: BASIC VERSION (PUBLIC PROJECT SUMMARIES) -->
+        <div class="surface-inner rounded-3xl p-5 border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div>
+            <div class="text-xs font-extrabold uppercase tracking-wider text-semantic-primary flex items-center gap-1.5">
+              <i class="fa-solid fa-layer-group text-semantic-accent text-[11px]" aria-hidden="true"></i>
+              <span>Option 2 · Basic Public Version</span>
+            </div>
+            <p class="text-[11px] sm:text-xs text-semantic-secondary mt-1 leading-relaxed">
+              Explore experience, services, talks, and high-level project summaries without accessing protected case study pages.
+            </p>
+          </div>
+
+          <button
+            type="button"
+            onclick="selectBasicMode()"
+            class="w-full sm:w-auto px-5 py-2.5 rounded-full text-xs font-extrabold border border-emerald-950/20 dark:border-mint-400/35 text-semantic-primary hover:bg-emerald-500/10 transition-all cursor-pointer whitespace-nowrap shrink-0 active:scale-95"
+          >
+            Continue Basic →
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================= -->
   <!-- 1. HOMEPAGE NAVIGATION                                    -->
   <!-- ========================================================= -->
   <header id="homepage-nav" class="fixed top-4 sm:top-6 left-0 right-0 z-50 px-4 pointer-events-none">
-    <div class="theme-nav-bar pointer-events-auto max-w-4xl mx-auto rounded-full px-4 sm:px-6 py-2.5 sm:py-3 flex items-center justify-between border shadow-pill">
+    <div class="theme-nav-bar pointer-events-auto max-w-5xl mx-auto rounded-full px-4 sm:px-6 py-2.5 sm:py-3 flex items-center justify-between border shadow-pill">
       
       <!-- Brand Logo / Badge -->
       <a href="#hero" class="flex items-center gap-2.5 group rounded-full">
@@ -471,16 +690,29 @@
       </a>
 
       <!-- Desktop Nav Links -->
-      <nav aria-label="Primary Navigation" class="hidden md:flex items-center gap-6 text-xs font-semibold text-semantic-secondary">
+      <nav aria-label="Primary Navigation" class="hidden lg:flex items-center gap-5 text-xs font-semibold text-semantic-secondary">
         <a href="#services" class="hover:text-semantic-accent transition-colors py-1">Services</a>
         <a href="#experience" class="hover:text-semantic-accent transition-colors py-1">Experience</a>
-        <a href="#portfolio" class="hover:text-semantic-accent transition-colors py-1">Case Studies</a>
+        <a href="#portfolio" id="nav-portfolio-link" class="hover:text-semantic-accent transition-colors py-1">Projects</a>
         <a href="#talks" class="hover:text-semantic-accent transition-colors py-1">Talks</a>
         <a href="#testimonials" class="hover:text-semantic-accent transition-colors py-1">Testimonials</a>
       </nav>
 
-      <!-- Action Button, Theme Toggle & Mobile Menu Button -->
-      <div class="flex items-center gap-2 sm:gap-2.5">
+      <!-- Action Button, Access Mode Pill, Theme Toggle & Mobile Menu Button -->
+      <div class="flex items-center gap-2">
+        <!-- Access Mode Switcher Pill -->
+        <button
+          type="button"
+          id="nav-access-status-btn"
+          onclick="openAccessGateModal()"
+          aria-label="Change portfolio access mode"
+          class="theme-nav-toggle px-3 py-2 rounded-full border text-[11px] font-bold flex items-center gap-1.5 transition-all active:scale-95 cursor-pointer whitespace-nowrap"
+          title="Switch between Basic View and Full Password-Protected Access"
+        >
+          <i id="nav-access-icon" class="fa-solid fa-lock text-[10px]" aria-hidden="true"></i>
+          <span id="nav-access-label" class="hidden sm:inline">Basic View</span>
+        </button>
+
         <button 
           type="button"
           onclick="toggleTheme()" 
@@ -500,7 +732,7 @@
           aria-expanded="false"
           aria-controls="mobile-nav-drawer"
           aria-label="Open navigation menu"
-          class="md:hidden theme-nav-toggle w-9 h-9 rounded-full border flex items-center justify-center text-xs transition-all cursor-pointer"
+          class="lg:hidden theme-nav-toggle w-9 h-9 rounded-full border flex items-center justify-center text-xs transition-all cursor-pointer"
         >
           <i class="fa-solid fa-bars" aria-hidden="true"></i>
         </button>
@@ -513,13 +745,23 @@
     </div>
 
     <!-- Mobile Navigation Drawer -->
-    <nav id="mobile-nav-drawer" aria-label="Mobile Navigation" class="hidden md:hidden pointer-events-auto max-w-4xl mx-auto mt-2 rounded-3xl p-4 theme-nav-bar border shadow-pill">
+    <nav id="mobile-nav-drawer" aria-label="Mobile Navigation" class="hidden lg:hidden pointer-events-auto max-w-4xl mx-auto mt-2 rounded-3xl p-4 theme-nav-bar border shadow-pill">
       <ul class="flex flex-col gap-1 text-sm font-bold text-semantic-primary">
         <li><a href="#services" onclick="closeMobileMenu()" class="block px-4 py-2.5 rounded-xl hover:bg-emerald-500/10">Services</a></li>
         <li><a href="#experience" onclick="closeMobileMenu()" class="block px-4 py-2.5 rounded-xl hover:bg-emerald-500/10">Experience</a></li>
-        <li><a href="#portfolio" onclick="closeMobileMenu()" class="block px-4 py-2.5 rounded-xl hover:bg-emerald-500/10">Case Studies</a></li>
+        <li><a href="#portfolio" id="mobile-portfolio-link" onclick="closeMobileMenu()" class="block px-4 py-2.5 rounded-xl hover:bg-emerald-500/10">Projects</a></li>
         <li><a href="#talks" onclick="closeMobileMenu()" class="block px-4 py-2.5 rounded-xl hover:bg-emerald-500/10">Talks</a></li>
         <li><a href="#testimonials" onclick="closeMobileMenu()" class="block px-4 py-2.5 rounded-xl hover:bg-emerald-500/10">Testimonials</a></li>
+        <li class="pt-2 mt-1 border-t border-emerald-950/10 dark:border-mint-400/20">
+          <button
+            type="button"
+            onclick="closeMobileMenu(); openAccessGateModal();"
+            class="w-full px-4 py-2.5 rounded-xl semantic-badge border text-xs font-extrabold flex items-center justify-between cursor-pointer"
+          >
+            <span id="mobile-access-label">Access Mode: Basic View</span>
+            <span class="underline">Switch / Unlock</span>
+          </button>
+        </li>
       </ul>
     </nav>
   </header>
@@ -546,6 +788,16 @@
       </nav>
 
       <div class="flex items-center gap-2">
+        <button
+          type="button"
+          onclick="lockPortfolioAndReturn()"
+          class="theme-nav-toggle px-3 py-2 rounded-full border text-[11px] font-bold flex items-center gap-1.5 transition-all active:scale-95 cursor-pointer"
+          title="Lock case studies and return to Basic View"
+        >
+          <i class="fa-solid fa-lock text-[10px]" aria-hidden="true"></i>
+          <span class="hidden sm:inline">Lock</span>
+        </button>
+
         <button 
           type="button"
           onclick="toggleTheme()" 
@@ -987,20 +1239,26 @@
       </div>
     </section>
 
-    <!-- 4. PORTFOLIO CASE STUDIES -->
+    <!-- 4. PORTFOLIO CASE STUDIES / GENERAL PROJECT SUMMARIES -->
     <section id="portfolio" aria-labelledby="portfolio-heading" class="py-14 sm:py-20 max-w-6xl mx-auto px-4 sm:px-6">
       <div class="flex flex-col lg:flex-row lg:items-end justify-between mb-8 sm:mb-12 gap-4">
         <div>
-          <span class="text-xs font-extrabold uppercase tracking-wider text-semantic-accent">Selected Retrospectives</span>
+          <div class="flex flex-wrap items-center gap-2">
+            <span id="portfolio-eyebrow" class="text-xs font-extrabold uppercase tracking-wider text-semantic-accent">Selected Project Summaries</span>
+            <span id="portfolio-mode-pill" class="semantic-badge px-2.5 py-0.5 rounded-full border text-[10px] font-mono font-bold inline-flex items-center gap-1.5">
+              <i class="fa-solid fa-lock text-[9px]" aria-hidden="true"></i>
+              <span>Basic View</span>
+            </span>
+          </div>
           <h2 id="portfolio-heading" class="text-2xl sm:text-4xl font-extrabold text-semantic-primary mt-1">
-            Featured <span class="text-semantic-accent underline decoration-mint-500 decoration-4 underline-offset-4">Case Studies</span>
+            Featured <span id="portfolio-heading-accent" class="text-semantic-accent underline decoration-mint-500 decoration-4 underline-offset-4">Project Summaries</span>
           </h2>
-          <p class="text-xs sm:text-sm text-semantic-secondary mt-2">
-            Select any case study to open the full interactive deep-dive retrospective.
+          <p id="portfolio-subtitle" class="text-xs sm:text-sm text-semantic-secondary mt-2">
+            Select any card to flip it in 3D for a high-level summary, or <button type="button" onclick="openAccessGateModal()" class="text-semantic-accent font-bold underline hover:no-underline cursor-pointer">sign in with a passcode</button> to unlock full interactive case studies.
           </p>
         </div>
         
-        <div role="group" aria-label="Filter case studies by discipline" class="flex flex-wrap sm:flex-nowrap items-center gap-1.5 sm:gap-2 shrink-0" id="filter-container">
+        <div role="group" aria-label="Filter projects by discipline" class="flex flex-wrap sm:flex-nowrap items-center gap-1.5 sm:gap-2 shrink-0" id="filter-container">
           <button type="button" onclick="filterProjects('all')" aria-pressed="true" class="filter-btn active px-3.5 py-2 rounded-full text-xs font-bold bg-spruce-900 text-white dark:bg-mint-400 dark:text-spruce-950 transition-all cursor-pointer whitespace-nowrap" data-filter="all">All (4)</button>
           <button type="button" onclick="filterProjects('systems')" aria-pressed="false" class="filter-btn surface-card px-3.5 py-2 rounded-full text-xs font-bold text-semantic-secondary border transition-all cursor-pointer whitespace-nowrap" data-filter="systems">Design Systems</button>
           <button type="button" onclick="filterProjects('apps')" aria-pressed="false" class="filter-btn surface-card px-3.5 py-2 rounded-full text-xs font-bold text-semantic-secondary border transition-all cursor-pointer whitespace-nowrap" data-filter="apps">Apps &amp; Platforms</button>
@@ -1008,24 +1266,21 @@
         </div>
       </div>
 
-      <!-- Grid of 4 Core Case Studies (Keyboard & Screen-Reader Accessible) -->
+      <!-- Grid of 4 Core Case Studies / Project Summaries (Dynamically adapted to Access Mode) -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="projects-grid">
         
         <!-- Case 1: The Weir Group -->
         <article 
-          tabindex="0"
-          role="button"
-          aria-label="Open case study: The Weir Group — Native Apps, Shop-Floor Kiosks, Dealer Training & Design Systems"
-          onclick="openCaseStudy('weir')" 
-          onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openCaseStudy('weir');}"
-          class="project-card surface-card group rounded-3xl overflow-hidden border flex flex-col justify-between hover:-translate-y-1.5 cursor-pointer" 
+          data-study-key="weir"
+          data-study-label="The Weir Group — Native Apps, Shop-Floor Kiosks, Dealer Training & Design Systems"
+          class="project-card surface-card group rounded-3xl overflow-hidden border flex flex-col justify-between" 
           data-category="systems apps"
         >
           <div class="relative h-60 sm:h-64 overflow-hidden bg-spruce-950">
             <img 
               src="warman-mcr-400-opt.webp" 
               alt="The Weir Group Native Apps, Shop-Floor Kiosks and Design Systems" 
-              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+              class="w-full h-full object-cover transition-transform duration-700"
               onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 450%22><rect width=%22800%22 height=%22450%22 fill=%22%230C231D%22/><text x=%22400%22 y=%22230%22 font-family=%22monospace%22 font-size=%2220%22 fill=%22%236EE7B7%22 text-anchor=%22middle%22>THE WEIR GROUP · NATIVE APPS &amp; DESIGN SYSTEMS</text></svg>';"
             />
             <div aria-hidden="true" class="absolute inset-0 bg-gradient-to-t from-spruce-950 via-spruce-950/45 to-transparent"></div>
@@ -1054,28 +1309,22 @@
               </div>
             </div>
 
-            <div class="w-full py-3 rounded-xl bg-spruce-900 text-white dark:bg-spruce-800 text-xs font-bold transition-colors flex items-center justify-center gap-2 group-hover:bg-mint-400 group-hover:text-spruce-950">
-              <span>View Full Case Study</span>
-              <i class="fa-solid fa-arrow-right text-[10px]" aria-hidden="true"></i>
-            </div>
+            <div class="card-footer-slot"></div>
           </div>
         </article>
 
         <!-- Case 2: TotalEnergies -->
         <article 
-          tabindex="0"
-          role="button"
-          aria-label="Open case study: TotalEnergies — Atomic MUI Design System and Mobile-to-Desktop Reporting UX"
-          onclick="openCaseStudy('totalenergies')" 
-          onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openCaseStudy('totalenergies');}"
-          class="project-card surface-card group rounded-3xl overflow-hidden border flex flex-col justify-between hover:-translate-y-1.5 cursor-pointer" 
+          data-study-key="totalenergies"
+          data-study-label="TotalEnergies — Atomic MUI Design System and Mobile-to-Desktop Reporting UX"
+          class="project-card surface-card group rounded-3xl overflow-hidden border flex flex-col justify-between" 
           data-category="systems apps"
         >
           <div class="relative h-60 sm:h-64 overflow-hidden bg-spruce-950">
             <img 
               src="Resultats_troisieme_trimestre_2023_TotalEnergies_1305x713px.png" 
               alt="TotalEnergies Atomic MUI Design System and Smart Room UX" 
-              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+              class="w-full h-full object-cover transition-transform duration-700"
               onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 450%22><rect width=%22800%22 height=%22450%22 fill=%22%230C231D%22/><text x=%22400%22 y=%22230%22 font-family=%22monospace%22 font-size=%2222%22 fill=%22%236EE7B7%22 text-anchor=%22middle%22>TOTALENERGIES · ATOMIC MUI SYSTEM</text></svg>';"
             />
             <div aria-hidden="true" class="absolute inset-0 bg-gradient-to-t from-spruce-950 via-spruce-950/45 to-transparent"></div>
@@ -1105,28 +1354,22 @@
               </div>
             </div>
 
-            <div class="w-full py-3 rounded-xl bg-spruce-900 text-white dark:bg-spruce-800 text-xs font-bold transition-colors flex items-center justify-center gap-2 group-hover:bg-mint-400 group-hover:text-spruce-950">
-              <span>View Full Case Study</span>
-              <i class="fa-solid fa-arrow-right text-[10px]" aria-hidden="true"></i>
-            </div>
+            <div class="card-footer-slot"></div>
           </div>
         </article>
 
         <!-- Case 3: Diageo -->
         <article 
-          tabindex="0"
-          role="button"
-          aria-label="Open case study: Diageo — Motion Craft, Branded Digital Systems and Learning Pathways"
-          onclick="openCaseStudy('diageo')" 
-          onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openCaseStudy('diageo');}"
-          class="project-card surface-card group rounded-3xl overflow-hidden border flex flex-col justify-between hover:-translate-y-1.5 cursor-pointer" 
+          data-study-key="diageo"
+          data-study-label="Diageo — Motion Craft, Branded Digital Systems and Learning Pathways"
+          class="project-card surface-card group rounded-3xl overflow-hidden border flex flex-col justify-between" 
           data-category="strategy"
         >
           <div class="relative h-60 sm:h-64 overflow-hidden bg-spruce-950">
             <img 
               src="Category_Spirits_Header-Bottles_TWS.jpg" 
               alt="Diageo Global Brand Asset Platform" 
-              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+              class="w-full h-full object-cover transition-transform duration-700"
               onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 450%22><rect width=%22800%22 height=%22450%22 fill=%22%230C231D%22/><text x=%22400%22 y=%22230%22 font-family=%22monospace%22 font-size=%2222%22 fill=%22%236EE7B7%22 text-anchor=%22middle%22>DIAGEO · MOTION CRAFT &amp; DIGITAL SYSTEMS</text></svg>';"
             />
             <div aria-hidden="true" class="absolute inset-0 bg-gradient-to-t from-spruce-950 via-spruce-950/45 to-transparent"></div>
@@ -1154,28 +1397,22 @@
               </div>
             </div>
 
-            <div class="w-full py-3 rounded-xl bg-spruce-900 text-white dark:bg-spruce-800 text-xs font-bold transition-colors flex items-center justify-center gap-2 group-hover:bg-mint-400 group-hover:text-spruce-950">
-              <span>View Full Case Study</span>
-              <i class="fa-solid fa-arrow-right text-[10px]" aria-hidden="true"></i>
-            </div>
+            <div class="card-footer-slot"></div>
           </div>
         </article>
 
         <!-- Case 4: Royal London -->
         <article 
-          tabindex="0"
-          role="button"
-          aria-label="Open case study: Royal London — Financial Customer Journey Architecture & Opportunity Scoring"
-          onclick="openCaseStudy('royallondon')" 
-          onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openCaseStudy('royallondon');}"
-          class="project-card surface-card group rounded-3xl overflow-hidden border flex flex-col justify-between hover:-translate-y-1.5 cursor-pointer" 
+          data-study-key="royallondon"
+          data-study-label="Royal London — Financial Customer Journey Architecture & Opportunity Scoring"
+          class="project-card surface-card group rounded-3xl overflow-hidden border flex flex-col justify-between" 
           data-category="strategy"
         >
           <div class="relative h-60 sm:h-64 overflow-hidden bg-spruce-950">
             <img 
               src="desktop-1400x700-ladies-eating-ice-cream.webp" 
               alt="Royal London Enterprise Customer Journey Mapping in TheyDo" 
-              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+              class="w-full h-full object-cover transition-transform duration-700"
               onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 450%22><rect width=%22800%22 height=%22450%22 fill=%22%230C231D%22/><text x=%22400%22 y=%22230%22 font-family=%22monospace%22 font-size=%2220%22 fill=%22%236EE7B7%22 text-anchor=%22middle%22>ROYAL LONDON · THEYDO CX ARCHITECTURE</text></svg>';"
             />
             <div aria-hidden="true" class="absolute inset-0 bg-gradient-to-t from-spruce-950 via-spruce-950/45 to-transparent"></div>
@@ -1203,10 +1440,7 @@
               </div>
             </div>
 
-            <div class="w-full py-3 rounded-xl bg-spruce-900 text-white dark:bg-spruce-800 text-xs font-bold transition-colors flex items-center justify-center gap-2 group-hover:bg-mint-400 group-hover:text-spruce-950">
-              <span>View Full Case Study</span>
-              <i class="fa-solid fa-arrow-right text-[10px]" aria-hidden="true"></i>
-            </div>
+            <div class="card-footer-slot"></div>
           </div>
         </article>
 
@@ -1389,7 +1623,7 @@
       </div>
     </section>
 
-    <!-- 6. CONTACT SECTION -->
+    <!-- 7. CONTACT SECTION -->
     <section id="contact" aria-labelledby="contact-heading" class="py-14 sm:py-20 max-w-4xl mx-auto px-4 sm:px-6">
       <div class="surface-card rounded-4xl p-6 sm:p-10 md:p-12 text-center border">
         <span class="semantic-badge inline-block px-3.5 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider mb-2 border">
@@ -1498,8 +1732,15 @@
     <!-- HOMEPAGE FOOTER -->
     <footer class="bg-[#061310] text-white pt-12 pb-8 border-t border-emerald-950">
       <div class="max-w-6xl mx-auto px-4 sm:px-6">
-        <div class="flex flex-col sm:flex-row items-center justify-between text-xs text-[#A9C9BD] gap-2">
+        <div class="flex flex-col sm:flex-row items-center justify-between text-xs text-[#A9C9BD] gap-3">
           <div>© 2026 David Lorimer. All rights reserved.</div>
+          <button
+            type="button"
+            onclick="openAccessGateModal()"
+            class="text-mint-300 hover:text-white font-semibold underline cursor-pointer"
+          >
+            Portfolio Access Settings
+          </button>
         </div>
       </div>
     </footer>
@@ -1706,16 +1947,16 @@
           </div>
         </div>
 
-        <div class="surface-inner relative z-20 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center p-6 sm:p-8 md:p-10 rounded-3xl border overflow-hidden">
+        <div class="surface-inner relative z-20 grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center p-3 sm:p-8 md:p-10 rounded-3xl border overflow-hidden">
           
-          <div class="lg:col-span-8 relative flex flex-col items-center justify-center min-h-[420px] sm:min-h-[520px] w-full">
-            <div aria-hidden="true" class="absolute w-[360px] h-[360px] sm:w-[480px] sm:h-[480px] md:w-[540px] md:h-[540px] rounded-full orbit-ring-spruce pointer-events-none flex items-center justify-center">
+          <div class="lg:col-span-8 relative flex flex-col items-center justify-center min-h-[300px] sm:min-h-[520px] w-full">
+            <div aria-hidden="true" class="hidden sm:flex absolute w-[480px] h-[480px] md:w-[540px] md:h-[540px] rounded-full orbit-ring-spruce pointer-events-none items-center justify-center">
               <div class="w-[85%] h-[85%] rounded-full border border-dashed border-mint-400/20"></div>
             </div>
 
-            <div id="showcase-drag-zone" class="relative z-20 w-full max-w-[580px] h-[320px] sm:h-[420px] md:h-[460px] flex items-center justify-center cursor-grab active:cursor-grabbing select-none px-2 sm:px-4">
-              <div id="showcase-rotating-disc" class="showcase-stage-card surface-card w-full h-full relative rounded-3xl overflow-hidden border-2 border-mint-500/30 flex items-center justify-center p-0">
-                <img id="showcase-image" src="" alt="Deliverable visual" class="w-full h-full object-cover object-center hidden transition-all duration-300 pointer-events-none">
+            <div id="showcase-drag-zone" class="relative z-20 w-full max-w-none sm:max-w-[580px] h-[270px] sm:h-[420px] md:h-[460px] flex items-center justify-center cursor-grab active:cursor-grabbing select-none px-0 sm:px-4">
+              <div id="showcase-rotating-disc" class="showcase-stage-card surface-card w-full h-full relative rounded-2xl sm:rounded-3xl overflow-hidden border-2 border-mint-500/30 flex items-center justify-center p-0 sm:p-3 bg-spruce-950/5 dark:bg-spruce-950/60">
+                <img id="showcase-image" src="" alt="Deliverable visual" class="w-full h-full object-contain object-center rounded-xl sm:rounded-2xl hidden transition-all duration-300 pointer-events-none">
                 
                 <div id="showcase-fallback-card" class="w-full h-full flex flex-col justify-between p-4 sm:p-6 font-mono text-xs surface-card text-semantic-primary">
                   <div class="flex items-center justify-between pb-3 border-b border-emerald-950/10 dark:border-white/10 text-semantic-secondary">
@@ -1893,6 +2134,466 @@
       setTimeout(() => { el.textContent = message; }, 40);
     }
 
+    /* =====================================================================
+       0. PORTFOLIO ACCESS GATE & MODE CONTROLLER ('unselected' | 'basic' | 'unlocked')
+       ===================================================================== */
+    // Exact case-sensitive portfolio unlock password
+    const ACCEPTED_PASSCODES_FALLBACK = ['Design4all1!'];
+
+    // High-level summaries displayed on the 3D back face of each card in Basic Mode
+    const basicProjectSummaries = {
+      weir: {
+        badge: 'NDA · Full Case Study Overview',
+        title: 'Weir Digital Ecosystem & Native Apps',
+        scope: 'End-to-end product leadership spanning ESCO mining bucket & G.E.T. native field inspection apps, a global Tier-3 DLA Power App, dealer training portals, and a multi-brand design system.',
+        highlights: [
+          'ESCO Native Inspection MVP live in global field technician pilot',
+          'Tier-3 Kanban Microsoft Power App pitched to COO across 4 global regions',
+          '85+ WCAG 2.2 AA/AAA design system primitives (+40% dev handover speed)',
+          'Centralized dealer content & modular training enablement portal'
+        ],
+        outcome: '+40% Handover Velocity · Global Pilot Live'
+      },
+      totalenergies: {
+        badge: 'NDA · Full Case Study Overview',
+        title: 'Atomic MUI System & Offshore Telemetry UX',
+        scope: 'Embedded for 12+ months within Digital & Development to establish UX maturity, developer QA governance, and an award-nominated atomic MUI Design System.',
+        highlights: [
+          'Atomic MUI & custom Figma-to-React component library with design tokens',
+          'Smart Room Plant Heat Map with collapsible multi-tier operator toolbar',
+          '8-point grid Early Warning Notification mobile & desktop reporting UX',
+          'Sentinel Compliance coordination proof-of-concept & backlog architecture'
+        ],
+        outcome: 'Energy Sector Tech Award Nominee'
+      },
+      diageo: {
+        badge: 'NDA · Full Case Study Overview',
+        title: 'Motion Craft, Branded Systems & CMS Pathways',
+        scope: 'Multi-squad creative and UX delivery across Website Transformation, Prometheus, and Connected Data to accelerate global platform adoption.',
+        highlights: [
+          'Adobe After Effects launch adverts & animated colleague training videos',
+          'Modular PowerPoint, Word, SharePoint & Viva Engage brand toolkits',
+          'A/B-style Miro Tissue Workshops aligning multi-brand stakeholders',
+          'Novice-to-Expert Contentful CMS structured SharePoint learning pathway'
+        ],
+        outcome: '4 Multi-Squad Engagements Shipped'
+      },
+      royallondon: {
+        badge: 'NDA · Full Case Study Overview',
+        title: 'Enterprise Journey Architecture in TheyDo',
+        scope: 'Standardized customer journey mapping and evidence-led opportunity scoring across pensions, protection, and wealth product squads.',
+        highlights: [
+          'Three-tier Macro, Micro & Transactional journey taxonomy in TheyDo',
+          'Evidence-linked customer pain points backed by research & call telemetry',
+          'Cross-disciplinary Opportunity Scoring matrix for quarterly PI planning',
+          'Canonical persona profiles & lifecycle stage ownership governance'
+        ],
+        outcome: '100% Evidence-Linked Journey Taxonomy'
+      }
+    };
+
+    let accessMode = 'unselected'; // 'unselected' | 'basic' | 'unlocked'
+    let pendingStudyAfterUnlock = null;
+    let lastFocusedBeforeGate = null;
+
+    try {
+      const storedAccess = sessionStorage.getItem('dl-portfolio-access-mode');
+      if (storedAccess === 'unlocked' || storedAccess === 'basic') {
+        accessMode = storedAccess;
+      }
+    } catch (e) {}
+
+    async function verifyPasscode(rawInput) {
+      const candidate = (rawInput || '').trim();
+      if (!candidate) return false;
+      return ACCEPTED_PASSCODES_FALLBACK.includes(candidate);
+    }
+
+    function openAccessGateModal(redirectReason = null) {
+      const modal = document.getElementById('access-gate-modal');
+      const noticeBox = document.getElementById('gate-redirect-notice');
+      const noticeText = document.getElementById('gate-redirect-text');
+      const errorBox = document.getElementById('gate-error-msg');
+      const pwInput = document.getElementById('gate-password-input');
+
+      if (!modal) return;
+      lastFocusedBeforeGate = document.activeElement;
+
+      if (errorBox) errorBox.classList.add('hidden');
+      if (pwInput) {
+        pwInput.value = '';
+        pwInput.type = 'password';
+        pwInput.setAttribute('aria-invalid', 'false');
+      }
+      const toggleBtn = document.getElementById('gate-toggle-pw-btn');
+      if (toggleBtn) {
+        toggleBtn.setAttribute('aria-pressed', 'false');
+        toggleBtn.setAttribute('aria-label', 'Show password');
+        toggleBtn.innerHTML = '<i class="fa-solid fa-eye text-xs" aria-hidden="true"></i>';
+      }
+
+      if (redirectReason && noticeBox && noticeText) {
+        noticeText.textContent = redirectReason;
+        noticeBox.classList.remove('hidden');
+      } else if (noticeBox) {
+        noticeBox.classList.add('hidden');
+      }
+
+      modal.classList.remove('hidden');
+      document.documentElement.classList.add('gate-scroll-locked');
+
+      requestAnimationFrame(() => {
+        if (pwInput) pwInput.focus();
+      });
+      announceToScreenReader('Portfolio access gate opened. Sign in with a passcode or continue with the basic version.');
+    }
+
+    function closeAccessGateModal() {
+      const modal = document.getElementById('access-gate-modal');
+      if (!modal) return;
+      modal.classList.add('hidden');
+      document.documentElement.classList.remove('gate-scroll-locked');
+      if (lastFocusedBeforeGate && typeof lastFocusedBeforeGate.focus === 'function') {
+        lastFocusedBeforeGate.focus();
+      }
+    }
+
+    function toggleGatePasswordVisibility() {
+      const input = document.getElementById('gate-password-input');
+      const btn = document.getElementById('gate-toggle-pw-btn');
+      if (!input || !btn) return;
+      const isPassword = input.type === 'password';
+      input.type = isPassword ? 'text' : 'password';
+      btn.setAttribute('aria-pressed', String(isPassword));
+      btn.setAttribute('aria-label', isPassword ? 'Hide password' : 'Show password');
+      btn.innerHTML = isPassword
+        ? '<i class="fa-solid fa-eye-slash text-xs" aria-hidden="true"></i>'
+        : '<i class="fa-solid fa-eye text-xs" aria-hidden="true"></i>';
+    }
+
+    async function handleGateUnlock(e) {
+      e.preventDefault();
+      const input = document.getElementById('gate-password-input');
+      const errorBox = document.getElementById('gate-error-msg');
+      const dialogCard = document.getElementById('access-gate-dialog-card');
+      const val = input ? input.value : '';
+
+      const isValid = await verifyPasscode(val);
+      if (!isValid) {
+        if (errorBox) errorBox.classList.remove('hidden');
+        if (input) {
+          input.setAttribute('aria-invalid', 'true');
+          input.focus();
+        }
+        if (dialogCard && !prefersReducedMotion()) {
+          dialogCard.classList.remove('gate-shake');
+          void dialogCard.offsetWidth;
+          dialogCard.classList.add('gate-shake');
+        }
+        announceToScreenReader('Incorrect passcode. Please try again or continue with the basic version.');
+        return;
+      }
+
+      if (errorBox) errorBox.classList.add('hidden');
+      if (input) input.setAttribute('aria-invalid', 'false');
+
+      setPortfolioAccessMode('unlocked');
+      closeAccessGateModal();
+      announceToScreenReader('Full portfolio unlocked. All interactive case studies are now available.');
+
+      if (pendingStudyAfterUnlock) {
+        const targetStudy = pendingStudyAfterUnlock;
+        pendingStudyAfterUnlock = null;
+        openCaseStudy(targetStudy);
+      }
+    }
+
+    function selectBasicMode() {
+      pendingStudyAfterUnlock = null;
+      setPortfolioAccessMode('basic');
+      closeAccessGateModal();
+
+      const csView = document.getElementById('view-casestudy');
+      if (csView && !csView.classList.contains('hidden')) {
+        showHomepage('portfolio');
+      }
+      announceToScreenReader('Continuing in Basic Public Version. Project cards are displayed as general project summaries.');
+    }
+
+    function lockPortfolioAndReturn() {
+      pendingStudyAfterUnlock = null;
+      setPortfolioAccessMode('basic');
+      showHomepage('portfolio');
+      announceToScreenReader('Case studies locked. Returned to Basic Public Version.');
+    }
+
+    function setPortfolioAccessMode(mode) {
+      accessMode = mode;
+      try {
+        sessionStorage.setItem('dl-portfolio-access-mode', mode);
+      } catch (e) {}
+
+      const isUnlocked = mode === 'unlocked';
+
+      // 1. Update Header & Mobile Drawer Status Indicators
+      const navIcon = document.getElementById('nav-access-icon');
+      const navLabel = document.getElementById('nav-access-label');
+      const navBtn = document.getElementById('nav-access-status-btn');
+      const mobileLabel = document.getElementById('mobile-access-label');
+      const navPortfolioLink = document.getElementById('nav-portfolio-link');
+      const mobilePortfolioLink = document.getElementById('mobile-portfolio-link');
+
+      if (navIcon) {
+        navIcon.className = isUnlocked
+          ? 'fa-solid fa-unlock text-[10px]'
+          : 'fa-solid fa-lock text-[10px]';
+      }
+      if (navLabel) {
+        navLabel.textContent = isUnlocked ? 'Full Access' : 'Basic View';
+      }
+      if (navBtn) {
+        navBtn.setAttribute(
+          'aria-label',
+          isUnlocked
+            ? 'Full portfolio access active. Select to lock or switch modes.'
+            : 'Basic public view active. Select to sign in and unlock case studies.'
+        );
+      }
+      if (mobileLabel) {
+        mobileLabel.textContent = isUnlocked ? 'Access Mode: Full Access' : 'Access Mode: Basic View';
+      }
+      if (navPortfolioLink) navPortfolioLink.textContent = isUnlocked ? 'Case Studies' : 'Projects';
+      if (mobilePortfolioLink) mobilePortfolioLink.textContent = isUnlocked ? 'Case Studies' : 'Projects';
+
+      // 2. Update Portfolio Section Heading & Subtitle
+      const eyebrowEl = document.getElementById('portfolio-eyebrow');
+      const modePillEl = document.getElementById('portfolio-mode-pill');
+      const headingAccentEl = document.getElementById('portfolio-heading-accent');
+      const subtitleEl = document.getElementById('portfolio-subtitle');
+
+      if (eyebrowEl) {
+        eyebrowEl.textContent = isUnlocked ? 'Selected Retrospectives' : 'Selected Project Summaries';
+      }
+      if (modePillEl) {
+        modePillEl.innerHTML = isUnlocked
+          ? '<i class="fa-solid fa-unlock text-[9px]" aria-hidden="true"></i><span>Full Access Unlocked</span>'
+          : '<i class="fa-solid fa-lock text-[9px]" aria-hidden="true"></i><span>Basic View · 3D Flip Summaries</span>';
+      }
+      if (headingAccentEl) {
+        headingAccentEl.textContent = isUnlocked ? 'Case Studies' : 'Project Summaries';
+      }
+      if (subtitleEl) {
+        if (isUnlocked) {
+          subtitleEl.innerHTML = 'Select any case study to open the full interactive deep-dive retrospective.';
+        } else {
+          subtitleEl.innerHTML = 'Select any card to flip it in 3D for a high-level summary, or <button type="button" onclick="openAccessGateModal()" class="text-semantic-accent font-bold underline hover:no-underline cursor-pointer">sign in with a passcode</button> to unlock full interactive case studies.';
+        }
+      }
+
+      // 3. Transform Project Cards between Interactive Case Studies (Unlocked) and 3D Flip Summary Cards (Basic)
+      const cards = document.querySelectorAll('#projects-grid .project-card');
+      cards.forEach((card) => {
+        const studyKey = card.getAttribute('data-study-key') || 'weir';
+        const studyLabel = card.getAttribute('data-study-label') || 'Case Study';
+        const studyMeta = caseStudies[studyKey];
+        const summaryData = basicProjectSummaries[studyKey];
+
+        // Preserve canonical front markup on first run so switching modes is completely lossless
+        if (!card.dataset.originalFrontHtml) {
+          card.dataset.originalFrontHtml = card.innerHTML;
+        }
+
+        if (isUnlocked) {
+          card.innerHTML = card.dataset.originalFrontHtml;
+          card.className = 'project-card surface-card group rounded-3xl overflow-hidden border flex flex-col justify-between hover:-translate-y-1.5 cursor-pointer';
+          card.removeAttribute('data-flipped');
+          card.removeAttribute('aria-pressed');
+          card.setAttribute('tabindex', '0');
+          card.setAttribute('role', 'button');
+          card.setAttribute('aria-label', `Open case study: ${studyLabel}`);
+          card.onclick = () => openCaseStudy(studyKey);
+          card.onkeydown = (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              openCaseStudy(studyKey);
+            }
+          };
+
+          const img = card.querySelector('img');
+          const footerSlot = card.querySelector('.card-footer-slot');
+          if (img) img.classList.add('group-hover:scale-105');
+          if (footerSlot) {
+            footerSlot.innerHTML = `
+              <div class="w-full py-3 rounded-xl bg-spruce-900 text-white dark:bg-spruce-800 text-xs font-bold transition-colors flex items-center justify-center gap-2 group-hover:bg-mint-400 group-hover:text-spruce-950">
+                <span>View Full Case Study</span>
+                <i class="fa-solid fa-arrow-right text-[10px]" aria-hidden="true"></i>
+              </div>
+            `;
+          }
+        } else {
+          // Build interactive 3D flip card structure for Basic Mode
+          card.className = 'project-card project-flip-scene group rounded-3xl select-none cursor-pointer';
+          card.dataset.flipped = 'false';
+          card.setAttribute('tabindex', '0');
+          card.setAttribute('role', 'button');
+          card.setAttribute('aria-pressed', 'false');
+          card.setAttribute('aria-label', `${studyLabel} — select to flip card for high-level case study summary`);
+
+          card.innerHTML = `
+            <div class="project-flip-inner">
+              <!-- FRONT FACE -->
+              <div class="project-flip-face surface-card rounded-3xl overflow-hidden border flex flex-col justify-between">
+                ${card.dataset.originalFrontHtml}
+              </div>
+
+              <!-- BACK FACE: HIGH-LEVEL CASE STUDY SUMMARY -->
+              <div class="project-flip-face project-flip-back rounded-3xl border-2 border-mint-500/40 bg-[#0C231D] text-white p-6 sm:p-7 flex flex-col justify-between overflow-y-auto" style="box-shadow: var(--shadow-surface);">
+                <div>
+                  <div class="flex items-center justify-between gap-2 mb-3">
+                    <span class="px-3 py-1 rounded-full bg-mint-400/15 border border-mint-400/35 text-[10px] font-mono font-extrabold uppercase tracking-wider text-mint-300">
+                      ${summaryData?.badge || 'High-Level Summary'}
+                    </span>
+                    <span class="px-2.5 py-1 rounded-full bg-spruce-800/90 border border-mint-400/25 text-[10px] font-mono font-bold text-[#D4ECE2]">
+                      ${studyMeta?.company || ''}
+                    </span>
+                  </div>
+
+                  <h3 class="text-lg sm:text-xl font-extrabold text-white tracking-tight leading-snug mb-2">
+                    ${summaryData?.title || studyMeta?.title || ''}
+                  </h3>
+
+                  <p class="text-xs text-[#D4ECE2] leading-relaxed mb-4">
+                    ${summaryData?.scope || studyMeta?.description || ''}
+                  </p>
+
+                  <div class="text-[10px] font-mono font-extrabold uppercase tracking-widest text-mint-300 mb-2">
+                    What This Case Study Covers
+                  </div>
+                  <ul class="space-y-2 text-xs text-[#D4ECE2]">
+                    ${(summaryData?.highlights || []).map((pt) => `
+                      <li class="flex items-start gap-2">
+                        <i class="fa-solid fa-check text-mint-300 mt-0.5 text-[10px] shrink-0" aria-hidden="true"></i>
+                        <span>${pt}</span>
+                      </li>
+                    `).join('')}
+                  </ul>
+                </div>
+
+                <div class="pt-4 mt-4 border-t border-white/15 flex flex-col gap-2.5">
+                  <div class="flex items-center justify-between text-[11px] font-mono font-bold text-mint-300">
+                    <span>Impact: ${summaryData?.outcome || 'Verified Delivery'}</span>
+                  </div>
+
+                  <div class="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onclick="event.stopPropagation(); toggleBasicProjectCardFlip(this.closest('.project-flip-scene'));"
+                      class="px-3.5 py-2.5 rounded-xl bg-spruce-800 border border-mint-400/30 text-[#D4ECE2] hover:text-white hover:border-mint-400 text-xs font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                    >
+                      <i class="fa-solid fa-rotate-left text-[10px]" aria-hidden="true"></i>
+                      <span>Flip Back</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onclick="event.stopPropagation(); promptUnlockForStudy('${studyKey}');"
+                      class="btn-mint-pill flex-1 py-2.5 px-4 rounded-xl text-xs flex items-center justify-center gap-1.5 cursor-pointer"
+                    >
+                      <i class="fa-solid fa-lock text-[10px]" aria-hidden="true"></i>
+                      <span>Unlock Full Case Study</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+
+          const frontImg = card.querySelector('.project-flip-face:not(.project-flip-back) img');
+          const frontFooterSlot = card.querySelector('.project-flip-face:not(.project-flip-back) .card-footer-slot');
+          if (frontImg) frontImg.classList.add('group-hover:scale-105');
+          if (frontFooterSlot) {
+            frontFooterSlot.innerHTML = `
+              <div class="pt-3.5 border-t border-emerald-950/10 dark:border-mint-400/20 flex flex-wrap items-center justify-between gap-2">
+                <span class="text-xs font-extrabold text-semantic-accent inline-flex items-center gap-1.5">
+                  <i class="fa-solid fa-rotate text-[11px]" aria-hidden="true"></i>
+                  <span>Click card to flip for summary</span>
+                </span>
+                <button
+                  type="button"
+                  onclick="event.stopPropagation(); promptUnlockForStudy('${studyKey}');"
+                  class="semantic-badge px-3 py-1.5 rounded-full border text-[11px] font-bold inline-flex items-center gap-1.5 hover:border-mint-500 transition-colors cursor-pointer"
+                >
+                  <i class="fa-solid fa-lock text-[9px]" aria-hidden="true"></i>
+                  <span>Unlock</span>
+                </button>
+              </div>
+            `;
+          }
+
+          card.onclick = () => toggleBasicProjectCardFlip(card);
+          card.onkeydown = (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              toggleBasicProjectCardFlip(card);
+            }
+          };
+        }
+      });
+    }
+
+    function toggleBasicProjectCardFlip(sceneEl) {
+      if (!sceneEl || accessMode === 'unlocked') return;
+      const inner = sceneEl.querySelector('.project-flip-inner');
+      if (!inner) return;
+      const nextState = sceneEl.dataset.flipped !== 'true';
+      sceneEl.dataset.flipped = nextState ? 'true' : 'false';
+      sceneEl.setAttribute('aria-pressed', nextState ? 'true' : 'false');
+      inner.style.transform = nextState ? 'rotateY(180deg)' : 'rotateY(0deg)';
+      const title = sceneEl.querySelector('h3')?.textContent?.trim() || 'Project card';
+      announceToScreenReader(
+        nextState
+          ? `Flipped ${title} to show high-level case study summary.`
+          : `Flipped ${title} back to project overview.`
+      );
+    }
+
+    function promptUnlockForStudy(studyKey) {
+      pendingStudyAfterUnlock = studyKey;
+      const studyName = caseStudies[studyKey]?.company || 'this';
+      openAccessGateModal(`Enter your portfolio passcode to unlock the ${studyName} deep-dive case study.`);
+    }
+
+    // Trap focus inside Access Gate Modal when visible (WCAG 2.4.3 / 2.1.2)
+    document.addEventListener('keydown', (e) => {
+      const modal = document.getElementById('access-gate-modal');
+      if (!modal || modal.classList.contains('hidden')) return;
+
+      if (e.key === 'Escape') {
+        // Allow Escape only if user has already chosen a mode previously
+        if (accessMode !== 'unselected') {
+          e.preventDefault();
+          closeAccessGateModal();
+        }
+        return;
+      }
+
+      if (e.key === 'Tab') {
+        const focusables = modal.querySelectorAll(
+          'button:not([disabled]), input:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])'
+        );
+        if (!focusables.length) return;
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    });
+
     const caseStudies = {
       weir: {
         id: "weir",
@@ -1949,57 +2650,57 @@
         ],
         currentFocus: [
           {
-            tag: "01 · ESCO NATIVE APP",
-            title: "Scaling G.E.T. & Bucket Inspection Native App",
-            brief: "Iterating on our end-to-end native inspection MVP alongside global internal technician pilot groups and connecting field data into broader performance KPI dashboards.",
+            tag: "01 · MCP & DESIGN-TO-CODE",
+            title: "MCP Optimization of Our Design System",
+            brief: "Optimizing our design system for Model Context Protocol (MCP) to accelerate design-to-code workflows, fast-track concept exploration, and adapt web and native components into highly contextual industrial tools.",
+            image: "Portfolio DLS.png",
+            accentIcon: "fa-wand-magic-sparkles",
+            backTitle: "AI-Ready Design-to-Code & Contextual Tooling",
+            backSummary: "Structuring semantic tokens, component schemas, and usage rules for MCP so AI workflows generate production-aligned web and native interfaces.",
+            highlights: [
+              "Streamlined design-to-code workflows & fast-tracked concept prototyping",
+              "Translating web & native components into contextual industrial tools",
+              "Greater architectural flexibility without sacrificing system governance"
+            ],
+            statusMetric: "MCP Ready"
+          },
+          {
+            tag: "02 · CAIP PHASE 2",
+            title: "3D Video Scanning for G.E.T. Wear Monitoring",
+            brief: "Exploring and embedding patented 3D video scanning technology into Phase 2 of the CAIP native app to capture accurate field geometry and monitor wear rates across G.E.T. components.",
+            image: "CAIP example.png",
+            accentIcon: "fa-cube",
+            backTitle: "Patented 3D Video Wear-Rate Intelligence",
+            backSummary: "Evolving our native field inspection workflow from manual defect capture to spatial 3D video wear-rate diagnostics.",
+            highlights: [
+              "Embedding patented 3D video scanning into the native field workflow",
+              "Automated wear-rate tracking & remaining-life insights for G.E.T.",
+              "PPE-friendly guided capture built for harsh mine site conditions"
+            ],
+            statusMetric: "CAIP Phase 2"
+          },
+          {
+            tag: "03 · ECOSYSTEM ADOPTION",
+            title: "Design System Adoption Across Acquisitions",
+            brief: "Scaling design system adoption across Weir's acquisition landscape—unifying newly integrated product lines and bringing our broader digital ecosystem closer together.",
             image: "warman-mcr-400-opt.webp",
-            accentIcon: "fa-mobile-screen-button",
-            backTitle: "Global Technician Pilot & KPI Integration",
-            backSummary: "Synthesizing live field feedback from ESCO technicians to sharpen PPE usability and feed bucket/teeth performance analytics.",
+            accentIcon: "fa-network-wired",
+            backTitle: "Unifying Weir's Digital Ecosystem",
+            backSummary: "Extending shared multi-brand tokens, patterns, and WCAG accessibility standards across acquired businesses and software platforms.",
             highlights: [
-              "Active global pilot with internal G.E.T. technician groups",
-              "PPE-optimized touch targets, cold-weather & offline resilience",
-              "Connecting inspection insights into enterprise KPI dashboards"
+              "Onboarding acquired product teams onto shared DLS foundations",
+              "Multi-brand theming that preserves brand equity & UX consistency",
+              "Connecting siloed tools into one cohesive Weir digital ecosystem"
             ],
-            statusMetric: "Global Pilot Live"
-          },
-          {
-            tag: "02 · DLS ADOPTION",
-            title: "Scaling Multi-Brand Design System Governance",
-            brief: "Driving cross-squad adoption of shared Figma variables, production primitives, and automated WCAG 2.2 accessibility gates across global engineering teams.",
-            image: "Gemini_Generated_Image_9r280d9r280d9r28.jpeg",
-            accentIcon: "fa-cubes",
-            backTitle: "Design Language System 2026 Roadmap",
-            backSummary: "Transitioning from foundational component creation to active multi-programme adoption across Weir's digital ecosystem.",
-            highlights: [
-              "Token parity across Warman®, ESCO & legacy product lines",
-              "Automated Axe-core contrast linting in CI/CD",
-              "Embedded squad coaching & contribution workflows"
-            ],
-            statusMetric: "85+ Components Live"
-          },
-          {
-            tag: "03 · AI & DESIGN-TO-CODE",
-            title: "AI-Assisted Diagnostics & Design-to-Code Pipelines",
-            brief: "Pairing AI-assisted workflows and predictive wear models with synchronized semantic tokens to accelerate ideas from Figma into production code.",
-            image: "Gemini_Generated_Image_nxcgonxcgonxcgon.jpeg",
-            accentIcon: "fa-code-branch",
-            backTitle: "Explainable AI & Zero-Drift Handover",
-            backSummary: "Turning predictive wear models into calm, trustworthy user recommendations while keeping design and repositories in sync.",
-            highlights: [
-              "Confidence-scored component wear-life forecasting",
-              "Bi-directional Figma Variables & Storybook sync",
-              "+40% faster feature-to-staging velocity"
-            ],
-            statusMetric: "WCAG 2.2 AA/AAA"
+            statusMetric: "Ecosystem Scale"
           }
         ],
         deliverables: [
           {
             num: "01",
             title: "Customer Asset Intelligence Native App",
-            image: "CAIP tablet.png",
-            imageFit: "cover",
+            image: "CAIP example.png",
+            imageFit: "contain",
             desc: "Designed end-to-end as a native mobile/tablet in-field inspection tool for ESCO mining buckets and G.E.T. parts—built for PPE usage, snow/cold, and zero-connectivity mine sites, and currently live with global internal technician test groups.",
             accordion: {
               objectives: "Enable Weir's ESCO division to become more data-driven and empower field technicians with actionable insights by digitizing mining bucket and G.E.T. part inspections for the first time.",
@@ -2018,7 +2719,8 @@
           {
             num: "02",
             title: "Daily Layered Accountability (DLA) Power App",
-            image: null,
+            image: "DLA example.png",
+            imageFit: "contain",
             desc: "Brought in as Design Lead to map DLA workflows across LATAM, APAC, EMEA, and NAM—presenting research findings to the COO and delivering a Tier-3 Kanban Microsoft Power App to capture Tier 1 & 2 issues and actions during live shift meetings.",
             accordion: {
               objectives: "Map global Daily Layered Accountability (DLA) rituals across LATAM, APAC, EMEA, and NAM, align executive sponsorship with the COO, and digitize cross-tier issue tracking without disrupting 5–10 minute shift handovers.",
@@ -2037,7 +2739,8 @@
           {
             num: "03",
             title: "The Weir Multi-Brand Design System",
-            image: null,
+            image: "Portfolio DLS.png",
+            imageFit: "contain",
             desc: "Architected the enterprise Figma and code token framework powering native apps, customer portals, and internal tools, meeting 100% WCAG 2.2 AA standards.",
             accordion: {
               objectives: "Eliminate duplicated UI engineering across product squads while enforcing consistent brand identity and European Accessibility Act compliance.",
@@ -2057,7 +2760,7 @@
             num: "04",
             title: "Online Content & Training Library for Dealers",
             image: "Resource centre.png",
-            imageFit: "cover",
+            imageFit: "contain",
             desc: "Designed an online content and training library providing dealers with structured educational modules, product guides, and technical resources.",
             accordion: {
               objectives: "Provide global dealers with a centralized, accessible online training and content library to accelerate product knowledge and service efficiency.",
@@ -3555,8 +4258,8 @@
       cs3D.progress = 1.0;
       cs3D.isAnimating = false;
       renderCaseStudy3DMorphFrame(1.0, 0);
-      const heroTitle = document.getElementById('cs-hero-title');
-      if (heroTitle) heroTitle.focus({ preventScroll: true });
+      const csView = document.getElementById('view-casestudy');
+      if (csView) csView.focus({ preventScroll: true });
     }
 
     function startCaseStudy3DOnLoad(studyKey) {
@@ -3690,9 +4393,10 @@
       const htmlEl = document.documentElement;
       const btnHome = document.getElementById('theme-toggle-home');
       const btnCs = document.getElementById('theme-toggle-cs');
+      const btnGate = document.getElementById('theme-toggle-gate');
 
       htmlEl.classList.toggle('dark', dark);
-      [btnHome, btnCs].forEach((btn) => {
+      [btnHome, btnCs, btnGate].forEach((btn) => {
         if (!btn) return;
         btn.setAttribute('aria-pressed', String(dark));
         btn.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
@@ -3710,8 +4414,17 @@
     }
 
     function openCaseStudy(studyKey, skipHistory = false) {
-      if (isTransitioning) return;
       if (!caseStudies[studyKey]) studyKey = 'weir';
+
+      // ROUTE GUARD: Block access to case study pages unless portfolio is unlocked
+      if (accessMode !== 'unlocked') {
+        pendingStudyAfterUnlock = studyKey;
+        const studyName = caseStudies[studyKey]?.company || 'this';
+        openAccessGateModal(`Full case studies are password-protected. Sign in to view ${studyName}, or continue with the basic version.`);
+        return;
+      }
+
+      if (isTransitioning) return;
       currentStudyKey = studyKey;
       currentDeliverableSlide = 0;
       activeAccordionSection = 'objectives';
@@ -3747,8 +4460,7 @@
           if (!skipHistory) {
             try { history.pushState(null, '', `#case-study-${studyKey}`); } catch (err) {}
           }
-          const heroTitle = document.getElementById('cs-hero-title');
-          if (heroTitle) heroTitle.focus({ preventScroll: true });
+          csView.focus({ preventScroll: true });
           announceToScreenReader(`Opened ${caseStudies[studyKey].company} case study`);
           isTransitioning = false;
         });
@@ -4016,7 +4728,7 @@
         >
           <div class="focus-card-inner">
             <!-- FRONT FACE -->
-            <div class="focus-card-face surface-inner rounded-3xl border overflow-hidden flex flex-col justify-between">
+            <div class="focus-card-face focus-card-front surface-inner rounded-3xl border overflow-hidden flex flex-col justify-between">
               <div aria-hidden="true" class="focus-card-glare absolute inset-0 z-30 rounded-3xl"></div>
 
               <div class="relative h-44 overflow-hidden bg-[#061310]">
@@ -4027,7 +4739,7 @@
                   onerror="this.onerror=null; this.src='https://placehold.co/600x360/0C231D/34D399?text=Focus+0${idx + 1}';"
                 />
                 <div aria-hidden="true" class="absolute inset-0 bg-gradient-to-t from-[#061310] via-[#061310]/45 to-transparent"></div>
-                <div class="focus-parallax-layer-1 absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between">
+                <div class="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between">
                   <span class="px-2.5 py-1 rounded-full bg-[#061310]/90 backdrop-blur-md text-[10px] font-mono font-bold tracking-wider uppercase text-mint-300 border border-mint-400/30 whitespace-nowrap">
                     ${card.tag}
                   </span>
@@ -4038,7 +4750,7 @@
               </div>
 
               <div class="p-5 sm:p-6 flex-1 flex flex-col justify-between">
-                <div class="focus-parallax-layer-2">
+                <div>
                   <h3 class="text-base sm:text-lg font-extrabold text-semantic-primary tracking-tight leading-snug mb-2">
                     ${card.title}
                   </h3>
@@ -4047,7 +4759,7 @@
                   </p>
                 </div>
 
-                <div class="focus-parallax-layer-1 pt-4 mt-4 border-t border-emerald-950/10 dark:border-mint-400/15 flex items-center justify-between text-[11px] font-mono font-bold text-semantic-accent">
+                <div class="pt-4 mt-4 border-t border-emerald-950/10 dark:border-mint-400/15 flex items-center justify-between text-[11px] font-mono font-bold text-semantic-accent">
                   <span>Select to flip</span>
                   <i class="fa-solid fa-rotate" aria-hidden="true"></i>
                 </div>
@@ -4056,7 +4768,7 @@
 
             <!-- BACK FACE -->
             <div class="focus-card-face focus-card-back rounded-3xl border border-mint-400/40 bg-[#0C231D] text-white p-5 sm:p-6 flex flex-col justify-between" style="box-shadow: var(--shadow-surface);">
-              <div class="focus-parallax-layer-2">
+              <div>
                 <div class="flex items-center justify-between gap-2 mb-3">
                   <span class="px-2.5 py-0.5 rounded-full bg-mint-400/15 border border-mint-400/30 text-[10px] font-mono font-bold uppercase tracking-wider text-mint-300 whitespace-nowrap">
                     ${card.statusMetric || 'ACTIVE FOCUS'}
@@ -4083,7 +4795,7 @@
                 </ul>
               </div>
 
-              <div class="focus-parallax-layer-1 pt-3 mt-4 border-t border-white/15 flex items-center justify-between text-[11px] font-mono font-semibold text-mint-300">
+              <div class="pt-3 mt-4 border-t border-white/15 flex items-center justify-between text-[11px] font-mono font-semibold text-mint-300">
                 <span>Select to flip back</span>
                 <i class="fa-solid fa-arrow-rotate-left text-[10px]" aria-hidden="true"></i>
               </div>
@@ -4319,7 +5031,7 @@
           imgEl.src = d.image;
           imgEl.alt = d.title;
           imgEl.classList.remove('hidden');
-          imgEl.style.objectFit = d.imageFit || 'cover';
+          imgEl.style.objectFit = d.imageFit || 'contain';
           imgEl.style.objectPosition = 'center';
         }
         if (fallbackCard) fallbackCard.classList.add('hidden');
@@ -4424,6 +5136,9 @@
     }
 
     document.addEventListener('keydown', (e) => {
+      const gateModal = document.getElementById('access-gate-modal');
+      if (gateModal && !gateModal.classList.contains('hidden')) return;
+
       const csView = document.getElementById('view-casestudy');
       const loaderEl = document.getElementById('cs-fullscreen-loader');
       if (csView && !csView.classList.contains('hidden')) {
@@ -4484,7 +5199,7 @@
         }
       });
 
-      announceToScreenReader(`Showing ${visibleCount} case ${visibleCount === 1 ? 'study' : 'studies'}`);
+      announceToScreenReader(`Showing ${visibleCount} ${accessMode === 'unlocked' ? (visibleCount === 1 ? 'case study' : 'case studies') : (visibleCount === 1 ? 'project summary' : 'project summaries')}`);
     }
 
     async function handleContactSubmit(e) {
@@ -4557,9 +5272,33 @@
     document.addEventListener('DOMContentLoaded', () => {
       applyTheme(isDarkMode);
       const hash = window.location.hash || '';
-      if (hash.startsWith('#case-study-')) {
-        const key = hash.replace('#case-study-', '');
-        openCaseStudy(key, true);
+
+      if (accessMode === 'unlocked') {
+        setPortfolioAccessMode('unlocked');
+        closeAccessGateModal();
+        if (hash.startsWith('#case-study-')) {
+          const key = hash.replace('#case-study-', '');
+          openCaseStudy(key, true);
+        }
+      } else if (accessMode === 'basic') {
+        setPortfolioAccessMode('basic');
+        closeAccessGateModal();
+        if (hash.startsWith('#case-study-')) {
+          const key = hash.replace('#case-study-', '');
+          pendingStudyAfterUnlock = key;
+          openAccessGateModal(`Full case studies are password-protected. Sign in to view ${caseStudies[key]?.company || 'this case study'}, or continue with the basic version.`);
+        }
+      } else {
+        // First arrival: default underlying page to Basic summaries and present the Access Gate Modal
+        setPortfolioAccessMode('basic');
+        accessMode = 'unselected';
+        if (hash.startsWith('#case-study-')) {
+          const key = hash.replace('#case-study-', '');
+          pendingStudyAfterUnlock = key;
+          openAccessGateModal(`Full case studies are password-protected. Sign in to view ${caseStudies[key]?.company || 'this case study'}, or continue with the basic version.`);
+        } else {
+          openAccessGateModal();
+        }
       }
     });
   </script>
