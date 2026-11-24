@@ -88,7 +88,7 @@
 
   <style>
     /* =====================================================================
-       1. SEMANTIC GLASSMORPHISM DESIGN TOKENS (WCAG 2.2 AAA CONTRAST VERIFIED)
+1. SEMANTIC GLASSMORPHISM DESIGN TOKENS (WCAG 2.2 AAA CONTRAST VERIFIED)
        ===================================================================== */
     :root {
       --bg-canvas: #EEF4F0;
@@ -238,7 +238,7 @@
     }
 
     /* =====================================================================
-       2. GLOBAL WCAG 2.2 FOCUS INDICATORS (SC 2.4.7 & 2.4.11)
+2. GLOBAL WCAG 2.2 FOCUS INDICATORS (SC 2.4.7 & 2.4.11)
        ===================================================================== */
     :focus-visible {
       outline: 3px solid var(--focus-ring) !important;
@@ -276,7 +276,7 @@
     }
 
     /* =====================================================================
-       3. GLASSMORPHISM COMPONENT SURFACES & SPECULAR RIM DEPTH
+3. GLASSMORPHISM COMPONENT SURFACES & SPECULAR RIM DEPTH
        ===================================================================== */
     .surface-card {
       background-color: var(--glass-surface-bg);
@@ -450,7 +450,7 @@
     }
 
     /* =====================================================================
-       4. ANIMATIONS & TRANSITIONS
+4. ANIMATIONS & TRANSITIONS
        ===================================================================== */
     @keyframes marquee {
       0% { transform: translateX(0%); }
@@ -655,7 +655,7 @@
     }
 
     /* =====================================================================
-       5. REDUCED MOTION SUPPORT (WCAG 2.2 SC 2.3.3 & 2.2.2)
+5. REDUCED MOTION SUPPORT (WCAG 2.2 SC 2.3.3 & 2.2.2)
        ===================================================================== */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
@@ -1993,22 +1993,22 @@
 
         <p
           id="cs-3d-stylized-text"
-          class="text-base sm:text-xl font-extrabold tracking-tight text-semantic-primary leading-snug px-2 mb-4"
+          class="text-base sm:text-xl font-extrabold tracking-tight text-semantic-primary leading-snug px-2"
         >
           Digital mining technology incoming...
         </p>
-
-        <button
-          type="button"
-          id="cs-skip-3d-btn"
-          style="pointer-events: auto;"
-          onpointerdown="event.stopPropagation(); skipCaseStudy3DIntro();"
-          onclick="event.stopPropagation(); skipCaseStudy3DIntro();"
-          class="semantic-badge relative z-30 px-5 py-2.5 rounded-full text-xs font-extrabold border hover:opacity-95 active:scale-95 transition-all cursor-pointer pointer-events-auto"
-        >
-          Skip 3D Intro
-        </button>
       </div>
+
+      <button
+        type="button"
+        id="cs-skip-3d-btn"
+        style="pointer-events: auto; opacity: 1;"
+        onclick="skipCaseStudy3DIntro(event)"
+        ontouchend="skipCaseStudy3DIntro(event)"
+        class="semantic-badge relative z-50 mt-4 px-5 py-2.5 rounded-full text-xs font-extrabold border hover:opacity-95 active:scale-95 transition-all cursor-pointer pointer-events-auto touch-manipulation shadow-lg"
+      >
+        Skip 3D Intro
+      </button>
     </div>
 
     <!-- CASE STUDY HERO HEADER -->
@@ -2051,7 +2051,7 @@
             </h1>
 
             <p id="cs-hero-desc" class="mt-6 sm:mt-8 text-base sm:text-lg md:text-xl text-semantic-secondary max-w-3xl font-normal leading-relaxed">
-              Connecting research, product vision, native mobile UX, and engineering across Weir’s digital ecosystem—spanning an end-to-end ESCO mining bucket &amp; G.E.T. inspection native app (in global technician pilot), a Tier-3 Kanban Microsoft Power App for Daily Layered Accountability, an online content and training library for dealers, and a multi-brand design system.
+              Over the past two years as a Senior Product Designer at The Weir Group, I have helped evolve a lower-maturity design function and fragmented processes into a scalable digital ecosystem—growing our rustic design system into 85+ components across web, native, and industrial use cases while exploring MCP optimization. Across Weir’s excavation and manufacturing operations, I have led design for Asset Intelligence (offline field inspection of Ground Engagement Tools), the ESCO Resource Centre for dealers, and the global Daily Layered Accountability action tracker across LATAM, APAC, NAM, and EMEA.
             </p>
 
             <div id="cs-hero-tags" class="mt-8 sm:mt-10 flex flex-wrap items-center gap-2 sm:gap-2.5"></div>
@@ -2084,7 +2084,7 @@
                   From complex problems to product direction.
                 </h2>
                 <p id="cs-what-desc" class="mt-2 text-xs sm:text-sm text-semantic-secondary leading-relaxed">
-                  My work often starts before an interface exists. I collaborate with stakeholders, engineers and subject-matter experts to understand operational challenges, uncover user needs and turn ambiguity into clear, actionable direction.
+                  Joining a lower-maturity team with fragmented processes and a rustic design system two years ago, my work starts before an interface exists—researching shop floors, mine sites, and dealer workflows to establish repeatable design foundations and clear product direction.
                 </p>
               </div>
 
@@ -2223,22 +2223,6 @@
       </section>
     </div>
 
-    <!-- VALUE I HAVE ADDED (WEIR CASE STUDY) -->
-    <section id="cs-value-added-section" aria-labelledby="cs-value-added-heading" class="py-10 sm:py-14 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
-      <div class="surface-card rounded-4xl sm:rounded-5xl p-6 sm:p-10 md:p-12 border relative overflow-hidden">
-        <div class="mb-8 sm:mb-10">
-          <div class="text-xs font-mono font-bold uppercase tracking-widest text-semantic-accent mb-1.5">
-            BUSINESS IMPACT
-          </div>
-          <h2 id="cs-value-added-heading" class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-semantic-primary">
-            Value <span class="text-semantic-accent">I have added</span>
-          </h2>
-        </div>
-
-        <div id="cs-value-added-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5"></div>
-      </div>
-    </section>
-
     <!-- MY CURRENT FOCUS (WEIR CASE STUDY) -->
     <section id="cs-current-focus-section" aria-labelledby="cs-focus-heading" class="py-10 sm:py-14 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
       <div class="surface-card rounded-4xl sm:rounded-5xl p-6 sm:p-10 md:p-14 border relative overflow-hidden">
@@ -2348,7 +2332,7 @@
         title: 'Field Apps, Lean Operations & Multi-Brand DLS',
         scope: 'Led end-to-end UX/UI and design systems across Weir’s global mining equipment operations—bridging frontline field technicians, shift supervisors, and multi-brand engineering squads.',
         highlights: [
-          'End-to-end ESCO mining bucket & G.E.T. native inspection app in global technician pilot',
+          'End-to-end ESCO mining bucket & G.E.T. inspection native app in global technician pilot',
           'Tier-3 Kanban Microsoft Power App for Daily Layered Accountability across 4 regions',
           '85+ WCAG 2.2 AA/AAA design system components accelerating front-end handover by +40%'
         ],
@@ -2681,182 +2665,182 @@
       weir: {
         id: "weir",
         company: "The Weir Group",
-        eyebrow: "SENIOR PRODUCT DESIGNER · WEIR",
+        eyebrow: "SENIOR PRODUCT DESIGNER · THE WEIR GROUP",
         title: "Industrial Apps, Field Tools & Design Systems.",
-        description: "Connecting research, product vision, native mobile UX, and engineering across Weir’s digital ecosystem—spanning an end-to-end ESCO mining bucket & G.E.T. inspection native app (in global technician pilot), a Tier-3 Kanban Microsoft Power App for Daily Layered Accountability, an online content and training library for dealers, and a multi-brand design system.",
-        role: "Senior Product Designer & Accessibility Leader",
+        description: "Over the past two years as a Senior Product Designer at The Weir Group, I have helped evolve a lower-maturity design function and fragmented processes into a scalable digital ecosystem—growing our rustic design system into 85+ components across web, native, and industrial use cases while exploring MCP optimization. Across Weir’s excavation and manufacturing operations, I have led design for Asset Intelligence (offline field inspection of Ground Engagement Tools), the ESCO Resource Centre for dealers, and the global Daily Layered Accountability action tracker across LATAM, APAC, NAM, and EMEA.",
+        role: "Senior Product Designer & Design Systems Lead",
         coverImage: "warman-mcr-400-opt.webp",
-        tags: ["Native Mobile App", "Power Apps Kanban", "Product Vision", "Research", "Design Systems", "Design-to-Code"],
+        tags: ["85+ Component DLS", "MCP Optimization", "Asset Intelligence (GET)", "DLA Action Tracker", "ESCO Resource Centre", "Offline-First Field UX"],
         whatIDo: {
           eyebrow: "01 · WHAT I DO",
           heading: "From complex problems to product direction.",
-          description: "My work often starts before an interface exists. I collaborate with stakeholders, engineers and subject-matter experts to understand customer challenges, uncover user needs and turn ambiguity into clear, actionable product direction.",
+          description: "Joining a lower-maturity team with fragmented processes and a rustic design system two years ago, my work starts before an interface exists—researching shop floors, mine sites, and dealer workflows to establish repeatable design foundations and clear product direction.",
           image: "Weir profile.png",
           imageBadge: "Artifact Preview",
           imageCaption: "Operational Discovery → Scalable Product Direction",
           cards: [
-            { tag: "Strategy", title: "Understand the whole problem", text: "Research planning, stakeholder workshops, discovery, journey mapping and systems thinking establish what to build and why." },
-            { tag: "Design", title: "Turn complexity into experiences", text: "Guiding native apps and digital products through workflows, concepts, rapid prototyping and validation into detailed, production-ready interactions." },
-            { tag: "Systems", title: "Design for reuse", text: "Looking beyond individual features to establish modular patterns and shared capabilities that scale across squads and products." },
-            { tag: "Delivery", title: "Connect design to engineering", text: "Partnering with engineering to maximize component reuse, evaluate technical feasibility, and accelerate the path to code." }
+            { tag: "Strategy", title: "Understand the whole problem", text: "Researching across global regions (LATAM, APAC, NAM, EMEA), mine sites, and dealer networks to turn fragmented workflows into clear product direction." },
+            { tag: "Design", title: "Turn complexity into experiences", text: "Leading end-to-end UX for offline-first field inspection apps, dealer self-service platforms, and tier-based shop-floor action trackers." },
+            { tag: "Systems", title: "Design for reuse", text: "Growing a rustic design system into 85+ components across web, native, and industrial use cases so squads build on shared foundations." },
+            { tag: "Delivery", title: "Connect design to engineering", text: "Leading MCP optimization initiatives and partnering closely with engineering to establish first-of-their-kind operational data streams." }
           ]
         },
         valueAdded: [
           {
-            area: "Engineering & Delivery",
-            icon: "fa-code-branch",
-            metric: "+40%",
-            metricSub: "Faster front-end handover",
-            summary: "Unified Figma Variables and 85+ hardened primitives to streamline front-end handover across product squads."
+            area: "Design System & MCP",
+            icon: "fa-cubes",
+            metric: "85+",
+            metricSub: "Web, native & industrial units",
+            summary: "Scaled a rustic design system into 85+ components over two years while leading the team exploring MCP optimization."
           },
           {
-            area: "ESCO Native Inspection",
+            area: "Asset Intelligence (GET)",
             icon: "fa-mobile-screen-button",
-            metric: "Global pilot",
-            metricSub: "Internal technician MVP pilot",
-            summary: "Digitized mining bucket and G.E.T. inspections with PPE-ready touch targets and offline sync for field technicians."
+            metric: "Offline-first",
+            metricSub: "Teeth, adaptors & shrouds",
+            summary: "Equipped field technicians with offline drawings, manuals, and report history—feeding product R&D and internal sales leads."
           },
           {
-            area: "Global Lean Ops & DLA",
-            icon: "fa-columns",
+            area: "Global DLA Tracker",
+            icon: "fa-diagram-next",
             metric: "4 regions",
-            metricSub: "LATAM, APAC, EMEA & NAM",
-            summary: "Mapped global DLA rituals and delivered a Tier-3 Kanban Power App to capture shift actions without added admin."
+            metricSub: "LATAM, APAC, NAM & EMEA",
+            summary: "Researched foundries, machine shops, and assembly lines to launch the first regional KPI data stream (now in active development)."
           },
           {
-            area: "Accessibility & Compliance",
-            icon: "fa-universal-access",
-            metric: "100%",
-            metricSub: "Automated CI/CD contrast pass",
-            summary: "Embedded inclusive design standards and automated Axe gates across multi-brand native and web software."
+            area: "ESCO Resource Centre",
+            icon: "fa-graduation-cap",
+            metric: "Self-service",
+            metricSub: "Dealer training & marketing hub",
+            summary: "Transformed a basic homepage and content library into a full dealer training, marketing expenses, creative asset, and support platform."
           }
         ],
         currentFocus: [
           {
-            tag: "01 · MCP & DESIGN SYSTEMS",
-            title: "MCP Optimization of Our Design System",
-            brief: "Optimizing our design system via Model Context Protocol (MCP) to streamline design-to-code workflows, fast-track concept work, and translate web and native components into highly contextual industrial tools.",
+            tag: "01 · 2027 FOCUS · MCP WORKFLOWS",
+            title: "Scaling MCP Optimization Across Engineering",
+            brief: "Extending our Model Context Protocol (MCP) workflow to more developers while expanding into new use cases across the business so our AI-empowered design system delivers organization-wide value.",
             image: "Portfolio DLS.png",
             accentIcon: "fa-wand-magic-sparkles",
-            backTitle: "MCP-Powered Design-to-Code & Contextual Tools",
-            backSummary: "Connecting structured design system tokens and component specs directly to AI workflows so teams can prototype faster and adapt core primitives to specialized industrial tooling.",
+            backTitle: "AI-Empowered Design System Adoption",
+            backSummary: "Building on our initial MCP exploration to put structured design system intelligence directly into the daily workflows of more engineering squads and product domains.",
             highlights: [
-              "Accelerating design-to-code workflows & rapid concept validation",
-              "Translating web & native components into contextual industrial tools",
-              "Increasing design system flexibility without sacrificing governance"
+              "Extending MCP usage to a wider community of Weir developers",
+              "Expanding MCP workflows into new cross-business use cases",
+              "Maximizing value from our 85+ component AI-empowered design system"
             ],
-            statusMetric: "MCP Workflow Active"
+            statusMetric: "2027 Core Priority"
           },
           {
-            tag: "02 · CAIP PHASE 2",
-            title: "3D Video Scanning for G.E.T. Wear Monitoring",
-            brief: "Leading Phase 2 UX exploration for the CAIP native app, embedding patented 3D video scanning technology to help field teams accurately monitor Ground Engaging Tools (G.E.T.) wear rates.",
+            tag: "02 · 2027 FOCUS · GET RECOGNITION",
+            title: "Scaling Asset Intelligence & Wear Monitoring",
+            brief: "Scaling the Asset Intelligence tool to advance wear-monitoring capabilities using newly developed Ground Engagement Tool (GET) recognition technology—making inspection turnarounds faster and simpler.",
             image: "CAIP example.png",
             accentIcon: "fa-cube",
-            backTitle: "Patented 3D Video Scanning in Field Operations",
-            backSummary: "Designing intuitive, PPE-friendly capture workflows that turn patented 3D video scans into actionable G.E.T. wear-rate intelligence on active mine sites.",
+            backTitle: "Faster Field Turnarounds with GET Recognition",
+            backSummary: "Pairing our offline-capable Asset Intelligence app with newly developed GET recognition technology so field inspectors can capture wear data on teeth, adaptors, and shrouds effortlessly.",
             highlights: [
-              "Guided 3D video scan capture built for rugged mining conditions",
-              "Automated G.E.T. wear-rate tracking & replacement forecasting",
-              "Seamless integration into Phase 2 of the CAIP native mobile app"
+              "Integrating newly developed GET recognition technology into field workflows",
+              "Improving wear-monitoring accuracy across buckets and expendables",
+              "Making technician inspection turnarounds significantly faster and simpler"
             ],
-            statusMetric: "CAIP Phase 2 R&D"
+            statusMetric: "2027 Core Priority"
           },
           {
-            tag: "03 · ECOSYSTEM SCALE",
-            title: "Design System Adoption Across Acquisitions",
-            brief: "Driving cross-brand design system adoption across Weir’s acquisition landscape—unifying patterns, tooling, and digital experiences to bring our wider ecosystem closer together.",
+            tag: "03 · 2027 FOCUS · ACQUISITIONS",
+            title: "Accessibility, Brand & Stack Audits Across Acquisitions",
+            brief: "Stepping to the forefront of Weir’s acquisition landscape—conducting accessibility, brand, and functionality audits across acquired companies at varying stages of integration.",
             image: "warman-mcr-400-opt.webp",
             accentIcon: "fa-diagram-project",
-            backTitle: "Unifying the Acquisition Digital Landscape",
-            backSummary: "Partnering with newly integrated product teams to align multi-brand theming, shared primitives, and accessibility standards across Weir's expanding portfolio.",
+            backTitle: "Evaluating Where Our Tech Stack Can Serve",
+            backSummary: "Assessing newly acquired digital products across different integration stages to uncover opportunities where Weir’s existing design system and tech stack can add immediate value.",
             highlights: [
-              "Onboarding acquired product teams onto shared DLS foundations",
-              "Multi-brand token architecture bridging legacy & new platforms",
-              "Cohesive user experience across Weir’s global digital ecosystem"
+              "Conducting accessibility, brand, and functionality audits across acquisitions",
+              "Mapping integration readiness across varying stages of company onboarding",
+              "Identifying where Weir’s existing tech stack and DLS can be of service"
             ],
-            statusMetric: "Ecosystem Integration"
+            statusMetric: "2027 Core Priority"
           }
         ],
         deliverables: [
           {
             num: "01",
-            title: "Customer Asset Intelligence Native App",
+            title: "Asset Intelligence Field Inspection App",
             image: "CAIP example.png",
             imageFit: "contain",
-            desc: "Designed end-to-end as a native mobile/tablet in-field inspection tool for ESCO mining buckets and G.E.T. parts—built for PPE usage, snow/cold, and zero-connectivity mine sites, and currently live with global internal technician test groups.",
+            desc: "Design lead for Weir’s internal field evaluation app enabling technicians in low-connectivity mine sites to inspect mining products—especially Ground Engagement Tools (GET) such as teeth, adaptors, and shrouds—with offline drawings, manuals, and report history.",
             accordion: {
-              objectives: "Enable Weir's ESCO division to become more data-driven and empower field technicians with actionable insights by digitizing mining bucket and G.E.T. part inspections for the first time.",
-              research: "Conducted detailed interviews and workshops with G.E.T. technicians, mapping end-to-end inspection workflows and uncovering critical field constraints including heavy PPE gloves, snow and freezing temperatures, and lack of internet connectivity.",
-              implementation: "Ideated with stakeholders and opted for a mobile/tablet native architecture tailored for mobility, designing high-contrast, PPE-ready touch target components and offline-first inspection flows.",
-              delivery: "Shipped a viable native MVP actively tested globally with internal technician groups, with active conversations underway to pipe inspection data into larger performance KPI dashboards to improve bucket and tooth engineering."
+              objectives: "Give field technicians offline access to technical drawings, manuals, and report history in low-connectivity mine sites so they can justify bucket and product repairs, capture condition feedback for customers and R&D, and generate internal sales leads.",
+              research: "Collaborated with excavation and ESCO field technicians to understand real-world mine-site connectivity gaps and how inspectors evaluate expendables like GET teeth, adaptors, and shrouds to get buckets back up and running.",
+              implementation: "Designed an offline-first inspection workflow housing technical drawings, manuals, historical inspection reports, and structured condition notes that feed back to both customers and internal engineering and sales teams.",
+              delivery: "Delivered an internal inspection platform that speeds up repair justification on site, informs stronger, longer-lasting product design, and surfaces qualified internal sales leads from real-world field performance."
             },
-            mockupBadge: "Native App • ESCO Bucket & G.E.T. Inspection",
-            status: "Global Technician MVP: LIVE",
+            mockupBadge: "Internal Field App • ESCO & GET Inspection",
+            status: "Offline Mine-Site Ready",
             items: [
-              { label: "FIELD ERGONOMICS", val: "PPE Touch Targets · Cold/Snow & Offline Ready", tag: "NATIVE MVP" },
-              { label: "DEPLOYMENT STATUS", val: "Tested Globally with Internal Technician Groups", tag: "FIRST DIGITIZATION" },
-              { label: "DATA ECOSYSTEM", val: "Connecting to Enterprise Bucket/Teeth KPI Dashboards", tag: "SCALING" }
+              { label: "OFFLINE DOCUMENTATION", val: "Technical Drawings, Manuals & Report History", tag: "LOW-CONNECTIVITY" },
+              { label: "GET & BUCKET INSPECTIONS", val: "Teeth, Adaptors & Shrouds Condition Capture", tag: "FIELD UX" },
+              { label: "CLOSED-LOOP VALUE", val: "Customer Notes, R&D Feedback & Sales Leads", tag: "IMPACT" }
             ]
           },
           {
             num: "02",
-            title: "Daily Layered Accountability (DLA) Power App",
+            title: "Daily Layered Accountability (DLA) Action Tracker",
             image: "DLA example.png",
             imageFit: "contain",
-            desc: "Brought in as Design Lead to map DLA workflows across LATAM, APAC, EMEA, and NAM—presenting research findings to the COO and delivering a Tier-3 Kanban Microsoft Power App to capture Tier 1 & 2 issues and actions during live shift meetings.",
+            desc: "Researched issue-reporting flows across LATAM, APAC, NAM, and EMEA spanning foundries, machine shops, and assembly lines—designing a tier-escalated action tracker aligned to DLA meeting cadences that establishes Weir’s first regional KPI data stream.",
             accordion: {
-              objectives: "Map global Daily Layered Accountability (DLA) rituals across LATAM, APAC, EMEA, and NAM, align executive sponsorship with the COO, and digitize cross-tier issue tracking without disrupting 5–10 minute shift handovers.",
-              research: "Conducted cross-regional interviews, collected photos and videos of manual DLA boards, and observed live shift meetings—uncovering that Tier 1 and Tier 2 shop-floor teams only have 5–10 minutes at shift start and end to update physical boards and lack capacity for manual digital data entry.",
-              implementation: "Presented findings directly to the COO and recommended a targeted Kanban Microsoft Power App built specifically for Tier 3 users to capture, triage, and track Tier 1 and 2 issues and actions directly during established DLA stand-up rituals.",
-              delivery: "Delivered a structured Tier-3 Kanban Microsoft Power App that preserves fast 5–10 minute Tier 1 & 2 manual board huddles while giving Tier 3 leaders real-time global visibility and accountability over escalated actions."
+              objectives: "Digitize issue reporting across foundries, machine shops, and assembly lines without slowing down on-site colleagues, while establishing Weir’s first structured regional KPI data stream for leadership strategy.",
+              research: "Researched across LATAM, APAC, NAM, and EMEA to study how foundries, machine shops, and assembly lines report issues and run existing Daily Layered Accountability (DLA) meeting cadences.",
+              implementation: "Designed an action tracker aligned to existing DLA rituals where users log issues, attach actions, assign owners, or escalate up the chain—governed by a clear ownership rule: the higher your tier, the more users you can assign actions to.",
+              delivery: "Stakeholders are ecstatic and development is currently underway—creating the first cross-regional KPI data stream to help leaders spot systemic issues and shape operational strategy."
             },
-            mockupBadge: "Microsoft Power App • Tier-3 DLA Kanban",
-            status: "Global Regions: LATAM · APAC · EMEA · NAM",
+            mockupBadge: "Global Operations • DLA Action Tracker",
+            status: "Development Underway • 4 Regions",
             items: [
-              { label: "EXECUTIVE STRATEGY", val: "COO Readout & Tier-3 Power App Pivot", tag: "COO ALIGNED" },
-              { label: "TIER 1 & 2 RESPECTED", val: "Preserved 5–10 Min Shift Huddle Cadence", tag: "ZERO FRICTION" },
-              { label: "TIER-3 KANBAN BOARD", val: "Captures Tier 1 & 2 Issues & Actions Live", tag: "POWER APP" }
+              { label: "GLOBAL FIELD RESEARCH", val: "Foundries, Machine Shops & Assembly (4 Regions)", tag: "LATAM·APAC·NAM·EMEA" },
+              { label: "TIER ESCALATION RULE", val: "Higher Tier = Broader Action Assignment Scope", tag: "CLEAR OWNERSHIP" },
+              { label: "STRATEGIC DATA STREAM", val: "First Regional KPI Pipeline (In Development)", tag: "STAKEHOLDER WIN" }
             ]
           },
           {
             num: "03",
-            title: "The Weir Multi-Brand Design System",
+            title: "The Weir Design System & MCP Optimization",
             image: "Portfolio DLS.png",
             imageFit: "contain",
-            desc: "Architected the enterprise Figma and code token framework powering native apps, customer portals, and internal tools, meeting 100% WCAG 2.2 AA standards.",
+            desc: "Transformed a low-maturity, rustic design system over two years into 85+ components catering to web, native, and industrial use cases—while now leading the team exploring Model Context Protocol (MCP) optimization.",
             accordion: {
-              objectives: "Eliminate duplicated UI engineering across product squads while enforcing consistent brand identity and European Accessibility Act compliance.",
-              research: "Audited 12 existing internal and customer applications to catalog component drift, accessibility violations, and developer handover friction.",
-              implementation: "Built a multi-tier Figma Variables token architecture synced via automated pipelines to hardened, accessible production primitives.",
-              delivery: "Adopted across multiple engineering programmes with 85+ production components and automated contrast gates, boosting delivery velocity by 40%."
+              objectives: "Evolve a rustic design system and fragmented design processes into a mature, multi-platform component foundation while pioneering AI-driven MCP workflows.",
+              research: "Evaluated web, native mobile, and industrial product requirements across Weir’s engineering squads to identify missing primitives and process bottlenecks.",
+              implementation: "Expanded the system to 85+ reusable components built for web, native, and industrial contexts, and initiated team exploration into Model Context Protocol (MCP) optimization.",
+              delivery: "Established a scalable design foundation across Weir’s product ecosystem, setting the stage for broader developer MCP adoption and cross-business use cases."
             },
-            mockupBadge: "Design Tokens & Variable Engine",
-            status: "Tokens Synchronized",
+            mockupBadge: "Design System • 85+ Components & MCP",
+            status: "85+ Components • MCP Active",
             items: [
-              { label: "CORE ACCESSIBILITY AUDIT", val: "100% WCAG AA/AAA", tag: "EAA CERTIFIED" },
-              { label: "SHARED CODE COMPONENTS", val: "85+ Hardened Units", tag: "STORYBOOK SYNC" },
-              { label: "DEV HANDOVER EFFICIENCY", val: "+40% Delivery Speed", tag: "MEASURED" }
+              { label: "COMPONENT SCALE", val: "Grown from Rustic Library to 85+ Components", tag: "WEB·NATIVE·INDUSTRIAL" },
+              { label: "AI & MCP LEADERSHIP", val: "Leading Team Exploring MCP Optimization", tag: "NEXT-GEN WORKFLOW" },
+              { label: "PROCESS MATURITY", val: "Unified Fragmented Design & Dev Practices", tag: "2-YEAR GROWTH" }
             ]
           },
           {
             num: "04",
-            title: "Online Content & Training Library for Dealers",
+            title: "ESCO Resource Centre for Dealers",
             image: "Resource centre.png",
             imageFit: "contain",
-            desc: "Designed an online content and training library providing dealers with structured educational modules, product guides, and technical resources.",
+            desc: "Became design lead two years ago when the ESCO dealer platform was just a homepage and basic content library—scaling it into a comprehensive self-service hub with product training, creative assets, marketing expenses, and embedded support.",
             accordion: {
-              objectives: "Provide global dealers with a centralized, accessible online training and content library to accelerate product knowledge and service efficiency.",
-              research: "Interviewed dealer network partners and regional sales managers to identify onboarding bottlenecks and training content gaps.",
-              implementation: "Structured intuitive information architecture, searchable resource modules, and responsive video/documentation viewing layouts.",
-              delivery: "Shipped a streamlined dealer enablement platform that standardizes training delivery and keeps global sales and service partners fully aligned."
+              objectives: "Empower ESCO dealers to access critical marketing assets, product training, expense tools, and support directly within their own workflows without relying on manual representative updates.",
+              research: "Analyzed dealer workflows and support dependencies after joining the project two years ago when the offering consisted solely of a homepage and content library.",
+              implementation: "Scaled the platform into a large self-service offering—adding a structured training library for new product releases, creative asset access, a marketing expenses page, and embedded contact support.",
+              delivery: "Delivered an end-to-end self-service dealer enablement platform that keeps global partners up to date on new ESCO product launches independently."
             },
-            mockupBadge: "Dealer Enablement • Online Training & Content",
-            status: "Library Platform: ACTIVE",
+            mockupBadge: "ESCO Division • Dealer Self-Service Hub",
+            status: "Scaled Self-Service Platform",
             items: [
-              { label: "CONTENT STRUCTURE", val: "Structured Modular Training Modules", tag: "DEALER PORTAL" },
-              { label: "GLOBAL ACCESSIBILITY", val: "Responsive Multi-Device Access", tag: "ONLINE LIBRARY" },
-              { label: "ENABLEMENT IMPACT", val: "Accelerated Partner Onboarding", tag: "SCALED" }
+              { label: "SELF-SERVICE TRAINING", val: "Scaled Training Library for New Product Releases", tag: "DEALER ENABLEMENT" },
+              { label: "MARKETING & CREATIVE", val: "Creative Assets & Marketing Expenses Page", tag: "FULL WORKFLOW" },
+              { label: "EMBEDDED SUPPORT", val: "Direct Contact Support Without Rep Bottlenecks", tag: "AUTONOMOUS UX" }
             ]
           }
         ]
@@ -4147,24 +4131,8 @@
         cs3D.morphGroup.add(cs3D.modelPivot);
         cs3D.scene.add(cs3D.morphGroup);
 
-        const skipBtnEl = document.getElementById('cs-skip-3d-btn');
-        if (skipBtnEl && !skipBtnEl.dataset.boundSkip) {
-          skipBtnEl.dataset.boundSkip = 'true';
-          const triggerSkip = (ev) => {
-            ev.preventDefault();
-            ev.stopPropagation();
-            skipCaseStudy3DIntro();
-          };
-          skipBtnEl.addEventListener('pointerdown', triggerSkip);
-          skipBtnEl.addEventListener('click', triggerSkip);
-          skipBtnEl.addEventListener('keydown', (ev) => {
-            if (ev.key === 'Enter' || ev.key === ' ' || ev.key === 'Escape') {
-              triggerSkip(ev);
-            }
-          });
-        }
-
         canvasEl.addEventListener('pointerdown', (e) => {
+          if (e.target !== canvasEl) return;
           cs3D.isDragging = true;
           cs3D.prevX = e.clientX;
           cs3D.prevY = e.clientY;
@@ -4244,13 +4212,14 @@
       if (p >= 1.0 || !cs3D.ready || prefersReducedMotion()) {
         setCaseStudyScrollLock(false);
         loaderEl.classList.add('hidden');
+        loaderEl.style.display = 'none';
         loaderEl.style.clipPath = '';
         loaderEl.style.opacity = '0';
         loaderEl.style.pointerEvents = 'none';
         if (cs3D.scene) cs3D.scene.visible = false;
 
         bannerLayer.style.opacity = '1';
-        bannerLayer.style.transform = '';
+        bannerLayer.style.transform = 'none';
         bannerLayer.style.pointerEvents = 'auto';
         if (replayBtn) {
           replayBtn.classList.remove('hidden');
@@ -4260,14 +4229,16 @@
       }
 
       setCaseStudyScrollLock(true);
+      loaderEl.style.display = '';
       loaderEl.classList.remove('hidden');
-      loaderEl.style.pointerEvents = p < 0.72 ? 'auto' : 'none';
+      loaderEl.style.pointerEvents = 'auto';
       if (loadingHud) {
-        loadingHud.style.pointerEvents = p < 0.72 ? 'auto' : 'none';
+        loadingHud.style.pointerEvents = p < 0.32 ? 'auto' : 'none';
       }
       const skipBtn = document.getElementById('cs-skip-3d-btn');
       if (skipBtn) {
         skipBtn.style.pointerEvents = 'auto';
+        skipBtn.style.opacity = '1';
       }
 
       const loaderFade = 1 - csEaseInOutCubic(csSmoothRange(p, 0.76, 0.98));
@@ -4376,12 +4347,38 @@
       cs3D.isAnimating = true;
     }
 
-    function skipCaseStudy3DIntro() {
+    function skipCaseStudy3DIntro(e) {
+      if (e) {
+        if (typeof e.preventDefault === 'function' && e.type === 'touchend') e.preventDefault();
+        if (typeof e.stopPropagation === 'function') e.stopPropagation();
+      }
+      cs3D.isDragging = false;
       stopCaseStudy3DLoop();
+      setCaseStudyScrollLock(false);
       cs3D.autoTriggered = true;
       cs3D.progress = 1.0;
       cs3D.targetProgress = 1.0;
       cs3D.isAnimating = false;
+
+      const loaderEl = document.getElementById('cs-fullscreen-loader');
+      const bannerLayer = document.getElementById('cs-banner-established-layer');
+      const replayBtn = document.getElementById('cs-replay-3d-btn');
+      if (loaderEl) {
+        loaderEl.classList.add('hidden');
+        loaderEl.style.display = 'none';
+        loaderEl.style.opacity = '0';
+        loaderEl.style.pointerEvents = 'none';
+      }
+      if (bannerLayer) {
+        bannerLayer.style.opacity = '1';
+        bannerLayer.style.transform = 'none';
+        bannerLayer.style.pointerEvents = 'auto';
+      }
+      if (replayBtn) {
+        replayBtn.classList.remove('hidden');
+        replayBtn.classList.add('inline-flex');
+      }
+
       renderCaseStudy3DMorphFrame(1.0, 0);
       announceToScreenReader('Skipped 3D intro');
       const csView = document.getElementById('view-casestudy');
@@ -4391,6 +4388,11 @@
     function startCaseStudy3DOnLoad(studyKey) {
       stopCaseStudy3DLoop();
       loadCaseStudy3DModel(studyKey);
+
+      const loaderEl = document.getElementById('cs-fullscreen-loader');
+      if (loaderEl) {
+        loaderEl.style.display = '';
+      }
 
       if (prefersReducedMotion() || !cs3D.ready) {
         renderCaseStudy3DMorphFrame(1.0, 0);
@@ -4666,7 +4668,6 @@
       const weirLayout = document.getElementById('cs-layout-weir');
       const systemsThinkingSection = document.getElementById('cs-systems-thinking-section');
       const standardLayout = document.getElementById('cs-layout-standard');
-      const valueAddedSection = document.getElementById('cs-value-added-section');
       const currentFocusSection = document.getElementById('cs-current-focus-section');
 
       if (data.whatIDo) {
@@ -4679,10 +4680,6 @@
       if (data.id === 'weir') {
         if (systemsThinkingSection) systemsThinkingSection.classList.remove('hidden');
         if (standardLayout) standardLayout.classList.add('hidden');
-        if (valueAddedSection) {
-          valueAddedSection.classList.remove('hidden');
-          renderValueAddedSection(data.valueAdded || []);
-        }
         if (currentFocusSection) {
           currentFocusSection.classList.remove('hidden');
           renderCurrentFocusCards(data.currentFocus || []);
@@ -4690,7 +4687,6 @@
       } else {
         if (systemsThinkingSection) systemsThinkingSection.classList.add('hidden');
         if (standardLayout) standardLayout.classList.remove('hidden');
-        if (valueAddedSection) valueAddedSection.classList.add('hidden');
         if (currentFocusSection) currentFocusSection.classList.add('hidden');
 
         const outcomesSubEl = document.getElementById('cs-outcomes-subtitle');
@@ -5200,22 +5196,19 @@
       const currEl = document.getElementById('cs-carousel-curr');
       if (currEl) currEl.textContent = index + 1;
 
-      const prevIdx = (index - 1 + deliverables.length) % deliverables.length;
-      const nextIdx = (index + 1) % deliverables.length;
       const orbitalBox = document.getElementById('showcase-orbital-labels');
 
       if (orbitalBox) {
+        orbitalBox.className = 'relative z-20 flex items-center justify-center gap-4 mt-4 sm:mt-5 text-xs font-bold text-semantic-secondary';
         orbitalBox.innerHTML = `
-          <button type="button" onclick="changeDeliverableSlide(-1)" class="hover:text-semantic-accent transition-colors flex items-center gap-1.5 cursor-pointer py-1 px-2 rounded-lg">
-            <i class="fa-solid fa-arrow-left text-[10px]" aria-hidden="true"></i>
-            <span>${deliverables[prevIdx].title.split(' ').slice(0, 2).join(' ')}</span>
+          <button type="button" onclick="changeDeliverableSlide(-1)" aria-label="Previous deliverable" class="w-9 h-9 rounded-full glass-showcase-btn flex items-center justify-center transition-all hover:scale-105 active:scale-95 cursor-pointer">
+            <i class="fa-solid fa-arrow-left text-xs" aria-hidden="true"></i>
           </button>
-          <span class="semantic-badge px-2.5 py-0.5 rounded-full border text-[10px] font-mono font-bold whitespace-nowrap">
+          <span class="semantic-badge px-3.5 py-1.5 rounded-full border text-[11px] font-mono font-bold whitespace-nowrap">
             ${d.num} / 0${deliverables.length}
           </span>
-          <button type="button" onclick="changeDeliverableSlide(1)" class="hover:text-semantic-accent transition-colors flex items-center gap-1.5 cursor-pointer py-1 px-2 rounded-lg">
-            <span>${deliverables[nextIdx].title.split(' ').slice(0, 2).join(' ')}</span>
-            <i class="fa-solid fa-arrow-right text-[10px]" aria-hidden="true"></i>
+          <button type="button" onclick="changeDeliverableSlide(1)" aria-label="Next deliverable" class="w-9 h-9 rounded-full glass-showcase-btn flex items-center justify-center transition-all hover:scale-105 active:scale-95 cursor-pointer">
+            <i class="fa-solid fa-arrow-right text-xs" aria-hidden="true"></i>
           </button>
         `;
       }
