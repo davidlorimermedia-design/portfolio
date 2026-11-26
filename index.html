@@ -411,6 +411,7 @@
         mask-size: 100% 100%;
         -webkit-mask-repeat: no-repeat;
         mask-repeat: no-repeat;
+        overflow: visible !important;
       }
       .cs-cutout-dock {
         background-color: transparent;
@@ -2133,13 +2134,15 @@
         <svg
           id="cs-hero-border-svg"
           aria-hidden="true"
-          class="hidden md:block absolute inset-0 w-full h-full pointer-events-none z-20 overflow-visible"
+          preserveAspectRatio="none"
+          class="hidden md:block absolute top-0 left-0 pointer-events-none z-20 overflow-visible"
         >
           <path
             id="cs-hero-border-path"
             fill="none"
             stroke="var(--cs-hero-border)"
-            stroke-width="1.25"
+            stroke-width="1"
+            vector-effect="non-scaling-stroke"
           />
         </svg>
 
@@ -2179,14 +2182,14 @@
               <div id="cs-hero-tags" aria-label="Case study categories" class="mt-6 flex flex-wrap items-center gap-2"></div>
             </div>
 
-            <!-- Right / Bottom Column: Dedicated Case Study Banner Visual -->
-            <div class="md:col-span-5 flex items-center justify-center md:justify-end">
-              <div class="relative w-full max-w-[300px] sm:max-w-[340px] md:max-w-full aspect-[4/3] md:aspect-square flex items-center justify-center bg-transparent">
+            <!-- Right / Bottom Column: Dedicated Case Study Banner Visual (Bleeds Top, Clips Right/Bottom) -->
+            <div class="md:col-span-5 relative flex items-center justify-center md:self-stretch">
+              <div class="relative w-full max-w-[340px] sm:max-w-[380px] md:max-w-none aspect-[4/3] md:aspect-auto md:absolute md:-top-24 lg:-top-28 md:-right-12 lg:-right-14 md:-bottom-32 lg:-bottom-36 md:left-[-12%] flex items-end justify-center md:justify-end bg-transparent pointer-events-none">
                 <img
                   id="cs-hero-banner-img"
                   src="Warman pump.png"
                   alt="Weir Warman heavy-duty slurry pump assembly"
-                  class="w-full h-full object-contain rounded-3xl cs-hero-visual-shadow transition-transform duration-500 hover:scale-[1.02]"
+                  class="w-full h-full object-contain object-bottom md:object-right-bottom rounded-3xl md:rounded-none cs-hero-visual-shadow transition-transform duration-500"
                 />
               </div>
             </div>
@@ -4752,6 +4755,7 @@
       const f = Math.min(r, Math.floor((H - dh) * 0.45), Math.floor((W - dw) * 0.45));
       const cutTop = H - dh;
       const cutRight = dw;
+      const bleedTop = 180; // Extra headroom above top edge so banner image bleeds over the top while clipping cleanly at right/bottom
 
       // Single continuous closed path with smooth outer corners and smooth concave cutout fillets
       const d = [
@@ -4771,13 +4775,36 @@
         `Z`
       ].join(' ');
 
-      const maskSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}"><path d="${d}" fill="white"/></svg>`;
+      // Mask includes a top bleed extension over the right column so the image overflows the top border while clipping at right, bottom, and cutout edges
+      const maskPath = [
+        `M ${r} 0`,
+        `L ${cutRight} 0`,
+        `L ${cutRight} ${-bleedTop}`,
+        `L ${W} ${-bleedTop}`,
+        `L ${W} ${H - r}`,
+        `A ${r} ${r} 0 0 1 ${W - r} ${H}`,
+        `L ${cutRight + f} ${H}`,
+        `A ${f} ${f} 0 0 1 ${cutRight} ${H - f}`,
+        `L ${cutRight} ${cutTop + r}`,
+        `A ${r} ${r} 0 0 0 ${cutRight - r} ${cutTop}`,
+        `L ${f} ${cutTop}`,
+        `A ${f} ${f} 0 0 1 0 ${cutTop - f}`,
+        `L 0 ${r}`,
+        `A ${r} ${r} 0 0 1 ${r} 0`,
+        `Z`
+      ].join(' ');
+
+      const maskSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 ${-bleedTop} ${W} ${H + bleedTop}" width="${W}" height="${H + bleedTop}"><path d="${maskPath}" fill="white"/></svg>`;
       card.style.setProperty('--cs-hero-mask', `url("data:image/svg+xml;utf8,${encodeURIComponent(maskSvg)}")`);
+      card.style.setProperty('-webkit-mask-position', `0px ${-bleedTop}px`);
+      card.style.setProperty('mask-position', `0px ${-bleedTop}px`);
+      card.style.setProperty('-webkit-mask-size', `${W}px ${H + bleedTop}px`);
+      card.style.setProperty('mask-size', `${W}px ${H + bleedTop}px`);
       card.classList.add('has-true-cutout');
 
-      // Inset stroke path by 0.625px so the 1.25px border traces the exact cutout bend crisply
+      // Inset stroke path by 0.5px and lock SVG pixel width/height to card so the stroke hugs the exact edge without a double line
       if (borderSvg && borderPath) {
-        const o = 0.625;
+        const o = 0.5;
         const ri = Math.max(1, r - o);
         const fi = Math.max(1, f + o);
         const ro = Math.max(1, r + o);
@@ -4797,6 +4824,8 @@
           `A ${ri} ${ri} 0 0 1 ${r} ${o}`,
           `Z`
         ].join(' ');
+        borderSvg.style.width = `${W}px`;
+        borderSvg.style.height = `${H}px`;
         borderSvg.setAttribute('viewBox', `0 0 ${W} ${H}`);
         borderPath.setAttribute('d', dStroke);
       }
