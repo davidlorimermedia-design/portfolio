@@ -88,40 +88,112 @@
 
   <style>
     /* =====================================================================
-1. SEMANTIC GLASSMORPHISM DESIGN TOKENS (WCAG 2.2 AAA CONTRAST VERIFIED)
+       1. SEMANTIC CLEAN SOLID GREEN DESIGN TOKENS (WCAG 2.2 AAA VERIFIED)
        ===================================================================== */
     :root {
-      --bg-canvas: #EEF4F0;
-      --bg-surface: rgba(255, 255, 255, 0.74);
-      --bg-surface-elevated: rgba(255, 255, 255, 0.58);
-      --bg-subtle: rgba(230, 244, 237, 0.74);
-      --bg-subtle-hover: rgba(210, 228, 218, 0.90);
-      --bg-nav: rgba(255, 255, 255, 0.76);
+      --bg-canvas: #F5F8F6;
+      --bg-surface: #FFFFFF;
+      --bg-surface-elevated: #F5F8F6;
+      --bg-subtle: #E8EFEA;
+      --bg-subtle-hover: #D4E4DC;
+      --bg-nav: #FFFFFF;
 
-      /* Glassmorphism tokens */
-      --glass-nav-bg: rgba(255, 255, 255, 0.76);
-      --glass-surface-bg: rgba(255, 255, 255, 0.72);
-      --glass-elevated-bg: rgba(249, 252, 250, 0.60);
-      --glass-modal-bg: rgba(255, 255, 255, 0.86);
-      --glass-backface-bg: linear-gradient(145deg, rgba(12, 35, 29, 0.92) 0%, rgba(6, 19, 16, 0.96) 100%);
-      --glass-specular-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.88), inset 0 0 0 1px rgba(255, 255, 255, 0.48);
-      --glass-border: rgba(255, 255, 255, 0.78);
-      --glass-border-outer: rgba(12, 35, 29, 0.13);
-      --glass-border-strong: rgba(5, 150, 105, 0.44);
-      --glass-divider-bg: rgba(255, 255, 255, 0.88);
+      /* Case Study Hero Banner Surface & Cutout Tokens (Light Mode) */
+      --cs-hero-bg: #FFFFFF;
+      --cs-hero-border: rgba(14, 56, 46, 0.14);
+
+      /* Unified Surface Tokens */
+      --glass-nav-bg: #FFFFFF;
+      --glass-surface-bg: #FFFFFF;
+      --glass-elevated-bg: #F5F8F6;
+      --glass-modal-bg: #FFFFFF;
+      --glass-backface-bg: #0C231D;
+      --glass-specular-highlight: 0 0 0 0 transparent;
+      --glass-border: rgba(14, 56, 46, 0.14);
+      --glass-border-outer: rgba(14, 56, 46, 0.14);
+      --glass-border-strong: rgba(4, 120, 87, 0.42);
+      --glass-divider-bg: #FFFFFF;
 
       --text-primary: #061310;
       --text-secondary: #13352C;
       --text-muted: #1E3E35;
       --text-accent: #044E39;
 
-      --border-subtle: rgba(12, 35, 29, 0.13);
-      --border-strong: rgba(5, 150, 105, 0.44);
+      --border-subtle: rgba(14, 56, 46, 0.14);
+      --border-strong: rgba(4, 120, 87, 0.42);
       --focus-ring: #047857;
 
-      --shadow-surface: 0 16px 40px -10px rgba(12, 35, 29, 0.12), 0 4px 12px -2px rgba(12, 35, 29, 0.06);
-      --shadow-surface-hover: 0 24px 48px -10px rgba(12, 35, 29, 0.18), 0 8px 20px -4px rgba(12, 35, 29, 0.08);
-      --shadow-glass-modal: 0 32px 64px -16px rgba(6, 19, 16, 0.30), 0 12px 28px -8px rgba(6, 19, 16, 0.16);
+      --shadow-surface: 0 10px 30px -8px rgba(12, 35, 29, 0.08), 0 2px 8px -2px rgba(12, 35, 29, 0.04);
+      --shadow-surface-hover: 0 18px 38px -10px rgba(12, 35, 29, 0.14), 0 6px 16px -4px rgba(12, 35, 29, 0.06);
+      --shadow-glass-modal: 0 24px 54px -12px rgba(6, 19, 16, 0.24), 0 8px 24px -6px rgba(6, 19, 16, 0.12);
+    }
+
+    html.dark {
+      --bg-canvas: #061310;
+      --bg-surface: #0C231D;
+      --bg-surface-elevated: #102E27;
+      --bg-subtle: #163B32;
+      --bg-subtle-hover: #1D493E;
+      --bg-nav: #0C231D;
+
+      /* Case Study Hero Banner Surface & Cutout Tokens (Dark Mode) */
+      --cs-hero-bg: #0C231D;
+      --cs-hero-border: rgba(52, 211, 153, 0.22);
+
+      /* Unified Surface Tokens (Dark Mode) */
+      --glass-nav-bg: #0C231D;
+      --glass-surface-bg: #0C231D;
+      --glass-elevated-bg: #102E27;
+      --glass-modal-bg: #0C231D;
+      --glass-backface-bg: #102E27;
+      --glass-specular-highlight: 0 0 0 0 transparent;
+      --glass-border: rgba(52, 211, 153, 0.22);
+      --glass-border-outer: rgba(52, 211, 153, 0.22);
+      --glass-border-strong: rgba(110, 231, 183, 0.48);
+      --glass-divider-bg: #0C231D;
+
+      --text-primary: #FFFFFF;
+      --text-secondary: #DAF0E7;
+      --text-muted: #B2D1C5;
+      --text-accent: #6EE7B7;
+
+      --border-subtle: rgba(52, 211, 153, 0.22);
+      --border-strong: rgba(110, 231, 183, 0.48);
+      --focus-ring: #6EE7B7;
+
+      --shadow-surface: 0 14px 34px -8px rgba(0, 0, 0, 0.45), 0 4px 12px -2px rgba(0, 0, 0, 0.28);
+      --shadow-surface-hover: 0 22px 44px -10px rgba(0, 0, 0, 0.62), 0 8px 20px -4px rgba(0, 0, 0, 0.38);
+      --shadow-glass-modal: 0 28px 60px -12px rgba(0, 0, 0, 0.75), 0 10px 26px -6px rgba(0, 0, 0, 0.48);
+    }
+
+    html {
+      min-height: 100%;
+      overflow-x: hidden;
+    }
+
+    html.cs-scroll-locked,
+    html.cs-scroll-locked body,
+    html.gate-scroll-locked,
+    html.gate-scroll-locked body {
+      overflow: hidden !important;
+      height: 100% !important;
+      overscroll-behavior: none;
+    }
+
+    body {
+      min-height: 100%;
+      overflow-x: hidden;
+      background-color: var(--bg-canvas);
+      color: var(--text-primary);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      margin: 0;
+      padding: 0;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* Clean Solid Canvas (Ambient Blur Orbs Simplified Out) */
+    .glass-ambient-backdrop {
+      display: none !important;
     }
 
     html.dark {
@@ -131,6 +203,10 @@
       --bg-subtle: rgba(52, 211, 153, 0.16);
       --bg-subtle-hover: rgba(52, 211, 153, 0.28);
       --bg-nav: rgba(12, 35, 29, 0.70);
+
+      /* Case Study Hero Banner Surface & Cutout Tokens (Dark Mode) */
+      --cs-hero-bg: #0D382C;
+      --cs-hero-border: rgba(52, 211, 153, 0.28);
 
       /* Glassmorphism tokens (Dark Mode) */
       --glass-nav-bg: rgba(12, 35, 29, 0.70);
@@ -238,14 +314,13 @@
     }
 
     /* =====================================================================
-2. GLOBAL WCAG 2.2 FOCUS INDICATORS (SC 2.4.7 & 2.4.11)
+       2. GLOBAL WCAG 2.2 FOCUS INDICATORS (SC 2.4.7 & 2.4.11)
        ===================================================================== */
     :focus-visible {
       outline: 3px solid var(--focus-ring) !important;
       outline-offset: 3px !important;
     }
 
-    /* Prevent programmatic view/heading focus targets from drawing a focus ring around static text */
     #view-homepage:focus,
     #view-homepage:focus-visible,
     #view-casestudy:focus,
@@ -276,7 +351,7 @@
     }
 
     /* =====================================================================
-3. GLASSMORPHISM COMPONENT SURFACES & SPECULAR RIM DEPTH
+       3. GLASSMORPHISM COMPONENT SURFACES & SPECULAR RIM DEPTH
        ===================================================================== */
     .surface-card {
       background-color: var(--glass-surface-bg);
@@ -300,6 +375,48 @@
 
     html.dark .surface-inner {
       box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.45), var(--glass-specular-highlight);
+    }
+
+    /* =====================================================================
+       CASE STUDY HERO BANNER & ASYMMETRIC METRICS CUTOUT DOCK
+       ===================================================================== */
+    .cs-hero-card-surface {
+      background-color: var(--glass-surface-bg);
+      color: var(--text-primary);
+      border-color: var(--glass-border-outer);
+      backdrop-filter: blur(20px) saturate(165%);
+      -webkit-backdrop-filter: blur(20px) saturate(165%);
+      box-shadow: var(--shadow-surface), var(--glass-specular-highlight);
+      transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .cs-hero-visual-shadow {
+      filter: drop-shadow(0 20px 32px rgba(6, 19, 16, 0.24));
+    }
+    html.dark .cs-hero-visual-shadow {
+      filter: drop-shadow(0 24px 38px rgba(0, 0, 0, 0.55));
+    }
+
+    /* Bottom-Left Cutout Metrics Dock on Tablet & Desktop (md+) */
+    @media (min-width: 768px) {
+      #cs-hero-card.has-true-cutout {
+        background-color: var(--glass-surface-bg) !important;
+        border-color: transparent !important;
+        backdrop-filter: blur(20px) saturate(165%) !important;
+        -webkit-backdrop-filter: blur(20px) saturate(165%) !important;
+        box-shadow: var(--shadow-surface), var(--glass-specular-highlight) !important;
+        -webkit-mask-image: var(--cs-hero-mask);
+        mask-image: var(--cs-hero-mask);
+        -webkit-mask-size: 100% 100%;
+        mask-size: 100% 100%;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+      }
+      .cs-cutout-dock {
+        background-color: transparent;
+        left: 0;
+        bottom: 0;
+      }
     }
 
     .project-card:hover {
@@ -354,11 +471,12 @@
     .text-semantic-accent { color: var(--text-accent); }
 
     .services-container-ref {
-      background: linear-gradient(145deg, rgba(255, 255, 255, 0.78) 0%, rgba(242, 249, 245, 0.64) 100%);
-      border-color: var(--glass-border-outer);
-      backdrop-filter: blur(22px) saturate(170%);
-      -webkit-backdrop-filter: blur(22px) saturate(170%);
-      box-shadow: var(--shadow-surface), var(--glass-specular-highlight);
+      background-color: var(--bg-surface);
+      border-color: var(--border-subtle);
+      box-shadow: var(--shadow-surface);
+    }
+    html.dark .services-container-ref {
+      background-color: var(--bg-surface);
     }
     html.dark .services-container-ref {
       background: radial-gradient(circle at 12% 18%, rgba(22, 59, 50, 0.62) 0%, rgba(12, 35, 29, 0.68) 65%, rgba(6, 19, 16, 0.78) 100%);
@@ -450,7 +568,7 @@
     }
 
     /* =====================================================================
-4. ANIMATIONS & TRANSITIONS
+       4. ANIMATIONS & TRANSITIONS
        ===================================================================== */
     @keyframes marquee {
       0% { transform: translateX(0%); }
@@ -656,7 +774,7 @@
     }
 
     /* =====================================================================
-5. REDUCED MOTION SUPPORT (WCAG 2.2 SC 2.3.3 & 2.2.2)
+       5. REDUCED MOTION SUPPORT (WCAG 2.2 SC 2.3.3 & 2.2.2)
        ===================================================================== */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
@@ -873,7 +991,6 @@
 
       <!-- Action Button, Access Mode Pill, Theme Toggle & Mobile Menu Button -->
       <div class="flex items-center gap-2 sm:gap-2.5">
-        <!-- Access Mode Indicator / Switcher Pill -->
         <button
           type="button"
           id="nav-access-status-btn"
@@ -1641,7 +1758,6 @@
     <!-- MARQUEE RIBBON (Decorative Ticker) -->
     <div aria-hidden="true" class="py-4 bg-spruce-900 text-white overflow-hidden border-y border-emerald-400/20 shadow-inner">
       <div class="animate-marquee whitespace-nowrap flex items-center gap-8 font-extrabold text-xs sm:text-sm tracking-wider uppercase">
-        <!-- Sequence 1 -->
         <span>Native Mobile &amp; Field UX</span>
         <span class="text-mint-300">✦</span>
         <span>Multi-Brand Design Systems</span>
@@ -1662,7 +1778,6 @@
         <span class="text-mint-300">✦</span>
         <span>Multi-Squad Design Leadership</span>
         <span class="text-mint-300">✦</span>
-        <!-- Seamless Loop Duplicate (Sequence 2) -->
         <span>Native Mobile &amp; Field UX</span>
         <span class="text-mint-300">✦</span>
         <span>Multi-Brand Design Systems</span>
@@ -1690,7 +1805,6 @@
     <section id="talks" aria-labelledby="talks-heading" class="max-w-6xl mx-auto px-4 sm:px-6 my-14 sm:my-20">
       <div class="surface-card rounded-4xl sm:rounded-5xl p-6 sm:p-10 md:p-12 border relative overflow-hidden">
         
-        <!-- Section Header -->
         <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 sm:mb-10 gap-6">
           <div>
             <div class="semantic-badge inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider border mb-3">
@@ -2012,51 +2126,90 @@
       </button>
     </div>
 
-    <!-- CASE STUDY HERO HEADER -->
+    <!-- CASE STUDY HERO HEADER WITH CUTOUT METRICS DOCK & DEDICATED BANNER IMAGE -->
     <section class="pt-24 sm:pt-28 pb-8 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
-      <div id="cs-hero-card" class="surface-card rounded-4xl sm:rounded-5xl p-7 sm:p-12 md:p-16 border relative overflow-hidden">
-        
-        <div id="cs-banner-established-layer" class="relative z-10">
-          <div aria-hidden="true" class="absolute -inset-7 sm:-inset-12 md:-inset-16 z-0 pointer-events-none overflow-hidden">
-            <img 
-              id="cs-hero-bg-img" 
-              src="warman-mcr-400-opt.webp" 
-              alt="" 
-              class="w-full h-full object-cover opacity-15 filter grayscale contrast-125 scale-105 transition-all duration-700"
-            />
-            <div id="cs-hero-bg-overlay" class="absolute inset-0 bg-gradient-to-t from-white/90 via-transparent to-white/40 dark:from-[#0C231D]/90 dark:to-[#0C231D]/40"></div>
-          </div>
+      <div id="cs-banner-established-layer" class="relative z-10">
+        <!-- Vector Border Outline that follows the exact cutout bend on md+ -->
+        <svg
+          id="cs-hero-border-svg"
+          aria-hidden="true"
+          class="hidden md:block absolute inset-0 w-full h-full pointer-events-none z-20 overflow-visible"
+        >
+          <path
+            id="cs-hero-border-path"
+            fill="none"
+            stroke="var(--cs-hero-border)"
+            stroke-width="1.25"
+          />
+        </svg>
 
-          <div aria-hidden="true" class="absolute -top-24 -right-24 w-96 h-96 bg-mint-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div id="cs-hero-card" class="cs-hero-card-surface rounded-4xl lg:rounded-5xl border relative overflow-hidden">
+          
+          <!-- Responsive Hero Content Grid: Stacked on Mobile, Split 12-Col on Tablet (md) & Desktop (lg) -->
+          <div class="relative z-10 grid grid-cols-1 md:grid-cols-12 items-center gap-8 md:gap-6 lg:gap-10 p-7 sm:p-10 md:p-12 lg:p-14 md:pb-32 lg:pb-36">
+            
+            <!-- Left Column: Eyebrow, Title, Description & Category Chips -->
+            <div class="md:col-span-7 flex flex-col justify-center">
+              <div class="flex flex-wrap items-center justify-between gap-2.5 mb-4">
+                <span id="cs-hero-eyebrow" class="text-[11px] sm:text-xs font-mono font-extrabold tracking-wider text-semantic-accent uppercase">
+                  SENIOR PRODUCT DESIGNER · THE WEIR GROUP
+                </span>
 
-          <div class="relative z-10 max-w-4xl">
-            <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
-              <div class="flex items-center gap-2 text-xs font-mono font-bold tracking-wider text-semantic-accent uppercase">
-                <span id="cs-hero-eyebrow">SENIOR PRODUCT DESIGNER · WEIR</span>
+                <button
+                  type="button"
+                  id="cs-replay-3d-btn"
+                  onclick="replayCaseStudy3DIntro()"
+                  class="hidden semantic-badge px-3 py-1 rounded-full text-[11px] font-mono font-bold border transition-all items-center gap-1.5 cursor-pointer hover:border-mint-500 whitespace-nowrap"
+                  title="Replay 3D artifact intro"
+                >
+                  <i class="fa-solid fa-rotate-left text-[10px]" aria-hidden="true"></i>
+                  <span>Replay 3D</span>
+                </button>
               </div>
 
-              <button
-                type="button"
-                id="cs-replay-3d-btn"
-                onclick="replayCaseStudy3DIntro()"
-                class="hidden semantic-badge px-3 py-1.5 rounded-full text-xs font-mono font-bold border transition-all items-center gap-1.5 cursor-pointer"
-                title="Replay 3D artifact intro"
-              >
-                <i class="fa-solid fa-rotate-left text-[10px]" aria-hidden="true"></i>
-                <span>Replay 3D Artifact</span>
-              </button>
+              <h1 id="cs-hero-title" tabindex="-1" class="text-3xl sm:text-4xl md:text-[42px] lg:text-[52px] font-extrabold text-semantic-primary tracking-tight leading-[1.22] sm:leading-[1.2] lg:leading-[1.18]">
+                Industrial Apps, Field Tools &amp; Design Systems.
+              </h1>
+
+              <p id="cs-hero-desc" class="mt-4 sm:mt-5 text-sm sm:text-base lg:text-[17px] text-semantic-secondary max-w-xl font-normal leading-relaxed">
+                Over two years at Weir, I scaled a low-maturity design system to 85+ components with MCP optimization, and led UX across Asset Intelligence, the ESCO Dealer Resource Centre, and the global Daily Layered Accountability tracker.
+              </p>
+
+              <!-- Category Chips -->
+              <div id="cs-hero-tags" aria-label="Case study categories" class="mt-6 flex flex-wrap items-center gap-2"></div>
             </div>
 
-            <h1 id="cs-hero-title" tabindex="-1" class="text-3xl sm:text-5xl md:text-6xl font-extrabold text-semantic-primary tracking-tight leading-[1.12]">
-              Industrial Apps, Field Tools &amp; Design Systems.
-            </h1>
+            <!-- Right / Bottom Column: Dedicated Case Study Banner Visual -->
+            <div class="md:col-span-5 flex items-center justify-center md:justify-end">
+              <div class="relative w-full max-w-[300px] sm:max-w-[340px] md:max-w-full aspect-[4/3] md:aspect-square flex items-center justify-center bg-transparent">
+                <img
+                  id="cs-hero-banner-img"
+                  src="Warman pump.png"
+                  alt="Weir Warman heavy-duty slurry pump assembly"
+                  class="w-full h-full object-contain rounded-3xl cs-hero-visual-shadow transition-transform duration-500 hover:scale-[1.02]"
+                />
+              </div>
+            </div>
 
-            <p id="cs-hero-desc" class="mt-6 sm:mt-8 text-base sm:text-lg md:text-xl text-semantic-secondary max-w-3xl font-normal leading-relaxed">
-              Over two years at Weir, I scaled a low-maturity design system to 85+ components with MCP optimization, and led UX across Asset Intelligence, the ESCO Dealer Resource Centre, and the global Daily Layered Accountability tracker.
-            </p>
-
-            <div id="cs-hero-tags" class="mt-8 sm:mt-10 flex flex-wrap items-center gap-2 sm:gap-2.5"></div>
           </div>
+        </div>
+
+        <!-- DESKTOP & TABLET (md+): ASYMMETRIC BOTTOM-LEFT METRICS CUTOUT DOCK (Sibling outside masked #cs-hero-card) -->
+        <div
+          id="cs-hero-cutout-dock"
+          aria-label="Top-level case study metrics"
+          class="hidden md:block md:absolute md:z-20 cs-cutout-dock pt-6 pr-8 lg:pr-11 pb-3 pl-3 sm:pl-4"
+        >
+          <dl id="cs-hero-metrics-desktop" class="relative z-10 grid grid-cols-4 gap-5 lg:gap-8 xl:gap-10">
+            <!-- Populated dynamically with 4 top-level metrics -->
+          </dl>
+        </div>
+
+        <!-- MOBILE (< md): 2x2 TOP-LEVEL METRICS GRID BELOW HERO CARD -->
+        <div aria-label="Top-level case study metrics" class="md:hidden mt-6 px-2">
+          <dl id="cs-hero-metrics-mobile" class="grid grid-cols-2 gap-x-6 gap-y-5">
+            <!-- Populated dynamically with 4 top-level metrics -->
+          </dl>
         </div>
       </div>
     </section>
@@ -2561,7 +2714,6 @@
         }
       }
 
-      // Render Homepage Cards as either Full Access Links or Basic 3D Flip Summary Cards
       document.querySelectorAll('#projects-grid .project-card').forEach((card) => {
         const studyKey = card.dataset.studyKey;
         if (!card.dataset.originalFrontHtml) {
@@ -2671,6 +2823,15 @@
         description: "Over two years at Weir, I scaled a low-maturity design system to 85+ components with MCP optimization, and led UX across Asset Intelligence, the ESCO Dealer Resource Centre, and the global Daily Layered Accountability tracker.",
         role: "Senior Product Designer & Design Systems Lead",
         coverImage: "warman-mcr-400-opt.webp",
+        // Dedicated hero banner image slot for The Weir Group:
+        bannerImage: "Warman pump.png",
+        bannerAlt: "Weir Warman heavy-duty slurry pump assembly",
+        heroMetrics: [
+          { value: "85+", label: "DLS Components" },
+          { value: "4", label: "Global Regions" },
+          { value: "MCP", label: "AI-Ready System" },
+          { value: "100%", label: "WCAG 2.2 & EAA" }
+        ],
         tags: ["85+ Component DLS", "MCP Optimization", "Asset Intelligence (GET)", "DLA Action Tracker", "ESCO Resource Centre", "Offline-First Field UX"],
         whatIDo: {
           eyebrow: "01 · WHAT I DO",
@@ -2855,6 +3016,15 @@
         description: "TotalEnergies was in the midst of a major digital expansion, facing consistency challenges across its digital estate and a lack of UX/UI maturity. Embedded for over a year within their Digital & Development department, I created interactive mobile and desktop prototypes, built an atomic MUI Design System, and established QA workflows to elevate quality.",
         role: "Senior UX/UI Designer (via AND Digital)",
         coverImage: "Resultats_troisieme_trimestre_2023_TotalEnergies_1305x713px.png",
+        // Dedicated hero banner image slot for TotalEnergies:
+        bannerImage: "Resultats_troisieme_trimestre_2023_TotalEnergies_1305x713px.png",
+        bannerAlt: "TotalEnergies Atomic MUI Design System and Smart Room UX",
+        heroMetrics: [
+          { value: "1+ Yr", label: "Embedded Lead" },
+          { value: "8-Pt", label: "Grid Parity" },
+          { value: "3+", label: "Tools in Production" },
+          { value: "Award", label: "Tech Nominee" }
+        ],
         tags: ["Atomic MUI System", "Mobile & Desktop UX", "Live Reporting", "UX Maturity & QA", "Super Sprints"],
         whatIDo: {
           eyebrow: "THE PROCESS & MY ROLE",
@@ -2970,6 +3140,15 @@
         description: "Across multiple engagements with different teams at Diageo, I crafted motion graphics, modular branded systems, and structured learning pathways used to drive large-scale technological adoption across a complex multi-brand organization.",
         role: "Senior UX/UI Designer (via AND Digital)",
         coverImage: "Category_Spirits_Header-Bottles_TWS.jpg",
+        // Dedicated hero banner image slot for Diageo:
+        bannerImage: "Category_Spirits_Header-Bottles_TWS.jpg",
+        bannerAlt: "Diageo Global Brand Asset Platform",
+        heroMetrics: [
+          { value: "4", label: "Agile Engagements" },
+          { value: "9+", label: "Asset Formats" },
+          { value: "A/B", label: "Tissue Tested" },
+          { value: "CMS", label: "Learning Pathway" }
+        ],
         tags: ["Motion & Visual Craft", "Adobe Creative Cloud", "Miro Tissue Workshops", "Agile Delivery", "Contentful Pathway"],
         whatIDo: {
           eyebrow: "THE PROCESS & MY ROLE",
@@ -3081,6 +3260,15 @@
         description: "Standardized customer journey mapping across Royal London using TheyDo—structuring Macro, Micro, and Transactional journeys across pensions, protection, and wealth teams, and establishing an evidence-led opportunity scoring framework to prioritize customer-centric roadmaps.",
         role: "Lead UX & Journey Architect",
         coverImage: "desktop-1400x700-ladies-eating-ice-cream.webp",
+        // Dedicated hero banner image slot for Royal London:
+        bannerImage: "desktop-1400x700-ladies-eating-ice-cream.webp",
+        bannerAlt: "Royal London Enterprise Customer Journey Mapping in TheyDo",
+        heroMetrics: [
+          { value: "3-Tier", label: "Journey Taxonomy" },
+          { value: "100%", label: "Evidence-Linked" },
+          { value: "TheyDo", label: "CX Architecture" },
+          { value: "PI-Ready", label: "Opportunity Scoring" }
+        ],
         tags: ["Financial CX Strategy", "Customer Journey Mapping", "Opportunity Scoring", "CX Governance", "Cross-Functional Alignment"],
         whatIDo: {
           eyebrow: "THE CHALLENGE & MY ROLE",
@@ -3234,7 +3422,6 @@
     const csSmoothRange = (p, s, e) => csClamp01((p - s) / (e - s));
     const csEaseInOutCubic = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
     const csEaseOutExpo = (t) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t));
-    const csEaseInOutQuart = (t) => (t < 0.5 ? 8 * t * t * t * t : 1 - Math.pow(-2 * t + 2, 4) / 2);
 
     function getBrandXRayPalette() {
       if (isDarkMode) {
@@ -3483,7 +3670,6 @@
       }
     }
 
-    // --- 4 Branded High-Detail 3D Models ---
     function buildCsNemisysTooth() {
       const toothGrp = new THREE.Group();
       const hoodShape = new THREE.Shape();
@@ -4202,7 +4388,6 @@
       const loadingHud = document.getElementById('cs-3d-loading-hud');
       const bannerLayer = document.getElementById('cs-banner-established-layer');
       const replayBtn = document.getElementById('cs-replay-3d-btn');
-      const heroCard = document.getElementById('cs-hero-card');
       if (!loaderEl || !bannerLayer) return;
 
       const cfg = CS_3D_MODELS[cs3D.activeStudy] || CS_3D_MODELS.weir;
@@ -4540,6 +4725,81 @@
           cs3D.renderer.render(cs3D.scene, cs3D.camera);
         }
       }
+      updateHeroCutoutShape();
+    }
+
+    function updateHeroCutoutShape() {
+      const card = document.getElementById('cs-hero-card');
+      const dock = document.getElementById('cs-hero-cutout-dock');
+      const borderSvg = document.getElementById('cs-hero-border-svg');
+      const borderPath = document.getElementById('cs-hero-border-path');
+      if (!card || !dock) return;
+
+      if (window.innerWidth < 768) {
+        card.classList.remove('has-true-cutout');
+        card.style.removeProperty('--cs-hero-mask');
+        if (borderPath) borderPath.setAttribute('d', '');
+        return;
+      }
+
+      const W = card.offsetWidth;
+      const H = card.offsetHeight;
+      const dw = dock.offsetWidth;
+      const dh = dock.offsetHeight;
+      if (!W || !H || !dw || !dh) return;
+
+      const r = window.innerWidth >= 1024 ? 40 : 32;
+      const f = Math.min(r, Math.floor((H - dh) * 0.45), Math.floor((W - dw) * 0.45));
+      const cutTop = H - dh;
+      const cutRight = dw;
+
+      // Single continuous closed path with smooth outer corners and smooth concave cutout fillets
+      const d = [
+        `M ${r} 0`,
+        `L ${W - r} 0`,
+        `A ${r} ${r} 0 0 1 ${W} ${r}`,
+        `L ${W} ${H - r}`,
+        `A ${r} ${r} 0 0 1 ${W - r} ${H}`,
+        `L ${cutRight + f} ${H}`,
+        `A ${f} ${f} 0 0 1 ${cutRight} ${H - f}`,
+        `L ${cutRight} ${cutTop + r}`,
+        `A ${r} ${r} 0 0 0 ${cutRight - r} ${cutTop}`,
+        `L ${f} ${cutTop}`,
+        `A ${f} ${f} 0 0 1 0 ${cutTop - f}`,
+        `L 0 ${r}`,
+        `A ${r} ${r} 0 0 1 ${r} 0`,
+        `Z`
+      ].join(' ');
+
+      const maskSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}"><path d="${d}" fill="white"/></svg>`;
+      card.style.setProperty('--cs-hero-mask', `url("data:image/svg+xml;utf8,${encodeURIComponent(maskSvg)}")`);
+      card.classList.add('has-true-cutout');
+
+      // Inset stroke path by 0.625px so the 1.25px border traces the exact cutout bend crisply
+      if (borderSvg && borderPath) {
+        const o = 0.625;
+        const ri = Math.max(1, r - o);
+        const fi = Math.max(1, f + o);
+        const ro = Math.max(1, r + o);
+        const dStroke = [
+          `M ${r} ${o}`,
+          `L ${W - r} ${o}`,
+          `A ${ri} ${ri} 0 0 1 ${W - o} ${r}`,
+          `L ${W - o} ${H - r}`,
+          `A ${ri} ${ri} 0 0 1 ${W - r} ${H - o}`,
+          `L ${cutRight + f} ${H - o}`,
+          `A ${fi} ${fi} 0 0 1 ${cutRight + o} ${H - f}`,
+          `L ${cutRight + o} ${cutTop + r}`,
+          `A ${ro} ${ro} 0 0 0 ${cutRight - r} ${cutTop - o}`,
+          `L ${f} ${cutTop - o}`,
+          `A ${fi} ${fi} 0 0 1 ${o} ${cutTop - f}`,
+          `L ${o} ${r}`,
+          `A ${ri} ${ri} 0 0 1 ${r} ${o}`,
+          `Z`
+        ].join(' ');
+        borderSvg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+        borderPath.setAttribute('d', dStroke);
+      }
     }
 
     function openCaseStudy(studyKey, skipHistory = false) {
@@ -4582,6 +4842,8 @@
         csBreadcrumb.classList.remove('hidden');
 
         window.scrollTo({ top: 0, behavior: 'instant' });
+        updateHeroCutoutShape();
+        requestAnimationFrame(() => updateHeroCutoutShape());
         startCaseStudy3DOnLoad(studyKey);
 
         requestAnimationFrame(() => {
@@ -4652,19 +4914,42 @@
       const descEl = document.getElementById('cs-hero-desc');
       if (descEl) descEl.textContent = data.description;
 
-      const bgImgEl = document.getElementById('cs-hero-bg-img');
-      if (bgImgEl && data.coverImage) {
-        bgImgEl.src = data.coverImage;
+      const bannerImgEl = document.getElementById('cs-hero-banner-img');
+      if (bannerImgEl) {
+        const targetImg = data.bannerImage || data.coverImage;
+        bannerImgEl.onerror = function() {
+          this.onerror = null;
+          this.src = `data:image/svg+xml;utf8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 480"><circle cx="300" cy="240" r="170" fill="none" stroke="#10B981" stroke-width="2" stroke-dasharray="6 6"/><text x="300" y="246" font-family="monospace" font-size="16" font-weight="700" fill="#10B981" text-anchor="middle">${data.company.toUpperCase()}</text></svg>`)}`;
+        };
+        bannerImgEl.src = targetImg;
+        bannerImgEl.alt = data.bannerAlt || `${data.company} case study visual`;
       }
 
       const tagsContainer = document.getElementById('cs-hero-tags');
       if (tagsContainer && data.tags) {
         tagsContainer.innerHTML = data.tags.map(tag => `
-          <span class="semantic-badge px-4 py-2 rounded-full border text-xs font-bold whitespace-nowrap">
+          <span class="semantic-badge px-3.5 py-1.5 rounded-full border text-xs font-bold whitespace-nowrap">
             ${tag}
           </span>
         `).join('');
       }
+
+      const metrics = data.heroMetrics || [];
+      const renderMetricsHtml = (isMobile) => metrics.map(m => `
+        <div class="flex flex-col text-left">
+          <dd class="${isMobile ? 'text-2xl sm:text-3xl' : 'text-2xl lg:text-3xl xl:text-[34px]'} font-extrabold tracking-tight text-semantic-primary leading-none">
+            ${m.value}
+          </dd>
+          <dt class="mt-1.5 text-[11px] sm:text-xs font-semibold text-semantic-secondary leading-snug">
+            ${m.label}
+          </dt>
+        </div>
+      `).join('');
+
+      const metricsDesktop = document.getElementById('cs-hero-metrics-desktop');
+      if (metricsDesktop) metricsDesktop.innerHTML = renderMetricsHtml(false);
+      const metricsMobile = document.getElementById('cs-hero-metrics-mobile');
+      if (metricsMobile) metricsMobile.innerHTML = renderMetricsHtml(true);
 
       const weirLayout = document.getElementById('cs-layout-weir');
       const systemsThinkingSection = document.getElementById('cs-systems-thinking-section');
@@ -4773,6 +5058,8 @@
           `;
         }).join('');
       }
+
+      requestAnimationFrame(() => updateHeroCutoutShape());
     }
 
     function renderWhatIDoSection(cfg) {
@@ -4803,28 +5090,6 @@
           </div>
         `).join('');
       }
-    }
-
-    function renderValueAddedSection(items) {
-      const grid = document.getElementById('cs-value-added-grid');
-      if (!grid) return;
-
-      grid.innerHTML = (items || []).map((item) => `
-        <div class="surface-inner rounded-3xl p-5 sm:p-6 border flex flex-col justify-start h-full">
-          <div class="flex items-center gap-2.5 min-h-[2.5rem] mb-4">
-            <div aria-hidden="true" class="semantic-badge w-9 h-9 rounded-xl border flex items-center justify-center text-sm shrink-0">
-              <i class="fa-solid ${item.icon || 'fa-chart-line'}"></i>
-            </div>
-            <span class="text-xs font-extrabold text-semantic-primary leading-snug">${item.area}</span>
-          </div>
-          <div class="text-2xl sm:text-[26px] lg:text-[28px] font-extrabold font-mono tracking-tight text-semantic-accent whitespace-nowrap leading-none mb-4">
-            ${item.metric}
-          </div>
-          <p class="text-xs text-semantic-secondary leading-relaxed">
-            ${item.summary}
-          </p>
-        </div>
-      `).join('');
     }
 
     function renderCurrentFocusCards(items) {
@@ -5198,7 +5463,6 @@
       if (currEl) currEl.textContent = index + 1;
 
       const orbitalBox = document.getElementById('showcase-orbital-labels');
-
       if (orbitalBox) {
         orbitalBox.className = 'relative z-20 flex items-center justify-center gap-4 mt-4 sm:mt-5 text-xs font-bold text-semantic-secondary';
         orbitalBox.innerHTML = `
@@ -5397,6 +5661,8 @@
         }
       }
     });
+
+    window.addEventListener('resize', updateHeroCutoutShape);
 
     function initializePortfolioApp() {
       applyTheme(isDarkMode);
