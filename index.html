@@ -397,6 +397,27 @@
       filter: drop-shadow(0 24px 38px rgba(0, 0, 0, 0.55));
     }
 
+    @keyframes heroBannerImgMaterialize {
+      0% {
+        opacity: 0;
+        transform: scale(0.92) translateY(8px);
+        filter: blur(8px) brightness(1.18) drop-shadow(0 20px 32px rgba(6, 19, 16, 0.24));
+      }
+      60% {
+        opacity: 1;
+        transform: scale(1.02) translateY(0);
+        filter: blur(0px) brightness(1.06) drop-shadow(0 22px 36px rgba(16, 185, 129, 0.28));
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+        filter: blur(0px) brightness(1) drop-shadow(0 20px 32px rgba(6, 19, 16, 0.24));
+      }
+    }
+    .cs-banner-img-reveal {
+      animation: heroBannerImgMaterialize 0.75s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
     /* Bottom-Left Cutout Metrics Dock on Tablet & Desktop (md+) */
     @media (min-width: 768px) {
       #cs-hero-card.has-true-cutout {
@@ -540,7 +561,7 @@
 
     /* Glassmorphism Modals & Overlays */
     .glass-modal-backdrop {
-      background-color: rgba(6, 19, 16, 0.58);
+      background-color: rgba(15, 20, 19, 0.56);
       backdrop-filter: blur(14px) saturate(140%);
       -webkit-backdrop-filter: blur(14px) saturate(140%);
     }
@@ -2087,8 +2108,7 @@
       <div
         id="cs-studio-glow"
         aria-hidden="true"
-        class="absolute inset-0 pointer-events-none"
-        style="background: radial-gradient(circle at 50% 45%, rgba(16, 185, 129, 0.22), transparent 65%);"
+        class="hidden absolute inset-0 pointer-events-none"
       ></div>
 
       <div
@@ -2182,14 +2202,14 @@
               <div id="cs-hero-tags" aria-label="Case study categories" class="mt-6 flex flex-wrap items-center gap-2"></div>
             </div>
 
-            <!-- Right / Bottom Column: Dedicated Case Study Banner Visual (Bleeds Top, Clips Right/Bottom) -->
-            <div class="md:col-span-5 relative flex items-center justify-center md:self-stretch">
-              <div class="relative w-full max-w-[340px] sm:max-w-[380px] md:max-w-none aspect-[4/3] md:aspect-auto md:absolute md:-top-24 lg:-top-28 md:-right-12 lg:-right-14 md:-bottom-32 lg:-bottom-36 md:left-[-12%] flex items-end justify-center md:justify-end bg-transparent pointer-events-none">
+            <!-- Right / Bottom Column: Dedicated Case Study Banner Visual (Centered Vertically Against Text, Reference Size Ratio) -->
+            <div class="md:col-span-5 relative flex items-center justify-center md:justify-end">
+              <div id="cs-hero-banner-slot" class="relative w-full max-w-[340px] sm:max-w-[380px] md:max-w-[440px] lg:max-w-[490px] aspect-square flex items-center justify-center bg-transparent pointer-events-none md:-mr-4 lg:-mr-6">
                 <img
                   id="cs-hero-banner-img"
                   src="Warman pump.png"
                   alt="Weir Warman heavy-duty slurry pump assembly"
-                  class="w-full h-full object-contain object-bottom md:object-right-bottom rounded-3xl md:rounded-none cs-hero-visual-shadow transition-transform duration-500"
+                  class="w-full h-full object-contain object-center rounded-3xl md:rounded-none cs-hero-visual-shadow transition-all duration-500"
                 />
               </div>
             </div>
@@ -3362,9 +3382,9 @@
        ===================================================================== */
     const CS_3D_MODELS = {
       weir: {
-        modelType: 'bucket',
-        loadingPhrase: 'Digital mining technology incoming...',
-        heroPose: { yaw: -0.60, pitch: 0.14 },
+        modelType: 'warman_pump',
+        loadingPhrase: 'Digital mining technology loading...',
+        heroPose: { yaw: 0.0, pitch: 0.04 },
       },
       royallondon: {
         modelType: 'coin',
@@ -3402,6 +3422,10 @@
       camera: null,
       renderer: null,
       envTex: null,
+      hemiLight: null,
+      keyLight: null,
+      rimLight: null,
+      fillLight: null,
       morphGroup: null,
       modelPivot: null,
       currentRoot: null,
@@ -3429,29 +3453,29 @@
     function getBrandXRayPalette() {
       if (isDarkMode) {
         return {
-          shellColor: 0x34d399,
-          shellEmissive: 0x059669,
-          accentColor: 0x6ee7b7,
-          accentEmissive: 0x10b981,
+          shellColor: 0x1e4d3f,
+          shellEmissive: 0x061b15,
+          accentColor: 0x34d399,
+          accentEmissive: 0x059669,
           detailColor: 0xa7f3d0,
-          detailEmissive: 0x059669,
-          attenuationColor: 0x059669,
+          detailEmissive: 0x10b981,
+          attenuationColor: 0x047857,
           edgeColor: 0x6ee7b7,
-          edgeBrightColor: 0xd1fae5,
-          coreColor: 0x34d399,
-          shellOpacity: 0.78,
-          accentOpacity: 0.84,
-          detailOpacity: 0.82,
-          coreOpacity: 0.16,
-          transmission: 0.68,
-          ior: 1.48,
-          thickness: 0.65,
+          edgeBrightColor: 0xecfdf5,
+          coreColor: 0x042f24,
+          shellOpacity: 0.90,
+          accentOpacity: 0.94,
+          detailOpacity: 0.96,
+          coreOpacity: 0.34,
+          transmission: 0.24,
+          ior: 1.52,
+          thickness: 0.85,
           showModelEdges: true,
-          edgeOpacity: 0.82,
-          metalness: 0.05,
-          roughness: 0.22,
+          edgeOpacity: 0.94,
+          metalness: 0.22,
+          roughness: 0.28,
           clearcoat: 1.0,
-          clearcoatRoughness: 0.14,
+          clearcoatRoughness: 0.16,
           reflectivity: 1.0,
         };
       }
@@ -3545,7 +3569,7 @@
       const mat = new THREE.MeshPhysicalMaterial({
         color: col,
         emissive: emi,
-        emissiveIntensity: isDarkMode ? 0.22 : 0.14,
+        emissiveIntensity: isDarkMode ? (tier === 'detail' ? 0.30 : tier === 'accent' ? 0.20 : 0.10) : 0.14,
         metalness: pal.metalness,
         roughness: pal.roughness,
         transmission: pal.transmission,
@@ -3558,10 +3582,10 @@
         reflectivity: pal.reflectivity,
         transparent: true,
         opacity: baseOp,
-        depthWrite: false,
+        depthWrite: isDarkMode,
         side: THREE.DoubleSide,
         envMap: cs3D.envTex,
-        envMapIntensity: isDarkMode ? 1.65 : 1.45,
+        envMapIntensity: isDarkMode ? 2.15 : 1.45,
       });
 
       const mesh = new THREE.Mesh(geometry, mat);
@@ -3629,21 +3653,27 @@
           entry.mat.clearcoat = pal.clearcoat;
           entry.mat.clearcoatRoughness = pal.clearcoatRoughness;
           entry.mat.reflectivity = pal.reflectivity;
-          entry.mat.emissiveIntensity = isDarkMode ? 0.22 : 0.14;
-          entry.mat.envMapIntensity = isDarkMode ? 1.65 : 1.45;
+          entry.mat.depthWrite = isDarkMode;
+          entry.mat.emissiveIntensity = isDarkMode
+            ? (entry.tier === 'detail' ? 0.30 : entry.tier === 'accent' ? 0.20 : 0.10)
+            : 0.14;
+          entry.mat.envMapIntensity = isDarkMode ? 2.15 : 1.45;
           entry.mat.needsUpdate = true;
         }
       });
 
       if (cs3D.hemiLight) {
-        cs3D.hemiLight.intensity = isDarkMode ? 1.15 : 0.85;
-        cs3D.hemiLight.groundColor.setHex(isDarkMode ? 0x0c231d : 0x163b32);
+        cs3D.hemiLight.intensity = isDarkMode ? 1.45 : 0.85;
+        cs3D.hemiLight.groundColor.setHex(isDarkMode ? 0x061310 : 0x163b32);
       }
       if (cs3D.keyLight) {
-        cs3D.keyLight.intensity = isDarkMode ? 1.65 : 2.05;
+        cs3D.keyLight.intensity = isDarkMode ? 2.35 : 2.05;
+      }
+      if (cs3D.rimLight) {
+        cs3D.rimLight.intensity = isDarkMode ? 1.75 : 1.15;
       }
       if (cs3D.fillLight) {
-        cs3D.fillLight.intensity = isDarkMode ? 0.90 : 0.55;
+        cs3D.fillLight.intensity = isDarkMode ? 1.15 : 0.55;
       }
 
       if (cs3D.prismMat && cs3D.prismEdgeMat) {
@@ -3721,6 +3751,178 @@
       toothGrp.add(pointMesh);
 
       return toothGrp;
+    }
+
+    function buildCsWarmanPumpModel() {
+      const root = new THREE.Group();
+
+      // 1. Sculpted Spiral Volute Casing (Extruded logarithmic-style spiral profile with central eye bore)
+      const voluteShape = new THREE.Shape();
+      const spiralSteps = 64;
+      const startAng = Math.PI * 0.14; // Top-right discharge throat junction
+      const endAng = Math.PI * 2.04;
+      for (let i = 0; i <= spiralSteps; i++) {
+        const t = i / spiralSteps;
+        const ang = csLerp(startAng, endAng, t);
+        // Spiral radius expands smoothly from cutwater (~0.84) around to discharge throat (~1.24)
+        const r = 0.84 + Math.pow(t, 0.88) * 0.40;
+        const x = Math.cos(ang) * r;
+        const y = Math.sin(ang) * r;
+        if (i === 0) voluteShape.moveTo(x, y);
+        else voluteShape.lineTo(x, y);
+      }
+      // Tangential vertical discharge column rising on upper-right (x: 0.62 -> 1.18, y up to 1.32)
+      voluteShape.lineTo(1.18, 1.32);
+      voluteShape.lineTo(0.62, 1.32);
+      voluteShape.closePath();
+
+      const voluteHole = new THREE.Path();
+      voluteHole.absarc(0, 0, 0.34, 0, Math.PI * 2, true);
+      voluteShape.holes.push(voluteHole);
+
+      const voluteGeo = new THREE.ExtrudeGeometry(voluteShape, {
+        depth: 0.44,
+        bevelEnabled: true,
+        bevelSegments: 3,
+        steps: 1,
+        bevelSize: 0.032,
+        bevelThickness: 0.036,
+      });
+      voluteGeo.translate(0, 0, -0.22);
+      root.add(createBrandXRayPart(voluteGeo, { tier: 'shell', edgeAngle: 26 }));
+
+      // 2. Top-Right Vertical Discharge Flange & Collar
+      const dischargeCollarGeo = new THREE.CylinderGeometry(0.28, 0.29, 0.18, 32);
+      const dischargeCollar = createBrandXRayPart(dischargeCollarGeo, { tier: 'shell', edgeAngle: 26, innerCore: false });
+      dischargeCollar.position.set(0.90, 1.36, 0);
+      root.add(dischargeCollar);
+
+      const dischargeFlangeGeo = new THREE.CylinderGeometry(0.38, 0.38, 0.075, 36);
+      const dischargeFlange = createBrandXRayPart(dischargeFlangeGeo, { tier: 'accent', edgeAngle: 22 });
+      dischargeFlange.position.set(0.90, 1.46, 0);
+      root.add(dischargeFlange);
+
+      // 3. Outer Casing Perimeter Bolting Lugs & Through-Bolts (12 machined lugs around volute & discharge)
+      const lugPositions = [
+        { x: 0.04, y: 1.02, a: Math.PI * 0.48 },
+        { x: -0.52, y: 0.90, a: Math.PI * 0.68 },
+        { x: -0.92, y: 0.52, a: Math.PI * 0.85 },
+        { x: -1.06, y: -0.02, a: Math.PI },
+        { x: -0.96, y: -0.56, a: Math.PI * 1.16 },
+        { x: -0.58, y: -0.98, a: Math.PI * 1.35 },
+        { x: 0.02, y: -1.16, a: Math.PI * 1.50 },
+        { x: 0.62, y: -1.04, a: Math.PI * 1.68 },
+        { x: 1.06, y: -0.62, a: Math.PI * 1.85 },
+        { x: 1.22, y: -0.04, a: 0 },
+        { x: 1.22, y: 0.56, a: 0 },
+        { x: 1.22, y: 1.08, a: 0 },
+      ];
+      const casingLugGeo = new THREE.BoxGeometry(0.17, 0.15, 0.56);
+      const throughBoltGeo = new THREE.CylinderGeometry(0.032, 0.032, 0.64, 6);
+      throughBoltGeo.rotateX(Math.PI * 0.5);
+
+      lugPositions.forEach((lp) => {
+        const lug = createBrandXRayPart(casingLugGeo, { tier: 'accent', edgeAngle: 22, innerCore: false });
+        lug.position.set(lp.x, lp.y, 0);
+        lug.rotation.z = lp.a;
+        root.add(lug);
+
+        const bolt = createBrandXRayPart(throughBoltGeo, { tier: 'detail', edgeAngle: 24, innerCore: false });
+        bolt.position.set(lp.x, lp.y, 0);
+        root.add(bolt);
+      });
+
+      // 4. Dual-Sided Cover Plates, Concentric Bolt Rings, 16 Radial Ribs & Gusset Bracing
+      [-1, 1].forEach((side) => {
+        const zFace = side * 0.255;
+
+        // Outer Frame Plate Ring (annular disc with central bore)
+        const plateShape = new THREE.Shape();
+        plateShape.absarc(0, 0, 0.86, 0, Math.PI * 2, false);
+        const plateBore = new THREE.Path();
+        plateBore.absarc(0, 0, 0.34, 0, Math.PI * 2, true);
+        plateShape.holes.push(plateBore);
+
+        const plateGeo = new THREE.ExtrudeGeometry(plateShape, {
+          depth: 0.04,
+          bevelEnabled: true,
+          bevelSegments: 2,
+          steps: 1,
+          bevelSize: 0.01,
+          bevelThickness: 0.01,
+        });
+        plateGeo.translate(0, 0, -0.02);
+        const plateMesh = createBrandXRayPart(plateGeo, { tier: 'shell', edgeAngle: 26 });
+        plateMesh.position.set(0, 0, zFace);
+        root.add(plateMesh);
+
+        // Outer & Mid Concentric Structural Rings
+        const outerRing = createBrandXRayPart(new THREE.TorusGeometry(0.84, 0.034, 12, 48), { tier: 'accent', edgeAngle: 24, innerCore: false });
+        outerRing.position.set(0, 0, zFace + side * 0.022);
+        root.add(outerRing);
+
+        const midRing = createBrandXRayPart(new THREE.TorusGeometry(0.60, 0.024, 10, 44), { tier: 'detail', edgeAngle: 24, innerCore: false });
+        midRing.position.set(0, 0, zFace + side * 0.024);
+        root.add(midRing);
+
+        // 16 Radial Stiffening Ribs & 16 Cover Perimeter Hex Bolts
+        const ribGeo = new THREE.BoxGeometry(0.028, 0.44, 0.038);
+        const coverBoltGeo = new THREE.CylinderGeometry(0.024, 0.024, 0.055, 6);
+        coverBoltGeo.rotateX(Math.PI * 0.5);
+
+        for (let i = 0; i < 16; i++) {
+          const ang = (i / 16) * Math.PI * 2;
+          const rib = createBrandXRayPart(ribGeo, { tier: 'detail', edgeAngle: 22, innerCore: false });
+          rib.position.set(Math.cos(ang) * 0.61, Math.sin(ang) * 0.61, zFace + side * 0.026);
+          rib.rotation.z = ang + Math.PI * 0.5;
+          root.add(rib);
+
+          const cBolt = createBrandXRayPart(coverBoltGeo, { tier: 'detail', edgeAngle: 24, innerCore: false });
+          cBolt.position.set(Math.cos(ang) * 0.84, Math.sin(ang) * 0.84, zFace + side * 0.038);
+          root.add(cBolt);
+        }
+
+        // Cross-braced Gusset Webbing on the Upper-Right Discharge Throat
+        const gussetBars = [
+          { x: 0.88, y: 0.72, w: 0.032, h: 0.96, rz: -0.22 },
+          { x: 0.74, y: 0.84, w: 0.030, h: 0.78, rz: 0.46 },
+          { x: 0.96, y: 0.64, w: 0.030, h: 0.68, rz: -0.68 },
+          { x: 0.92, y: 0.98, w: 0.52, h: 0.028, rz: 0.14 },
+        ];
+        gussetBars.forEach((gb) => {
+          const bar = createBrandXRayPart(new THREE.BoxGeometry(gb.w, gb.h, 0.036), { tier: 'detail', edgeAngle: 22, innerCore: false });
+          bar.position.set(gb.x, gb.y, zFace + side * 0.016);
+          bar.rotation.z = gb.rz;
+          root.add(bar);
+        });
+
+        // Central Suction Intake Collar, Bolted Flange & Recessed Throat Ring
+        const intakeFlangeGeo = new THREE.CylinderGeometry(0.39, 0.41, 0.065, 36);
+        intakeFlangeGeo.rotateX(Math.PI * 0.5);
+        const intakeFlange = createBrandXRayPart(intakeFlangeGeo, { tier: 'accent', edgeAngle: 24 });
+        intakeFlange.position.set(0, 0, zFace + side * 0.048);
+        root.add(intakeFlange);
+
+        const intakeRim = createBrandXRayPart(new THREE.TorusGeometry(0.24, 0.036, 12, 36), { tier: 'detail', edgeAngle: 24, innerCore: false });
+        intakeRim.position.set(0, 0, zFace + side * 0.082);
+        root.add(intakeRim);
+      });
+
+      // 5. Internal Slurry Impeller Nose Cone & Swept Vanes visible inside the Central Suction Eye
+      const noseConeGeo = new THREE.SphereGeometry(0.13, 24, 18);
+      noseConeGeo.scale(1.0, 1.0, 1.35);
+      root.add(createBrandXRayPart(noseConeGeo, { tier: 'accent', edgeAngle: 24 }));
+
+      const vaneGeo = new THREE.BoxGeometry(0.26, 0.036, 0.18);
+      for (let v = 0; v < 5; v++) {
+        const vAng = (v / 5) * Math.PI * 2;
+        const vane = createBrandXRayPart(vaneGeo, { tier: 'detail', edgeAngle: 20, innerCore: false });
+        vane.position.set(Math.cos(vAng) * 0.19, Math.sin(vAng) * 0.19, 0);
+        vane.rotation.z = vAng + 0.52;
+        root.add(vane);
+      }
+
+      return root;
     }
 
     function buildCsBucketModel() {
@@ -4252,18 +4454,18 @@
         cs3D.envTex = createSpruceStudioTexture();
         cs3D.scene.environment = cs3D.envTex;
 
-        cs3D.hemiLight = new THREE.HemisphereLight(0xffffff, isDarkMode ? 0x0c231d : 0x163b32, isDarkMode ? 1.1 : 0.72);
+        cs3D.hemiLight = new THREE.HemisphereLight(0xffffff, isDarkMode ? 0x061310 : 0x163b32, isDarkMode ? 1.45 : 0.72);
         cs3D.scene.add(cs3D.hemiLight);
 
-        cs3D.keyLight = new THREE.DirectionalLight(0xffffff, isDarkMode ? 1.55 : 1.95);
+        cs3D.keyLight = new THREE.DirectionalLight(0xffffff, isDarkMode ? 2.35 : 1.95);
         cs3D.keyLight.position.set(5, 8, 7);
         cs3D.scene.add(cs3D.keyLight);
 
-        cs3D.rimLight = new THREE.DirectionalLight(0x6ee7b7, 1.15);
+        cs3D.rimLight = new THREE.DirectionalLight(0x6ee7b7, isDarkMode ? 1.75 : 1.15);
         cs3D.rimLight.position.set(-6, 5, -5);
         cs3D.scene.add(cs3D.rimLight);
 
-        cs3D.fillLight = new THREE.DirectionalLight(0xe8efea, isDarkMode ? 0.85 : 0.45);
+        cs3D.fillLight = new THREE.DirectionalLight(0xe8efea, isDarkMode ? 1.15 : 0.45);
         cs3D.fillLight.position.set(0, -5, 6);
         cs3D.scene.add(cs3D.fillLight);
 
@@ -4369,6 +4571,7 @@
       if (cfg.modelType === 'coin') cs3D.currentRoot = buildCsCoinModel();
       else if (cfg.modelType === 'rig') cs3D.currentRoot = buildCsOilRigModel();
       else if (cfg.modelType === 'cocktail') cs3D.currentRoot = buildCsCocktailModel();
+      else if (cfg.modelType === 'warman_pump') cs3D.currentRoot = buildCsWarmanPumpModel();
       else cs3D.currentRoot = buildCsBucketModel();
 
       normalizeCs3DModel(cs3D.currentRoot);
@@ -4384,6 +4587,19 @@
       }
     }
 
+    function revealHeroBannerImage(animate = true) {
+      const bannerImg = document.getElementById('cs-hero-banner-img');
+      if (!bannerImg) return;
+      bannerImg.style.opacity = '1';
+      if (animate && !prefersReducedMotion()) {
+        bannerImg.classList.remove('cs-banner-img-reveal');
+        void bannerImg.offsetWidth;
+        bannerImg.classList.add('cs-banner-img-reveal');
+      } else {
+        bannerImg.classList.remove('cs-banner-img-reveal');
+      }
+    }
+
     function renderCaseStudy3DMorphFrame(p, elapsed) {
       const loaderEl = document.getElementById('cs-fullscreen-loader');
       const webglWrapper = document.getElementById('cs-webgl-wrapper');
@@ -4391,12 +4607,14 @@
       const loadingHud = document.getElementById('cs-3d-loading-hud');
       const bannerLayer = document.getElementById('cs-banner-established-layer');
       const replayBtn = document.getElementById('cs-replay-3d-btn');
+      const bannerSlot = document.getElementById('cs-hero-banner-slot');
+      const bannerImg = document.getElementById('cs-hero-banner-img');
       if (!loaderEl || !bannerLayer) return;
 
       const cfg = CS_3D_MODELS[cs3D.activeStudy] || CS_3D_MODELS.weir;
       const pal = getBrandXRayPalette();
 
-      loaderEl.style.backgroundColor = isDarkMode ? 'rgba(5, 17, 14, 0.88)' : 'rgba(238, 244, 240, 0.88)';
+      loaderEl.style.backgroundColor = isDarkMode ? 'rgba(10, 14, 13, 0.90)' : 'rgba(255, 255, 255, 0.90)';
 
       if (p >= 1.0 || !cs3D.ready || prefersReducedMotion()) {
         setCaseStudyScrollLock(false);
@@ -4405,11 +4623,16 @@
         loaderEl.style.clipPath = '';
         loaderEl.style.opacity = '0';
         loaderEl.style.pointerEvents = 'none';
+        if (webglWrapper) {
+          webglWrapper.style.transform = '';
+          webglWrapper.style.opacity = '0';
+        }
         if (cs3D.scene) cs3D.scene.visible = false;
 
         bannerLayer.style.opacity = '1';
         bannerLayer.style.transform = 'none';
         bannerLayer.style.pointerEvents = 'auto';
+        revealHeroBannerImage(p >= 1.0 && cs3D.ready && !prefersReducedMotion());
         if (replayBtn) {
           replayBtn.classList.remove('hidden');
           replayBtn.classList.add('inline-flex');
@@ -4421,38 +4644,84 @@
       loaderEl.style.display = '';
       loaderEl.classList.remove('hidden');
       loaderEl.style.pointerEvents = 'auto';
+      loaderEl.style.opacity = '1';
       if (loadingHud) {
-        loadingHud.style.pointerEvents = p < 0.32 ? 'auto' : 'none';
+        loadingHud.style.pointerEvents = p < 0.30 ? 'auto' : 'none';
       }
       const skipBtn = document.getElementById('cs-skip-3d-btn');
       if (skipBtn) {
-        skipBtn.style.pointerEvents = 'auto';
-        skipBtn.style.opacity = '1';
+        const skipFade = 1 - csSmoothRange(p, 0.25, 0.50);
+        skipBtn.style.pointerEvents = skipFade > 0.2 ? 'auto' : 'none';
+        skipBtn.style.opacity = skipFade.toFixed(3);
       }
 
-      const loaderFade = 1 - csEaseInOutCubic(csSmoothRange(p, 0.76, 0.98));
-      loaderEl.style.opacity = loaderFade.toFixed(3);
+      // Fade out backdrop overlay so the hero banner appears underneath while the 3D model flies into place
+      const backdropFade = 1 - csEaseInOutCubic(csSmoothRange(p, 0.28, 0.68));
+      loaderEl.style.backgroundColor = isDarkMode
+        ? `rgba(10, 14, 13, ${(0.90 * backdropFade).toFixed(3)})`
+        : `rgba(255, 255, 255, ${(0.90 * backdropFade).toFixed(3)})`;
+      loaderEl.style.backdropFilter = backdropFade > 0.05 ? `blur(${(20 * backdropFade).toFixed(1)}px)` : 'none';
+      loaderEl.style.webkitBackdropFilter = backdropFade > 0.05 ? `blur(${(20 * backdropFade).toFixed(1)}px)` : 'none';
 
       if (studioGlow) {
-        studioGlow.style.opacity = (1 - csSmoothRange(p, 0.50, 0.90)).toFixed(3);
+        studioGlow.style.opacity = '0';
       }
 
-      const hideWebGL = p >= 0.90;
+      // Reveal the hero banner behind the flying 3D model, keeping the predefined image hidden until handoff
+      const uiFade = csEaseInOutCubic(csSmoothRange(p, 0.34, 0.72));
+      bannerLayer.style.opacity = uiFade.toFixed(3);
+      bannerLayer.style.transform = `translateY(${csLerp(14, 0, uiFade)}px)`;
+      bannerLayer.style.pointerEvents = uiFade > 0.6 ? 'auto' : 'none';
+
+      // Cross-fade the predefined banner image in right as the 3D model lands in #cs-hero-banner-slot
+      const imgAppearT = csEaseInOutCubic(csSmoothRange(p, 0.76, 0.98));
+      if (bannerImg) {
+        bannerImg.classList.remove('cs-banner-img-reveal');
+        bannerImg.style.opacity = imgAppearT.toFixed(3);
+        bannerImg.style.transform = `scale(${csLerp(0.95, 1.0, imgAppearT).toFixed(4)})`;
+        bannerImg.style.filter = imgAppearT < 0.99
+          ? `blur(${csLerp(5, 0, imgAppearT).toFixed(1)}px) brightness(${csLerp(1.14, 1.0, imgAppearT).toFixed(2)})`
+          : '';
+      }
+
+      if (cs3D.scene) cs3D.scene.visible = true;
+
+      // Flight trajectory: smoothly glide #cs-webgl-wrapper from center screen to #cs-hero-banner-slot (p: 0.35 -> 0.86)
+      const flyT = csEaseInOutCubic(csSmoothRange(p, 0.35, 0.86));
+      const modelCrossFadeOut = 1 - csEaseInOutCubic(csSmoothRange(p, 0.76, 0.96));
+
       if (webglWrapper) {
-        webglWrapper.style.opacity = hideWebGL ? '0' : (1 - csEaseInOutCubic(csSmoothRange(p, 0.72, 0.90))).toFixed(3);
+        let tx = 0;
+        let ty = 0;
+        let targetScale = 1.0;
+
+        if (bannerSlot && flyT > 0.001) {
+          const slotRect = bannerSlot.getBoundingClientRect();
+          const wrapW = webglWrapper.offsetWidth || 420;
+          const wrapH = webglWrapper.offsetHeight || 420;
+          if (slotRect.width > 0 && slotRect.height > 0) {
+            const slotCenterX = slotRect.left + slotRect.width * 0.5;
+            const slotCenterY = slotRect.top + slotRect.height * 0.5;
+            const screenCenterX = window.innerWidth * 0.5;
+            const screenCenterY = window.innerHeight * 0.5;
+            tx = (slotCenterX - screenCenterX) * flyT;
+            ty = (slotCenterY - screenCenterY) * flyT;
+            const ratio = Math.min(slotRect.width / wrapW, slotRect.height / wrapH) * 1.18;
+            targetScale = csLerp(1.0, ratio, flyT);
+          }
+        }
+
+        webglWrapper.style.transform = `translate3d(${tx.toFixed(1)}px, ${ty.toFixed(1)}px, 0) scale(${targetScale.toFixed(4)})`;
+        webglWrapper.style.opacity = modelCrossFadeOut.toFixed(3);
       }
-      if (cs3D.scene) cs3D.scene.visible = !hideWebGL;
 
-      if (cs3D.ready && cs3D.morphGroup && cs3D.modelPivot && !hideWebGL) {
-        const contractT = csEaseInOutCubic(csSmoothRange(p, 0.0, 0.44));
-        const modelScale = csLerp(1.0, 0.12, contractT);
-        const helicalTwist = contractT * 0.65;
-
-        const baseYaw = cfg.modelType === 'coin'
+      if (cs3D.ready && cs3D.morphGroup && cs3D.modelPivot) {
+        // Rotate gently during loading, then align front-on to match the predefined banner image pose during flight
+        const idleYaw = cfg.modelType === 'coin'
           ? elapsed * 1.45
-          : cfg.heroPose.yaw + Math.sin(elapsed * 0.65) * 0.42;
+          : cfg.heroPose.yaw + Math.sin(elapsed * 0.75) * 0.38;
         const idlePitch = cfg.heroPose.pitch + Math.cos(elapsed * 0.85) * 0.04;
-        const floatBobY = Math.sin(elapsed * 1.45) * 0.03 * (1 - contractT);
+        const floatBobY = Math.sin(elapsed * 1.45) * 0.03 * (1 - flyT);
 
         if (p > 0.03 && !cs3D.isDragging) {
           cs3D.userYaw *= 0.86;
@@ -4460,70 +4729,38 @@
         }
 
         cs3D.morphGroup.position.set(0, floatBobY, 0);
-        cs3D.modelPivot.scale.setScalar(modelScale);
-        cs3D.modelPivot.rotation.y = csLerp(baseYaw + cs3D.userYaw, cfg.heroPose.yaw + helicalTwist, contractT);
-        cs3D.modelPivot.rotation.x = csLerp(idlePitch + cs3D.userPitch, 0.0, contractT);
+        cs3D.modelPivot.scale.setScalar(1.0);
+        cs3D.modelPivot.rotation.y = csLerp(idleYaw + cs3D.userYaw, cfg.heroPose.yaw, flyT);
+        cs3D.modelPivot.rotation.x = csLerp(idlePitch + cs3D.userPitch, 0.0, flyT);
 
-        const pulseT = csSmoothRange(p, 0.16, 0.60);
+        // Pulse rings expand during takeoff
+        const pulseT = csSmoothRange(p, 0.25, 0.65);
         if (cs3D.ringInner && cs3D.ringInnerMat) {
-          cs3D.ringInner.scale.setScalar(csLerp(0.28, 2.75, csEaseOutExpo(pulseT)));
-          cs3D.ringInner.rotation.x = csLerp(0.35, 0.0, pulseT);
-          cs3D.ringInnerMat.opacity = Math.sin(pulseT * Math.PI) * 0.82;
+          cs3D.ringInner.scale.setScalar(csLerp(0.35, 2.35, csEaseOutExpo(pulseT)));
+          cs3D.ringInnerMat.opacity = Math.sin(pulseT * Math.PI) * 0.65;
         }
         if (cs3D.ringOuter && cs3D.ringOuterMat) {
-          cs3D.ringOuter.scale.setScalar(csLerp(0.20, 3.25, csEaseOutExpo(pulseT)));
-          cs3D.ringOuter.rotation.y = csLerp(-0.28, 0.0, pulseT);
-          cs3D.ringOuterMat.opacity = Math.sin(pulseT * Math.PI) * 0.56;
+          cs3D.ringOuter.scale.setScalar(csLerp(0.25, 2.85, csEaseOutExpo(pulseT)));
+          cs3D.ringOuterMat.opacity = Math.sin(pulseT * Math.PI) * 0.42;
         }
 
-        const diamondIn = csEaseInOutCubic(csSmoothRange(p, 0.38, 0.47));
-        const diamondOut = 1 - csEaseInOutCubic(csSmoothRange(p, 0.50, 0.60));
-        const diamondOp = diamondIn * diamondOut;
-        if (cs3D.diamond && cs3D.diamondMat && cs3D.diamondEdgeMat) {
-          cs3D.diamond.scale.setScalar(csLerp(0.4, 1.35, csSmoothRange(p, 0.40, 0.58)));
-          cs3D.diamond.rotation.y = elapsed * 2.2 + p * 6.0;
-          cs3D.diamond.rotation.z = p * 3.0;
-          cs3D.diamondMat.opacity = csClamp01(0.75 * diamondOp);
-          cs3D.diamondEdgeMat.opacity = csClamp01(0.95 * diamondOp);
-        }
-
-        const modelFadeOut = 1 - csEaseInOutCubic(csSmoothRange(p, 0.40, 0.56));
-        const edgeGlowBoost = csLerp(1.0, 1.15, contractT);
+        // Cross-fade 3D materials out smoothly as the predefined banner image fades in
         cs3D.trackedMaterials.forEach((entry) => {
           let baseOp = pal.shellOpacity;
           if (entry.isEdge) baseOp = pal.edgeOpacity;
           else if (entry.isCore) baseOp = pal.coreOpacity;
           else if (entry.tier === 'accent') baseOp = pal.accentOpacity;
           else if (entry.tier === 'detail') baseOp = pal.detailOpacity;
-          entry.mat.opacity = csClamp01(baseOp * (entry.isEdge ? edgeGlowBoost : 1.0) * modelFadeOut);
+          entry.mat.opacity = csClamp01(baseOp * modelCrossFadeOut);
         });
-
-        const prismAppear = csEaseInOutCubic(csSmoothRange(p, 0.50, 0.58));
-        const prismExpand = csEaseOutExpo(csSmoothRange(p, 0.54, 0.88));
-        const prismDissolve = 1 - csEaseInOutCubic(csSmoothRange(p, 0.72, 0.90));
-        if (cs3D.prism && cs3D.prismMat && cs3D.prismEdgeMat) {
-          cs3D.prism.scale.set(
-            csLerp(0.08, 1.04, prismExpand),
-            csLerp(0.10, 1.02, prismExpand),
-            csLerp(1.4, 0.12, prismExpand)
-          );
-          cs3D.prism.rotation.y = csLerp(0.16, 0.0, prismExpand);
-          cs3D.prism.rotation.x = csLerp(-0.08, 0.0, prismExpand);
-          cs3D.prismMat.opacity = csClamp01(0.32 * prismAppear * prismDissolve);
-          cs3D.prismEdgeMat.opacity = csClamp01(0.88 * prismAppear * prismDissolve);
-        }
       }
 
       if (loadingHud) {
-        const hudFade = 1 - csSmoothRange(p, 0.05, 0.32);
+        const hudFade = 1 - csSmoothRange(p, 0.18, 0.44);
         loadingHud.style.opacity = hudFade.toFixed(3);
-        loadingHud.style.transform = `translateY(${csLerp(0, 10, 1 - hudFade)}px)`;
+        loadingHud.style.transform = `translateY(${csLerp(0, 14, 1 - hudFade)}px)`;
       }
 
-      const uiFade = csEaseInOutCubic(csSmoothRange(p, 0.56, 0.96));
-      bannerLayer.style.opacity = uiFade.toFixed(3);
-      bannerLayer.style.transform = `translateY(${csLerp(16, 0, uiFade)}px) scale(${csLerp(0.985, 1.0, uiFade)})`;
-      bannerLayer.style.pointerEvents = uiFade > 0.5 ? 'auto' : 'none';
       if (replayBtn) {
         replayBtn.classList.add('hidden');
         replayBtn.classList.remove('inline-flex');
@@ -4550,6 +4787,7 @@
       cs3D.isAnimating = false;
 
       const loaderEl = document.getElementById('cs-fullscreen-loader');
+      const webglWrapper = document.getElementById('cs-webgl-wrapper');
       const bannerLayer = document.getElementById('cs-banner-established-layer');
       const replayBtn = document.getElementById('cs-replay-3d-btn');
       if (loaderEl) {
@@ -4558,17 +4796,21 @@
         loaderEl.style.opacity = '0';
         loaderEl.style.pointerEvents = 'none';
       }
+      if (webglWrapper) {
+        webglWrapper.style.transform = '';
+        webglWrapper.style.opacity = '0';
+      }
       if (bannerLayer) {
         bannerLayer.style.opacity = '1';
         bannerLayer.style.transform = 'none';
         bannerLayer.style.pointerEvents = 'auto';
       }
+      revealHeroBannerImage(true);
       if (replayBtn) {
         replayBtn.classList.remove('hidden');
         replayBtn.classList.add('inline-flex');
       }
 
-      renderCaseStudy3DMorphFrame(1.0, 0);
       announceToScreenReader('Skipped 3D intro');
       const csView = document.getElementById('view-casestudy');
       if (csView) csView.focus({ preventScroll: true });
@@ -4579,13 +4821,24 @@
       loadCaseStudy3DModel(studyKey);
 
       const loaderEl = document.getElementById('cs-fullscreen-loader');
+      const webglWrapper = document.getElementById('cs-webgl-wrapper');
+      const bannerImg = document.getElementById('cs-hero-banner-img');
       if (loaderEl) {
         loaderEl.style.display = '';
+      }
+      if (webglWrapper) {
+        webglWrapper.style.transform = 'translate3d(0, 0, 0) scale(1)';
+        webglWrapper.style.opacity = '1';
       }
 
       if (prefersReducedMotion() || !cs3D.ready) {
         renderCaseStudy3DMorphFrame(1.0, 0);
         return;
+      }
+
+      if (bannerImg) {
+        bannerImg.classList.remove('cs-banner-img-reveal');
+        bannerImg.style.opacity = '0';
       }
 
       cs3D.progress = 0.0;
@@ -4629,7 +4882,7 @@
 
         if (cs3D.isAnimating) {
           const diff = cs3D.targetProgress - cs3D.progress;
-          const speed = 0.95;
+          const speed = 1.05;
           if (Math.abs(diff) < 0.002) {
             cs3D.progress = cs3D.targetProgress;
             cs3D.isAnimating = false;
@@ -4641,11 +4894,12 @@
         syncCs3DCanvasDimensions();
         renderCaseStudy3DMorphFrame(cs3D.progress, elapsed);
 
-        if (cs3D.ready && cs3D.renderer && cs3D.scene && cs3D.camera && cs3D.progress < 0.90) {
+        if (cs3D.ready && cs3D.renderer && cs3D.scene && cs3D.camera && cs3D.progress < 0.98) {
           cs3D.renderer.render(cs3D.scene, cs3D.camera);
         }
 
         if (cs3D.progress >= 1.0 && !cs3D.isAnimating) {
+          revealHeroBannerImage(true);
           cs3D.rafId = null;
           return;
         }
