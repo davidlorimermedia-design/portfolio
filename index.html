@@ -129,74 +129,6 @@
     }
 
     html.dark {
-      --bg-canvas: #061310;
-      --bg-surface: #0C231D;
-      --bg-surface-elevated: #102E27;
-      --bg-subtle: #163B32;
-      --bg-subtle-hover: #1D493E;
-      --bg-nav: #0C231D;
-
-      /* Case Study Hero Banner Surface & Cutout Tokens (Dark Mode) */
-      --cs-hero-bg: #0C231D;
-      --cs-hero-border: rgba(52, 211, 153, 0.22);
-
-      /* Unified Surface Tokens (Dark Mode) */
-      --glass-nav-bg: #0C231D;
-      --glass-surface-bg: #0C231D;
-      --glass-elevated-bg: #102E27;
-      --glass-modal-bg: #0C231D;
-      --glass-backface-bg: #102E27;
-      --glass-specular-highlight: 0 0 0 0 transparent;
-      --glass-border: rgba(52, 211, 153, 0.22);
-      --glass-border-outer: rgba(52, 211, 153, 0.22);
-      --glass-border-strong: rgba(110, 231, 183, 0.48);
-      --glass-divider-bg: #0C231D;
-
-      --text-primary: #FFFFFF;
-      --text-secondary: #DAF0E7;
-      --text-muted: #B2D1C5;
-      --text-accent: #6EE7B7;
-
-      --border-subtle: rgba(52, 211, 153, 0.22);
-      --border-strong: rgba(110, 231, 183, 0.48);
-      --focus-ring: #6EE7B7;
-
-      --shadow-surface: 0 14px 34px -8px rgba(0, 0, 0, 0.45), 0 4px 12px -2px rgba(0, 0, 0, 0.28);
-      --shadow-surface-hover: 0 22px 44px -10px rgba(0, 0, 0, 0.62), 0 8px 20px -4px rgba(0, 0, 0, 0.38);
-      --shadow-glass-modal: 0 28px 60px -12px rgba(0, 0, 0, 0.75), 0 10px 26px -6px rgba(0, 0, 0, 0.48);
-    }
-
-    html {
-      min-height: 100%;
-      overflow-x: hidden;
-    }
-
-    html.cs-scroll-locked,
-    html.cs-scroll-locked body,
-    html.gate-scroll-locked,
-    html.gate-scroll-locked body {
-      overflow: hidden !important;
-      height: 100% !important;
-      overscroll-behavior: none;
-    }
-
-    body {
-      min-height: 100%;
-      overflow-x: hidden;
-      background-color: var(--bg-canvas);
-      color: var(--text-primary);
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      margin: 0;
-      padding: 0;
-      transition: background-color 0.3s ease, color 0.3s ease;
-    }
-
-    /* Clean Solid Canvas (Ambient Blur Orbs Simplified Out) */
-    .glass-ambient-backdrop {
-      display: none !important;
-    }
-
-    html.dark {
       --bg-canvas: #05110E;
       --bg-surface: rgba(12, 35, 29, 0.68);
       --bg-surface-elevated: rgba(16, 46, 39, 0.56);
@@ -255,17 +187,17 @@
       color: var(--text-primary);
       font-family: 'Plus Jakarta Sans', sans-serif;
       margin: 0;
-      padding: 0;
-      transition: background-color 0.3s ease, color 0.3s ease;
-    }
-
-    /* Ambient Frosted Refraction Backdrop Orbs */
+    /* Ambient Frosted Refraction Backdrop Orbs (Dark Mode Only; Clean Solid Canvas in Light Mode) */
     .glass-ambient-backdrop {
+      display: none;
       position: fixed;
       inset: 0;
       z-index: 0;
       pointer-events: none;
       overflow: hidden;
+    }
+    html.dark .glass-ambient-backdrop {
+      display: block;
     }
     .glass-orb-1 {
       position: absolute;
@@ -496,9 +428,6 @@
       background-color: var(--bg-surface);
       border-color: var(--border-subtle);
       box-shadow: var(--shadow-surface);
-    }
-    html.dark .services-container-ref {
-      background-color: var(--bg-surface);
     }
     html.dark .services-container-ref {
       background: radial-gradient(circle at 12% 18%, rgba(22, 59, 50, 0.62) 0%, rgba(12, 35, 29, 0.68) 65%, rgba(6, 19, 16, 0.78) 100%);
@@ -1149,7 +1078,7 @@
                   src="Gemini_Generated_Image_38hy3b38hy3b38hy.jpeg" 
                   alt="Portrait of David Lorimer, Lead Product Designer & Design Systems Leader"
                   class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                  onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 320 320%22><rect width=%22320%22 height=%22320%22 fill=%22%230C231D%22/><circle cx=%22160%22 cy=%22120%22 r=%2254%22 fill=%22%2334D399%22 opacity=%220.25%22/><path d=%22M70 290c12-58 55-86 90-86s78 28 90 86%22 fill=%22%2334D399%22 opacity=%220.25%22/><text x=%22160%22 y=%22172%22 font-family=%22sans-serif%22 font-weight=%22800%22 font-size=%2244%22 fill=%22%236EE7B7%22 text-anchor=%22middle%22>DL</text></svg>';"
+                  onerror="this.onerror=null; this.src=createFallbackSvgDataUri('DL', 'DAVID LORIMER · LEAD UX');"
                 />
               </div>
 
@@ -1587,7 +1516,7 @@
               src="warman-mcr-400-opt.webp" 
               alt="The Weir Group Industrial Apps, Field Tools and Design Systems" 
               class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-              onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 450%22><rect width=%22800%22 height=%22450%22 fill=%22%230C231D%22/><text x=%22400%22 y=%22230%22 font-family=%22monospace%22 font-size=%2220%22 fill=%22%236EE7B7%22 text-anchor=%22middle%22>THE WEIR GROUP · INDUSTRIAL APPS &amp; DESIGN SYSTEMS</text></svg>';"
+              onerror="this.onerror=null; this.src=createFallbackSvgDataUri('WEIR', 'INDUSTRIAL APPS & DESIGN SYSTEMS');"
             />
             <div aria-hidden="true" class="absolute inset-0 bg-gradient-to-t from-spruce-950 via-spruce-950/45 to-transparent"></div>
             
@@ -1638,7 +1567,7 @@
               src="Resultats_troisieme_trimestre_2023_TotalEnergies_1305x713px.png" 
               alt="TotalEnergies Atomic MUI Design System and Smart Room UX" 
               class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-              onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 450%22><rect width=%22800%22 height=%22450%22 fill=%22%230C231D%22/><text x=%22400%22 y=%22230%22 font-family=%22monospace%22 font-size=%2222%22 fill=%22%236EE7B7%22 text-anchor=%22middle%22>TOTALENERGIES · ATOMIC MUI SYSTEM</text></svg>';"
+              onerror="this.onerror=null; this.src=createFallbackSvgDataUri('TE', 'TOTALENERGIES · ATOMIC MUI SYSTEM');"
             />
             <div aria-hidden="true" class="absolute inset-0 bg-gradient-to-t from-spruce-950 via-spruce-950/45 to-transparent"></div>
 
@@ -1690,7 +1619,7 @@
               src="Category_Spirits_Header-Bottles_TWS.jpg" 
               alt="Diageo Global Brand Asset Platform" 
               class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-              onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 450%22><rect width=%22800%22 height=%22450%22 fill=%22%230C231D%22/><text x=%22400%22 y=%22230%22 font-family=%22monospace%22 font-size=%2222%22 fill=%22%236EE7B7%22 text-anchor=%22middle%22>DIAGEO · MOTION CRAFT &amp; DIGITAL SYSTEMS</text></svg>';"
+              onerror="this.onerror=null; this.src=createFallbackSvgDataUri('DG', 'DIAGEO · MOTION CRAFT & SYSTEMS');"
             />
             <div aria-hidden="true" class="absolute inset-0 bg-gradient-to-t from-spruce-950 via-spruce-950/45 to-transparent"></div>
 
@@ -1740,7 +1669,7 @@
               src="desktop-1400x700-ladies-eating-ice-cream.webp" 
               alt="Royal London Enterprise Customer Journey Mapping in TheyDo" 
               class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-              onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 450%22><rect width=%22800%22 height=%22450%22 fill=%22%230C231D%22/><text x=%22400%22 y=%22230%22 font-family=%22monospace%22 font-size=%2220%22 fill=%22%236EE7B7%22 text-anchor=%22middle%22>ROYAL LONDON · THEYDO CX ARCHITECTURE</text></svg>';"
+              onerror="this.onerror=null; this.src=createFallbackSvgDataUri('RL', 'ROYAL LONDON · THEYDO CX');"
             />
             <div aria-hidden="true" class="absolute inset-0 bg-gradient-to-t from-spruce-950 via-spruce-950/45 to-transparent"></div>
 
@@ -2202,7 +2131,7 @@
               <div id="cs-hero-tags" aria-label="Case study categories" class="mt-6 flex flex-wrap items-center gap-2"></div>
             </div>
 
-            <!-- Right / Bottom Column: Dedicated Case Study Banner Visual (30% Larger & Centered) -->
+            <!-- Right / Bottom Column: Dedicated Case Study Banner Visual -->
             <div class="md:col-span-5 relative flex items-center justify-center">
               <div id="cs-hero-banner-slot" class="relative w-full max-w-[442px] sm:max-w-[494px] md:max-w-[572px] lg:max-w-[637px] aspect-square flex items-center justify-center bg-transparent pointer-events-none">
                 <img
@@ -2249,6 +2178,7 @@
                 src="Weir profile.png"
                 alt="Product Discovery and Systems Architecture Diagram"
                 class="w-full h-full object-cover object-center absolute inset-0"
+                onerror="this.onerror=null; this.src=createFallbackSvgDataUri('01', 'DISCOVERY & SYSTEMS ARCHITECTURE');"
               />
             </div>
 
@@ -2486,6 +2416,13 @@
   <script>
     const prefersReducedMotion = () =>
       window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function createFallbackSvgDataUri(code = 'DL', subtitle = 'PORTFOLIO VISUAL') {
+      const safeCode = String(code).replace(/[<>&"]/g, '');
+      const safeSub = String(subtitle).replace(/[<>&"]/g, '');
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0C231D"/><stop offset="100%" stop-color="#163B32"/></linearGradient></defs><rect width="800" height="500" fill="url(#g)"/><circle cx="400" cy="220" r="96" fill="none" stroke="#34D399" stroke-width="2" stroke-dasharray="6 6" opacity="0.6"/><text x="400" y="236" font-family="sans-serif" font-weight="800" font-size="48" fill="#6EE7B7" text-anchor="middle">${safeCode}</text><text x="400" y="365" font-family="monospace" font-weight="700" font-size="16" fill="#DAF0E7" text-anchor="middle" letter-spacing="2">${safeSub}</text></svg>`;
+      return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+    }
 
     function announceToScreenReader(message) {
       const el = document.getElementById('a11y-announcer');
@@ -3040,7 +2977,7 @@
         role: "Senior UX/UI Designer (via AND Digital)",
         coverImage: "Resultats_troisieme_trimestre_2023_TotalEnergies_1305x713px.png",
         // Dedicated hero banner image slot for TotalEnergies:
-        bannerImage: "Resultats_troisieme_trimestre_2023_TotalEnergies_1305x713px.png",
+        bannerImage: "Total energies.png",
         bannerAlt: "TotalEnergies Atomic MUI Design System and Smart Room UX",
         heroMetrics: [
           { value: "1+ Yr", label: "Embedded Lead" },
@@ -3053,7 +2990,7 @@
           eyebrow: "THE PROCESS & MY ROLE",
           heading: "Embedding UX maturity, super-sprint discovery, and an atomic MUI Design System.",
           description: "Embedded within TotalEnergies' Digital & Development department for over a year, I audited live estate tools, facilitated user and stakeholder workshops, wrote Jira user stories with acceptance criteria, and established a Figma-to-React MUI Design System.",
-          image: "https://placehold.co/640x760/0C231D/34D399?text=%20",
+          image: "Total energies.png",
           cards: [
             { tag: "Discovery & Audit", title: "Estate Review & Super Sprints", text: "Embedded in TotalEnergies' 'super sprints' scrum framework, auditing live digital tools to uncover component inconsistency and QA gaps." },
             { tag: "Research & Agile", title: "Personas, Journeys & Jira Specs", text: "Facilitated end-user and stakeholder workshops to build personas and journey maps, translating insights into Jira user stories and acceptance criteria." },
@@ -3164,7 +3101,7 @@
         role: "Senior UX/UI Designer (via AND Digital)",
         coverImage: "Category_Spirits_Header-Bottles_TWS.jpg",
         // Dedicated hero banner image slot for Diageo:
-        bannerImage: "Category_Spirits_Header-Bottles_TWS.jpg",
+        bannerImage: "Diageo.png",
         bannerAlt: "Diageo Global Brand Asset Platform",
         heroMetrics: [
           { value: "4", label: "Agile Engagements" },
@@ -3177,7 +3114,7 @@
           eyebrow: "THE PROCESS & MY ROLE",
           heading: "Agile creative delivery & stakeholder alignment across multi-brand teams.",
           description: "Working alongside Website Transformation, Prometheus, and Connected Data teams, I embedded a structured agile cadence—combining daily stand-ups, design reviews, and retros—to align brand guidelines, RACI documents, and rapid creative iteration.",
-          image: "https://placehold.co/640x760/0C231D/34D399?text=%20",
+          image: "Diageo.png",
           cards: [
             { tag: "Agile Cadence", title: "Stand-ups, Reviews & Retros", text: "Embedded daily stand-ups, design review sessions, and retrospectives to maintain full stakeholder visibility and pivot rapidly." },
             { tag: "Discovery & Scope", title: "Objectives, Brand & RACI Alignment", text: "Partnered with Website Transformation, Prometheus, and Connected Data teams to align objectives, brand rules, and RACI constraints." },
@@ -3284,7 +3221,7 @@
         role: "Lead UX & Journey Architect",
         coverImage: "desktop-1400x700-ladies-eating-ice-cream.webp",
         // Dedicated hero banner image slot for Royal London:
-        bannerImage: "desktop-1400x700-ladies-eating-ice-cream.webp",
+        bannerImage: "Coin.png",
         bannerAlt: "Royal London Enterprise Customer Journey Mapping in TheyDo",
         heroMetrics: [
           { value: "3-Tier", label: "Journey Taxonomy" },
@@ -3297,7 +3234,7 @@
           eyebrow: "THE CHALLENGE & MY ROLE",
           heading: "Structuring enterprise customer journeys and evidence-based prioritization.",
           description: "Royal London needed a unified way to visualize end-to-end customer experiences across pensions, protection, and wealth teams. I architected a three-tier journey taxonomy in TheyDo and facilitated cross-departmental workshops to score and prioritize customer opportunities.",
-          image: "https://placehold.co/640x760/0C231D/34D399?text=%20",
+          image: "Coin.png",
           cards: [
             { tag: "Journey Taxonomy", title: "Macro, Micro & Transactional Tiers", text: "Defined a scalable three-tier journey hierarchy in TheyDo so every product squad maps customer touchpoints consistently." },
             { tag: "Research Synthesis", title: "Evidence-Backed Pain Points", text: "Connected qualitative user research, call-centre insights, and analytics directly to journey stages as verifiable evidence." },
@@ -3756,22 +3693,19 @@
     function buildCsWarmanPumpModel() {
       const root = new THREE.Group();
 
-      // 1. Sculpted Spiral Volute Casing (Extruded logarithmic-style spiral profile with central eye bore)
       const voluteShape = new THREE.Shape();
       const spiralSteps = 64;
-      const startAng = Math.PI * 0.14; // Top-right discharge throat junction
+      const startAng = Math.PI * 0.14;
       const endAng = Math.PI * 2.04;
       for (let i = 0; i <= spiralSteps; i++) {
         const t = i / spiralSteps;
         const ang = csLerp(startAng, endAng, t);
-        // Spiral radius expands smoothly from cutwater (~0.84) around to discharge throat (~1.24)
         const r = 0.84 + Math.pow(t, 0.88) * 0.40;
         const x = Math.cos(ang) * r;
         const y = Math.sin(ang) * r;
         if (i === 0) voluteShape.moveTo(x, y);
         else voluteShape.lineTo(x, y);
       }
-      // Tangential vertical discharge column rising on upper-right (x: 0.62 -> 1.18, y up to 1.32)
       voluteShape.lineTo(1.18, 1.32);
       voluteShape.lineTo(0.62, 1.32);
       voluteShape.closePath();
@@ -3791,7 +3725,6 @@
       voluteGeo.translate(0, 0, -0.22);
       root.add(createBrandXRayPart(voluteGeo, { tier: 'shell', edgeAngle: 26 }));
 
-      // 2. Top-Right Vertical Discharge Flange & Collar
       const dischargeCollarGeo = new THREE.CylinderGeometry(0.28, 0.29, 0.18, 32);
       const dischargeCollar = createBrandXRayPart(dischargeCollarGeo, { tier: 'shell', edgeAngle: 26, innerCore: false });
       dischargeCollar.position.set(0.90, 1.36, 0);
@@ -3802,7 +3735,6 @@
       dischargeFlange.position.set(0.90, 1.46, 0);
       root.add(dischargeFlange);
 
-      // 3. Outer Casing Perimeter Bolting Lugs & Through-Bolts (12 machined lugs around volute & discharge)
       const lugPositions = [
         { x: 0.04, y: 1.02, a: Math.PI * 0.48 },
         { x: -0.52, y: 0.90, a: Math.PI * 0.68 },
@@ -3832,11 +3764,9 @@
         root.add(bolt);
       });
 
-      // 4. Dual-Sided Cover Plates, Concentric Bolt Rings, 16 Radial Ribs & Gusset Bracing
       [-1, 1].forEach((side) => {
         const zFace = side * 0.255;
 
-        // Outer Frame Plate Ring (annular disc with central bore)
         const plateShape = new THREE.Shape();
         plateShape.absarc(0, 0, 0.86, 0, Math.PI * 2, false);
         const plateBore = new THREE.Path();
@@ -3856,7 +3786,6 @@
         plateMesh.position.set(0, 0, zFace);
         root.add(plateMesh);
 
-        // Outer & Mid Concentric Structural Rings
         const outerRing = createBrandXRayPart(new THREE.TorusGeometry(0.84, 0.034, 12, 48), { tier: 'accent', edgeAngle: 24, innerCore: false });
         outerRing.position.set(0, 0, zFace + side * 0.022);
         root.add(outerRing);
@@ -3865,7 +3794,6 @@
         midRing.position.set(0, 0, zFace + side * 0.024);
         root.add(midRing);
 
-        // 16 Radial Stiffening Ribs & 16 Cover Perimeter Hex Bolts
         const ribGeo = new THREE.BoxGeometry(0.028, 0.44, 0.038);
         const coverBoltGeo = new THREE.CylinderGeometry(0.024, 0.024, 0.055, 6);
         coverBoltGeo.rotateX(Math.PI * 0.5);
@@ -3882,7 +3810,6 @@
           root.add(cBolt);
         }
 
-        // Cross-braced Gusset Webbing on the Upper-Right Discharge Throat
         const gussetBars = [
           { x: 0.88, y: 0.72, w: 0.032, h: 0.96, rz: -0.22 },
           { x: 0.74, y: 0.84, w: 0.030, h: 0.78, rz: 0.46 },
@@ -3896,7 +3823,6 @@
           root.add(bar);
         });
 
-        // Central Suction Intake Collar, Bolted Flange & Recessed Throat Ring
         const intakeFlangeGeo = new THREE.CylinderGeometry(0.39, 0.41, 0.065, 36);
         intakeFlangeGeo.rotateX(Math.PI * 0.5);
         const intakeFlange = createBrandXRayPart(intakeFlangeGeo, { tier: 'accent', edgeAngle: 24 });
@@ -3908,7 +3834,6 @@
         root.add(intakeRim);
       });
 
-      // 5. Internal Slurry Impeller Nose Cone & Swept Vanes visible inside the Central Suction Eye
       const noseConeGeo = new THREE.SphereGeometry(0.13, 24, 18);
       noseConeGeo.scale(1.0, 1.0, 1.35);
       root.add(createBrandXRayPart(noseConeGeo, { tier: 'accent', edgeAngle: 24 }));
@@ -4655,7 +4580,6 @@
         skipBtn.style.opacity = skipFade.toFixed(3);
       }
 
-      // Fade out backdrop overlay so the hero banner appears underneath while the 3D model flies into place
       const backdropFade = 1 - csEaseInOutCubic(csSmoothRange(p, 0.28, 0.68));
       loaderEl.style.backgroundColor = isDarkMode
         ? `rgba(10, 14, 13, ${(0.90 * backdropFade).toFixed(3)})`
@@ -4667,13 +4591,11 @@
         studioGlow.style.opacity = '0';
       }
 
-      // Reveal the hero banner behind the flying 3D model, keeping the predefined image hidden until handoff
       const uiFade = csEaseInOutCubic(csSmoothRange(p, 0.34, 0.72));
       bannerLayer.style.opacity = uiFade.toFixed(3);
       bannerLayer.style.transform = `translateY(${csLerp(14, 0, uiFade)}px)`;
       bannerLayer.style.pointerEvents = uiFade > 0.6 ? 'auto' : 'none';
 
-      // Cross-fade the predefined banner image in right as the 3D model lands in #cs-hero-banner-slot
       const imgAppearT = csEaseInOutCubic(csSmoothRange(p, 0.76, 0.98));
       if (bannerImg) {
         bannerImg.classList.remove('cs-banner-img-reveal');
@@ -4686,7 +4608,6 @@
 
       if (cs3D.scene) cs3D.scene.visible = true;
 
-      // Flight trajectory: smoothly glide #cs-webgl-wrapper from center screen to #cs-hero-banner-slot (p: 0.35 -> 0.86)
       const flyT = csEaseInOutCubic(csSmoothRange(p, 0.35, 0.86));
       const modelCrossFadeOut = 1 - csEaseInOutCubic(csSmoothRange(p, 0.76, 0.96));
 
@@ -4716,7 +4637,6 @@
       }
 
       if (cs3D.ready && cs3D.morphGroup && cs3D.modelPivot) {
-        // Rotate gently during loading, then align front-on to match the predefined banner image pose during flight
         const idleYaw = cfg.modelType === 'coin'
           ? elapsed * 1.45
           : cfg.heroPose.yaw + Math.sin(elapsed * 0.75) * 0.38;
@@ -4733,7 +4653,6 @@
         cs3D.modelPivot.rotation.y = csLerp(idleYaw + cs3D.userYaw, cfg.heroPose.yaw, flyT);
         cs3D.modelPivot.rotation.x = csLerp(idlePitch + cs3D.userPitch, 0.0, flyT);
 
-        // Pulse rings expand during takeoff
         const pulseT = csSmoothRange(p, 0.25, 0.65);
         if (cs3D.ringInner && cs3D.ringInnerMat) {
           cs3D.ringInner.scale.setScalar(csLerp(0.35, 2.35, csEaseOutExpo(pulseT)));
@@ -4744,7 +4663,6 @@
           cs3D.ringOuterMat.opacity = Math.sin(pulseT * Math.PI) * 0.42;
         }
 
-        // Cross-fade 3D materials out smoothly as the predefined banner image fades in
         cs3D.trackedMaterials.forEach((entry) => {
           let baseOp = pal.shellOpacity;
           if (entry.isEdge) baseOp = pal.edgeOpacity;
@@ -5009,9 +4927,8 @@
       const f = Math.min(r, Math.floor((H - dh) * 0.45), Math.floor((W - dw) * 0.45));
       const cutTop = H - dh;
       const cutRight = dw;
-      const bleedTop = 180; // Extra headroom above top edge so banner image bleeds over the top while clipping cleanly at right/bottom
+      const bleedTop = 180;
 
-      // Single continuous closed path with smooth outer corners and smooth concave cutout fillets
       const d = [
         `M ${r} 0`,
         `L ${W - r} 0`,
@@ -5029,7 +4946,6 @@
         `Z`
       ].join(' ');
 
-      // Mask includes a top bleed extension over the right column so the image overflows the top border while clipping at right, bottom, and cutout edges
       const maskPath = [
         `M ${r} 0`,
         `L ${cutRight} 0`,
@@ -5056,7 +4972,6 @@
       card.style.setProperty('mask-size', `${W}px ${H + bleedTop}px`);
       card.classList.add('has-true-cutout');
 
-      // Inset stroke path by 0.5px and lock SVG pixel width/height to card so the stroke hugs the exact edge without a double line
       if (borderSvg && borderPath) {
         const o = 0.5;
         const ri = Math.max(1, r - o);
@@ -5088,7 +5003,6 @@
     function openCaseStudy(studyKey, skipHistory = false) {
       if (!caseStudies[studyKey]) studyKey = 'weir';
 
-      // Guard: enforce password protection before rendering any case study page
       if (!isPortfolioUnlocked) {
         if (!skipHistory) {
           try { history.replaceState(null, '', window.location.pathname); } catch (err) {}
@@ -5202,7 +5116,10 @@
         const targetImg = data.bannerImage || data.coverImage;
         bannerImgEl.onerror = function() {
           this.onerror = null;
-          this.src = `data:image/svg+xml;utf8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 480"><circle cx="300" cy="240" r="170" fill="none" stroke="#10B981" stroke-width="2" stroke-dasharray="6 6"/><text x="300" y="246" font-family="monospace" font-size="16" font-weight="700" fill="#10B981" text-anchor="middle">${data.company.toUpperCase()}</text></svg>`)}`;
+          this.src = createFallbackSvgDataUri(
+            data.company.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase(),
+            `${data.company.toUpperCase()} · ${targetImg.toUpperCase()}`
+          );
         };
         bannerImgEl.src = targetImg;
         bannerImgEl.alt = data.bannerAlt || `${data.company} case study visual`;
@@ -5292,6 +5209,8 @@
           const item = caseStudies[k];
           const badgeYear = item.id === 'weir' ? '2024 — Present' : (item.id === 'totalenergies' ? '2023' : (item.id === 'diageo' ? '2022 — 2023' : '2023'));
           const companyBadge = item.id === 'weir' ? 'The Weir Group' : (item.id === 'totalenergies' ? 'TotalEnergies (via AND Digital)' : (item.id === 'diageo' ? 'Diageo (via AND Digital)' : 'Royal London'));
+          const fallbackCode = item.company.slice(0, 2).toUpperCase().replace(/'/g, '');
+          const fallbackSub = item.company.toUpperCase().replace(/'/g, '');
 
           return `
             <article 
@@ -5307,7 +5226,7 @@
                   src="${item.coverImage}" 
                   alt="${item.company}" 
                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                  onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 450%22><rect width=%22800%22 height=%22450%22 fill=%22%230C231D%22/><text x=%22400%22 y=%22230%22 font-family=%22monospace%22 font-size=%2220%22 fill=%22%236EE7B7%22 text-anchor=%22middle%22>${encodeURIComponent(item.company.toUpperCase())}</text></svg>';"
+                  onerror="this.onerror=null; this.src=createFallbackSvgDataUri('${fallbackCode}', '${fallbackSub}');"
                 />
                 <div aria-hidden="true" class="absolute inset-0 bg-gradient-to-t from-spruce-950 via-spruce-950/45 to-transparent"></div>
                 
@@ -5357,6 +5276,10 @@
       if (headingEl) headingEl.textContent = cfg.heading || '';
       if (descEl) descEl.textContent = cfg.description || '';
       if (imgEl && cfg.image) {
+        imgEl.onerror = function() {
+          this.onerror = null;
+          this.src = createFallbackSvgDataUri('01', 'DISCOVERY & ARCHITECTURE');
+        };
         imgEl.src = cfg.image;
         imgEl.alt = cfg.heading || 'Case Study Discovery Overview';
       }
@@ -5402,7 +5325,7 @@
                   src="${card.image}"
                   alt="${card.title}"
                   class="w-full h-full object-cover opacity-85 transition-transform duration-500"
-                  onerror="this.onerror=null; this.src='https://placehold.co/600x360/0C231D/34D399?text=Focus+0${idx + 1}';"
+                  onerror="this.onerror=null; this.src=createFallbackSvgDataUri('0${idx + 1}', '2027 FOCUS AREA');"
                 />
                 <div aria-hidden="true" class="absolute inset-0 bg-gradient-to-t from-[#061310] via-[#061310]/45 to-transparent"></div>
                 <div class="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between">
@@ -5691,8 +5614,8 @@
               this.src = designSystemInfographicDataUri;
               return;
             }
-            this.classList.add('hidden');
-            if (fallbackCard) fallbackCard.classList.remove('hidden');
+            this.onerror = null;
+            this.src = createFallbackSvgDataUri(d.num, d.title.toUpperCase());
           };
           imgEl.src = d.image;
           imgEl.alt = d.title;
