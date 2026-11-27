@@ -88,7 +88,7 @@
 
   <style>
     /* =====================================================================
-       1. SEMANTIC CLEAN SOLID GREEN DESIGN TOKENS (WCAG 2.2 AAA VERIFIED)
+1. SEMANTIC CLEAN SOLID GREEN DESIGN TOKENS (WCAG 2.2 AAA VERIFIED)
        ===================================================================== */
     :root {
       --bg-canvas: #F5F8F6;
@@ -187,6 +187,8 @@
       color: var(--text-primary);
       font-family: 'Plus Jakarta Sans', sans-serif;
       margin: 0;
+    }
+
     /* Ambient Frosted Refraction Backdrop Orbs (Dark Mode Only; Clean Solid Canvas in Light Mode) */
     .glass-ambient-backdrop {
       display: none;
@@ -246,7 +248,7 @@
     }
 
     /* =====================================================================
-       2. GLOBAL WCAG 2.2 FOCUS INDICATORS (SC 2.4.7 & 2.4.11)
+2. GLOBAL WCAG 2.2 FOCUS INDICATORS (SC 2.4.7 & 2.4.11)
        ===================================================================== */
     :focus-visible {
       outline: 3px solid var(--focus-ring) !important;
@@ -283,7 +285,7 @@
     }
 
     /* =====================================================================
-       3. GLASSMORPHISM COMPONENT SURFACES & SPECULAR RIM DEPTH
+3. GLASSMORPHISM COMPONENT SURFACES & SPECULAR RIM DEPTH
        ===================================================================== */
     .surface-card {
       background-color: var(--glass-surface-bg);
@@ -519,7 +521,7 @@
     }
 
     /* =====================================================================
-       4. ANIMATIONS & TRANSITIONS
+4. ANIMATIONS & TRANSITIONS
        ===================================================================== */
     @keyframes marquee {
       0% { transform: translateX(0%); }
@@ -725,7 +727,7 @@
     }
 
     /* =====================================================================
-       5. REDUCED MOTION SUPPORT (WCAG 2.2 SC 2.3.3 & 2.2.2)
+5. REDUCED MOTION SUPPORT (WCAG 2.2 SC 2.3.3 & 2.2.2)
        ===================================================================== */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
@@ -1564,7 +1566,7 @@
         >
           <div class="relative h-60 sm:h-64 overflow-hidden bg-spruce-950">
             <img 
-              src="Resultats_troisieme_trimestre_2023_TotalEnergies_1305x713px.png" 
+              src="Total energies.png" 
               alt="TotalEnergies Atomic MUI Design System and Smart Room UX" 
               class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
               onerror="this.onerror=null; this.src=createFallbackSvgDataUri('TE', 'TOTALENERGIES · ATOMIC MUI SYSTEM');"
@@ -1616,7 +1618,7 @@
         >
           <div class="relative h-60 sm:h-64 overflow-hidden bg-spruce-950">
             <img 
-              src="Category_Spirits_Header-Bottles_TWS.jpg" 
+              src="Diageo.png" 
               alt="Diageo Global Brand Asset Platform" 
               class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
               onerror="this.onerror=null; this.src=createFallbackSvgDataUri('DG', 'DIAGEO · MOTION CRAFT & SYSTEMS');"
@@ -1666,7 +1668,7 @@
         >
           <div class="relative h-60 sm:h-64 overflow-hidden bg-spruce-950">
             <img 
-              src="desktop-1400x700-ladies-eating-ice-cream.webp" 
+              src="coin.png" 
               alt="Royal London Enterprise Customer Journey Mapping in TheyDo" 
               class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
               onerror="this.onerror=null; this.src=createFallbackSvgDataUri('RL', 'ROYAL LONDON · THEYDO CX');"
@@ -2139,6 +2141,7 @@
                   src="Warman pump.png"
                   alt="Weir Warman heavy-duty slurry pump assembly"
                   class="w-full h-full object-contain object-center rounded-3xl md:rounded-none scale-[1.3] origin-center cs-hero-visual-shadow transition-all duration-500"
+                  onerror="this.onerror=null; this.src=createFallbackSvgDataUri('WR', 'THE WEIR GROUP · WARMAN PUMP.PNG');"
                 />
               </div>
             </div>
@@ -2975,7 +2978,7 @@
         title: "MUI Design System & Field Reporting UX.",
         description: "TotalEnergies was in the midst of a major digital expansion, facing consistency challenges across its digital estate and a lack of UX/UI maturity. Embedded for over a year within their Digital & Development department, I created interactive mobile and desktop prototypes, built an atomic MUI Design System, and established QA workflows to elevate quality.",
         role: "Senior UX/UI Designer (via AND Digital)",
-        coverImage: "Resultats_troisieme_trimestre_2023_TotalEnergies_1305x713px.png",
+        coverImage: "Total energies.png",
         // Dedicated hero banner image slot for TotalEnergies:
         bannerImage: "Total energies.png",
         bannerAlt: "TotalEnergies Atomic MUI Design System and Smart Room UX",
@@ -3099,7 +3102,7 @@
         title: "Motion Craft, Brand Systems & Learning Paths.",
         description: "Across multiple engagements with different teams at Diageo, I crafted motion graphics, modular branded systems, and structured learning pathways used to drive large-scale technological adoption across a complex multi-brand organization.",
         role: "Senior UX/UI Designer (via AND Digital)",
-        coverImage: "Category_Spirits_Header-Bottles_TWS.jpg",
+        coverImage: "Diageo.png",
         // Dedicated hero banner image slot for Diageo:
         bannerImage: "Diageo.png",
         bannerAlt: "Diageo Global Brand Asset Platform",
@@ -3219,9 +3222,9 @@
         title: "Customer Journey Architecture & Opportunity Scoring.",
         description: "Standardized customer journey mapping across Royal London using TheyDo—structuring Macro, Micro, and Transactional journeys across pensions, protection, and wealth teams, and establishing an evidence-led opportunity scoring framework to prioritize customer-centric roadmaps.",
         role: "Lead UX & Journey Architect",
-        coverImage: "desktop-1400x700-ladies-eating-ice-cream.webp",
+        coverImage: "coin.png",
         // Dedicated hero banner image slot for Royal London:
-        bannerImage: "Coin.png",
+        bannerImage: "coin.png",
         bannerAlt: "Royal London Enterprise Customer Journey Mapping in TheyDo",
         heroMetrics: [
           { value: "3-Tier", label: "Journey Taxonomy" },
@@ -3234,7 +3237,7 @@
           eyebrow: "THE CHALLENGE & MY ROLE",
           heading: "Structuring enterprise customer journeys and evidence-based prioritization.",
           description: "Royal London needed a unified way to visualize end-to-end customer experiences across pensions, protection, and wealth teams. I architected a three-tier journey taxonomy in TheyDo and facilitated cross-departmental workshops to score and prioritize customer opportunities.",
-          image: "Coin.png",
+          image: "coin.png",
           cards: [
             { tag: "Journey Taxonomy", title: "Macro, Micro & Transactional Tiers", text: "Defined a scalable three-tier journey hierarchy in TheyDo so every product squad maps customer touchpoints consistently." },
             { tag: "Research Synthesis", title: "Evidence-Backed Pain Points", text: "Connected qualitative user research, call-centre insights, and analytics directly to journey stages as verifiable evidence." },
